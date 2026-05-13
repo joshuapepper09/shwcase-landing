@@ -170,12 +170,14 @@ export default function LandingPage() {
                   placeholder="Enter your email" required
                   style={{ flex: 1, padding: '14px 18px', fontSize: '14px', background: '#111', border: '1px solid #222', borderRadius: '12px', color: 'white', fontFamily: 'DM Sans, sans-serif' }}
                 />
-                <button type="submit" disabled={submitting}
-                  style={{ padding: '14px 20px', fontSize: '14px', fontFamily: 'DM Serif Display, serif', background: 'white', color: '#0a0a0a', border: 'none', borderRadius: '12px', cursor: 'pointer', whiteSpace: 'nowrap', opacity: submitting ? 0.7 : 1 }}>
+                <button type="submit" disabled={submitting || !userType}
+                  style={{ padding: '14px 20px', fontSize: '14px', fontFamily: 'DM Serif Display, serif', background: 'white', color: '#0a0a0a', border: 'none', borderRadius: '12px', cursor: 'pointer', whiteSpace: 'nowrap', opacity: submitting || !userType ? 0.4 : 1 }}>
                   {submitting ? 'Joining...' : 'Join waitlist'}
                 </button>
               </div>
-              <p style={{ fontSize: '12px', color: '#444', textAlign: 'center' }}>No spam. We'll only email you when we launch.</p>
+              <p style={{ fontSize: '12px', color: !userType ? '#666' : '#444', textAlign: 'center' }}>
+  {!userType ? 'Select Creator or Brand to continue' : 'No spam. We\'ll only email you when we launch.'}
+</p>
             </form>
           )}
         </div>
