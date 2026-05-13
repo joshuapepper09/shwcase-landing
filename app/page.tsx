@@ -97,6 +97,7 @@ export default function LandingPage() {
         .float-btn { animation: slideUp 0.4s ease forwards; }
         .feature-card:hover { border-color: #2a2a2a !important; background: #161616 !important; }
         .type-btn:hover { border-color: #444 !important; }
+        .purchase-card:hover { border-color: #333 !important; transform: translateY(-2px); }
       `}</style>
 
       {/* Header */}
@@ -114,14 +115,12 @@ export default function LandingPage() {
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '60px 24px 40px', textAlign: 'center' }}>
 
-        {/* Coming soon pill */}
         <div className="fade-1" style={{ marginBottom: '24px' }}>
           <span style={{ fontSize: '11px', color: '#555', letterSpacing: '0.15em', textTransform: 'uppercase', border: '1px solid #222', borderRadius: '100px', padding: '6px 16px' }}>
             Coming soon · {WAITLIST_COUNT}+ on the waitlist
           </span>
         </div>
 
-        {/* Hero text */}
         <h1 className="fade-2" style={{ fontFamily: 'DM Serif Display, serif', fontSize: 'clamp(48px, 8vw, 96px)', color: 'white', lineHeight: 1.05, marginBottom: '12px', maxWidth: '800px' }}>
           Show up.<br />
           <span style={{ fontStyle: 'italic', color: '#888' }}>Stand out.</span>
@@ -149,7 +148,7 @@ export default function LandingPage() {
         </div>
 
         {/* Waitlist form */}
-        <div className="fade-5" style={{ width: '100%', maxWidth: '440px', marginBottom: '100px' }}>
+        <div className="fade-5" style={{ width: '100%', maxWidth: '440px', marginBottom: '80px' }}>
           {submitted ? (
             <div style={{ background: '#111', border: '1px solid #1e1e1e', borderRadius: '16px', padding: '32px', textAlign: 'center' }}>
               <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '22px', color: 'white', marginBottom: '8px' }}>You're on the list ✦</p>
@@ -179,6 +178,72 @@ export default function LandingPage() {
               <p style={{ fontSize: '12px', color: '#444', textAlign: 'center' }}>No spam. We'll only email you when we launch.</p>
             </form>
           )}
+        </div>
+
+        {/* Founding offers */}
+        <div className="fade-5" style={{ width: '100%', maxWidth: '720px', marginBottom: '100px' }}>
+          <p style={{ fontSize: '11px', color: '#444', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '8px' }}>Founding member offers</p>
+          <p style={{ fontSize: '14px', color: '#555', marginBottom: '24px' }}>Skip the waitlist and lock in your spot before we launch.</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+
+            {/* Founding Creator */}
+            <div className="purchase-card" style={{ background: '#111', border: '1px solid #222', borderRadius: '20px', padding: '28px', textAlign: 'left', transition: 'all 0.2s' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                <span style={{ fontSize: '11px', color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase', border: '1px solid #222', borderRadius: '100px', padding: '4px 10px' }}>Limited · 100 spots</span>
+                <span style={{ fontFamily: 'DM Serif Display, serif', fontSize: '24px', color: 'white' }}>$7</span>
+              </div>
+              <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '20px', color: 'white', marginBottom: '6px' }}>Founding Creator</p>
+              <p style={{ fontSize: '13px', color: '#555', marginBottom: '20px', lineHeight: 1.5 }}>One-time. Lock in your founding status forever.</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
+                {[
+                  'Skip the waitlist',
+                  'Permanent Founding Creator badge',
+                  '6 months of Pro free ($29.94 value)',
+                  'Early access on launch day',
+                  'Direct line to the Shwcase team',
+                ].map(perk => (
+                  <div key={perk} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '12px', color: '#555' }}>✦</span>
+                    <span style={{ fontSize: '13px', color: '#888' }}>{perk}</span>
+                  </div>
+                ))}
+              </div>
+              <a href="https://buy.stripe.com/4gM7sLaOS4dx6Em3qLgw001" target="_blank" rel="noopener noreferrer"
+                style={{ display: 'block', width: '100%', padding: '14px', background: 'white', color: '#0a0a0a', borderRadius: '12px', fontSize: '14px', fontFamily: 'DM Serif Display, serif', textDecoration: 'none', textAlign: 'center', cursor: 'pointer' }}>
+                Get founding access →
+              </a>
+            </div>
+
+            {/* Brand Early Access */}
+            <div className="purchase-card" style={{ background: '#111', border: '1px solid #222', borderRadius: '20px', padding: '28px', textAlign: 'left', transition: 'all 0.2s' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                <span style={{ fontSize: '11px', color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase', border: '1px solid #222', borderRadius: '100px', padding: '4px 10px' }}>Limited · 25 spots</span>
+                <span style={{ fontFamily: 'DM Serif Display, serif', fontSize: '24px', color: 'white' }}>$49.99</span>
+              </div>
+              <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '20px', color: 'white', marginBottom: '6px' }}>Brand Early Access</p>
+              <p style={{ fontSize: '13px', color: '#555', marginBottom: '20px', lineHeight: 1.5 }}>One-time. Be a launch partner on Shwcase.</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
+                {[
+                  'Skip brand verification queue',
+                  'Priority placement in deal marketplace',
+                  'First access to our creator network',
+                  'Dedicated onboarding call',
+                  'Launch partner status',
+                  'Direct line to the Shwcase team',
+                ].map(perk => (
+                  <div key={perk} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '12px', color: '#555' }}>◈</span>
+                    <span style={{ fontSize: '13px', color: '#888' }}>{perk}</span>
+                  </div>
+                ))}
+              </div>
+              <a href="https://buy.stripe.com/5kQfZh5uyeSb9Qy7H1gw002" target="_blank" rel="noopener noreferrer"
+                style={{ display: 'block', width: '100%', padding: '14px', background: 'white', color: '#0a0a0a', borderRadius: '12px', fontSize: '14px', fontFamily: 'DM Serif Display, serif', textDecoration: 'none', textAlign: 'center', cursor: 'pointer' }}>
+                Get brand access →
+              </a>
+            </div>
+
+          </div>
         </div>
 
         {/* Market stats */}
