@@ -53,6 +53,24 @@ export default function LandingPage() {
     setSubmitting(false)
   }
 
+  const creatorFeatures = [
+    { icon: '📸', title: 'Build your portfolio', desc: 'Post your work, showcase your gear, and let your creative identity speak for itself.' },
+    { icon: '🤝', title: 'Collab with creators', desc: 'Send and receive collab requests from photographers, musicians, videographers, and more.' },
+    { icon: '💼', title: 'Land brand deals', desc: 'Apply to paid brand deals posted by companies looking for exactly your type of content.' },
+    { icon: '🔗', title: 'Grow your network', desc: 'Connect with creators in your city, your niche, and beyond. Your next opportunity is one connection away.' },
+    { icon: '📅', title: 'Host & attend events', desc: 'Create events for your community or discover creative events happening near you.' },
+    { icon: '📊', title: 'Track your growth', desc: 'See who\'s viewing your profile, which posts are performing, and how your network is expanding.' },
+  ]
+
+  const brandFeatures = [
+    { icon: '🎯', title: 'Find the right talent', desc: 'Search creators by category, location, and style. No more cold DMs or agency markups.' },
+    { icon: '📋', title: 'Post brand deals', desc: 'List your campaign, set your budget, and receive applications from qualified creators instantly.' },
+    { icon: '✅', title: 'Verified creator profiles', desc: 'Every creator on Shwcase has a verified profile with their portfolio, gear, and past work.' },
+    { icon: '💬', title: 'Manage everything in-app', desc: 'Message creators, review applications, and run your entire campaign workflow in one place.' },
+    { icon: '📈', title: 'Scale your campaigns', desc: 'From micro-creators to large productions — find talent at every level for every budget.' },
+    { icon: '🔒', title: 'Brand-only access', desc: 'Brands go through a verification process, keeping the platform trusted on both sides.' },
+  ]
+
   return (
     <main style={{ minHeight: '100vh', background: '#0a0a0a', fontFamily: 'DM Sans, sans-serif', display: 'flex', flexDirection: 'column' }}>
 
@@ -77,6 +95,7 @@ export default function LandingPage() {
         .fade-5 { animation: fadeUp 0.8s ease 0.6s forwards; opacity: 0; }
         .fade-6 { animation: fadeUp 0.8s ease 0.75s forwards; opacity: 0; }
         .float-btn { animation: slideUp 0.4s ease forwards; }
+        .feature-card:hover { border-color: #2a2a2a !important; background: #161616 !important; }
         .type-btn:hover { border-color: #444 !important; }
       `}</style>
 
@@ -93,15 +112,16 @@ export default function LandingPage() {
           style={{ fontSize: '13px', color: '#555', textDecoration: 'none' }}>@shwcase.app</a>
       </header>
 
-      {/* Hero */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 24px 40px', textAlign: 'center' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '60px 24px 40px', textAlign: 'center' }}>
 
+        {/* Coming soon pill */}
         <div className="fade-1" style={{ marginBottom: '24px' }}>
           <span style={{ fontSize: '11px', color: '#555', letterSpacing: '0.15em', textTransform: 'uppercase', border: '1px solid #222', borderRadius: '100px', padding: '6px 16px' }}>
             Coming soon · {WAITLIST_COUNT}+ on the waitlist
           </span>
         </div>
 
+        {/* Hero text */}
         <h1 className="fade-2" style={{ fontFamily: 'DM Serif Display, serif', fontSize: 'clamp(48px, 8vw, 96px)', color: 'white', lineHeight: 1.05, marginBottom: '12px', maxWidth: '800px' }}>
           Show up.<br />
           <span style={{ fontStyle: 'italic', color: '#888' }}>Stand out.</span>
@@ -129,7 +149,7 @@ export default function LandingPage() {
         </div>
 
         {/* Waitlist form */}
-        <div className="fade-5" style={{ width: '100%', maxWidth: '440px', marginBottom: '72px' }}>
+        <div className="fade-5" style={{ width: '100%', maxWidth: '440px', marginBottom: '100px' }}>
           {submitted ? (
             <div style={{ background: '#111', border: '1px solid #1e1e1e', borderRadius: '16px', padding: '32px', textAlign: 'center' }}>
               <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '22px', color: 'white', marginBottom: '8px' }}>You're on the list ✦</p>
@@ -137,8 +157,6 @@ export default function LandingPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-
-              {/* Creator / Brand toggle */}
               <div style={{ display: 'flex', gap: '8px', marginBottom: '4px' }}>
                 {(['creator', 'brand'] as const).map(type => (
                   <button key={type} type="button" onClick={() => setUserType(type)} className="type-btn"
@@ -148,7 +166,6 @@ export default function LandingPage() {
                   </button>
                 ))}
               </div>
-
               <div style={{ display: 'flex', gap: '8px' }}>
                 <input type="email" value={email} onChange={e => setEmail(e.target.value)}
                   placeholder="Enter your email" required
@@ -165,7 +182,7 @@ export default function LandingPage() {
         </div>
 
         {/* Market stats */}
-        <div className="fade-5" style={{ width: '100%', maxWidth: '720px', marginBottom: '72px' }}>
+        <div className="fade-5" style={{ width: '100%', maxWidth: '720px', marginBottom: '100px' }}>
           <p style={{ fontSize: '11px', color: '#444', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '20px' }}>The opportunity</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
             {[
@@ -181,19 +198,50 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Creator / Brand cards */}
-        <div className="fade-6" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '80px' }}>
-          {[
-            { icon: '✦', label: 'For Creators', sub: 'Photographers, musicians, designers & more', detail: 'Get discovered, find collabs, land brand deals' },
-            { icon: '◈', label: 'For Brands', sub: 'Post deals, find talent, run campaigns', detail: 'Connect with verified creators in your niche' },
-          ].map(item => (
-            <div key={item.label} style={{ background: '#111', border: '1px solid #1e1e1e', borderRadius: '16px', padding: '24px', textAlign: 'left', width: '220px' }}>
-              <span style={{ fontSize: '20px', display: 'block', marginBottom: '12px', color: '#555' }}>{item.icon}</span>
-              <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '18px', color: 'white', marginBottom: '6px' }}>{item.label}</p>
-              <p style={{ fontSize: '12px', color: '#555', lineHeight: 1.5, marginBottom: '10px' }}>{item.sub}</p>
-              <p style={{ fontSize: '11px', color: '#444', lineHeight: 1.5 }}>{item.detail}</p>
-            </div>
-          ))}
+        {/* Creator features */}
+        <div style={{ width: '100%', maxWidth: '860px', marginBottom: '100px', textAlign: 'left' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '32px', justifyContent: 'center' }}>
+            <span style={{ fontSize: '16px', color: '#555' }}>✦</span>
+            <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '28px', color: 'white' }}>Built for creators</p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px' }}>
+            {creatorFeatures.map(f => (
+              <div key={f.title} className="feature-card" style={{ background: '#111', border: '1px solid #1a1a1a', borderRadius: '16px', padding: '24px', transition: 'all 0.2s', cursor: 'default' }}>
+                <span style={{ fontSize: '24px', display: 'block', marginBottom: '12px' }}>{f.icon}</span>
+                <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '16px', color: 'white', marginBottom: '8px' }}>{f.title}</p>
+                <p style={{ fontSize: '13px', color: '#555', lineHeight: 1.6 }}>{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Brand features */}
+        <div style={{ width: '100%', maxWidth: '860px', marginBottom: '100px', textAlign: 'left' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '32px', justifyContent: 'center' }}>
+            <span style={{ fontSize: '16px', color: '#555' }}>◈</span>
+            <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '28px', color: 'white' }}>Built for brands</p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px' }}>
+            {brandFeatures.map(f => (
+              <div key={f.title} className="feature-card" style={{ background: '#111', border: '1px solid #1a1a1a', borderRadius: '16px', padding: '24px', transition: 'all 0.2s', cursor: 'default' }}>
+                <span style={{ fontSize: '24px', display: 'block', marginBottom: '12px' }}>{f.icon}</span>
+                <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '16px', color: 'white', marginBottom: '8px' }}>{f.title}</p>
+                <p style={{ fontSize: '13px', color: '#555', lineHeight: 1.6 }}>{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom CTA */}
+        <div style={{ width: '100%', maxWidth: '480px', textAlign: 'center', marginBottom: '80px' }}>
+          <h2 style={{ fontFamily: 'DM Serif Display, serif', fontSize: 'clamp(32px, 5vw, 48px)', color: 'white', marginBottom: '16px', lineHeight: 1.1 }}>
+            Ready to<br /><span style={{ fontStyle: 'italic', color: '#888' }}>show up?</span>
+          </h2>
+          <p style={{ fontSize: '15px', color: '#555', marginBottom: '28px' }}>Join the waitlist and be first in when we launch June 15.</p>
+          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            style={{ padding: '16px 32px', fontSize: '15px', fontFamily: 'DM Serif Display, serif', background: 'white', color: '#0a0a0a', border: 'none', borderRadius: '12px', cursor: 'pointer' }}>
+            Join the waitlist
+          </button>
         </div>
 
       </div>
@@ -209,13 +257,13 @@ export default function LandingPage() {
         </div>
       </footer>
 
-      {/* Floating join button */}
+      {/* Floating button */}
       {showFloat && !submitted && (
         <div className="float-btn" style={{ position: 'fixed', bottom: '24px', left: '50%', transform: 'translateX(-50%)', zIndex: 100 }}>
-          <a href="#" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
-            style={{ display: 'inline-block', padding: '14px 28px', background: 'white', color: '#0a0a0a', borderRadius: '100px', fontSize: '14px', fontFamily: 'DM Serif Display, serif', textDecoration: 'none', boxShadow: '0 4px 24px rgba(0,0,0,0.4)' }}>
+          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            style={{ padding: '14px 28px', background: 'white', color: '#0a0a0a', borderRadius: '100px', fontSize: '14px', fontFamily: 'DM Serif Display, serif', border: 'none', cursor: 'pointer', boxShadow: '0 4px 24px rgba(0,0,0,0.4)' }}>
             Join the waitlist ↑
-          </a>
+          </button>
         </div>
       )}
 
