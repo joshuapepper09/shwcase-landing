@@ -9,8 +9,6 @@ export default function LandingPage() {
   const [submitting, setSubmitting] = useState(false)
   const [showFloat, setShowFloat] = useState(false)
 
-  const WAITLIST_COUNT = 312
-
   useEffect(() => {
     const handleScroll = () => setShowFloat(window.scrollY > 500)
     window.addEventListener('scroll', handleScroll)
@@ -71,7 +69,11 @@ export default function LandingPage() {
         .float-btn { animation: slideUp 0.4s ease forwards; }
         .feature-card:hover { border-color: #2a2a2a !important; background: #161616 !important; }
         .type-btn:hover { border-color: #444 !important; }
-        .purchase-card:hover { border-color: #333 !important; transform: translateY(-2px); }
+        .founding-card { background: #111; border: 1px solid #333; border-radius: 20px; padding: 28px; text-align: left; transition: all 0.2s; position: relative; overflow: hidden; }
+        .founding-card::before { content: ''; position: absolute; inset: 0; border-radius: 20px; padding: 1px; background: linear-gradient(135deg, #fff 0%, #555 50%, #fff 100%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+        .founding-card:hover { transform: translateY(-2px); }
+        .brand-card { background: #111; border: 1px solid #222; border-radius: 20px; padding: 28px; text-align: left; transition: all 0.2s; }
+        .brand-card:hover { border-color: #333 !important; transform: translateY(-2px); }
       `}</style>
 
       {/* Header */}
@@ -91,7 +93,7 @@ export default function LandingPage() {
 
         <div className="fade-1" style={{ marginBottom: '24px' }}>
           <span style={{ fontSize: '11px', color: '#555', letterSpacing: '0.15em', textTransform: 'uppercase', border: '1px solid #222', borderRadius: '100px', padding: '6px 16px' }}>
-            Coming soon · {WAITLIST_COUNT}+ on the waitlist
+            Coming soon — be among the first
           </span>
         </div>
 
@@ -152,18 +154,23 @@ export default function LandingPage() {
           <p style={{ fontSize: '11px', color: '#444', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '8px' }}>Founding member offers</p>
           <p style={{ fontSize: '14px', color: '#555', marginBottom: '24px' }}>Skip the waitlist and lock in your spot before we launch.</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
-            <div className="purchase-card" style={{ background: '#111', border: '1px solid #222', borderRadius: '20px', padding: '28px', textAlign: 'left', transition: 'all 0.2s' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                <span style={{ fontSize: '11px', color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase', border: '1px solid #222', borderRadius: '100px', padding: '4px 10px' }}>Limited · 100 spots</span>
-                <span style={{ fontFamily: 'DM Serif Display, serif', fontSize: '24px', color: 'white' }}>$7</span>
+
+            {/* Founding Creator — highlighted */}
+            <div className="founding-card">
+              <div style={{ position: 'absolute', top: '16px', right: '16px', fontSize: '10px', color: '#111', background: 'white', borderRadius: '100px', padding: '3px 10px', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}>
+                Most Popular
+              </div>
+              <div style={{ marginBottom: '16px', marginTop: '4px' }}>
+                <span style={{ fontFamily: 'DM Serif Display, serif', fontSize: '32px', color: 'white' }}>$7</span>
+                <span style={{ fontSize: '13px', color: '#555', marginLeft: '6px' }}>one-time</span>
               </div>
               <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '20px', color: 'white', marginBottom: '6px' }}>Founding Creator</p>
-              <p style={{ fontSize: '13px', color: '#555', marginBottom: '20px', lineHeight: 1.5 }}>One-time. Lock in your founding status forever.</p>
+              <p style={{ fontSize: '13px', color: '#555', marginBottom: '20px', lineHeight: 1.5 }}>Lock in your founding status forever.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
                 {['Skip the waitlist', 'Permanent Founding Creator badge', '6 months of Pro free ($29.94 value)', 'Early access on launch day', 'Direct line to the Shwcase team'].map(perk => (
                   <div key={perk} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontSize: '12px', color: '#555' }}>✦</span>
-                    <span style={{ fontSize: '13px', color: '#888' }}>{perk}</span>
+                    <span style={{ fontSize: '12px', color: '#888' }}>✦</span>
+                    <span style={{ fontSize: '13px', color: '#aaa' }}>{perk}</span>
                   </div>
                 ))}
               </div>
@@ -172,13 +179,18 @@ export default function LandingPage() {
                 Get founding access →
               </a>
             </div>
-            <div className="purchase-card" style={{ background: '#111', border: '1px solid #222', borderRadius: '20px', padding: '28px', textAlign: 'left', transition: 'all 0.2s' }}>
+
+            {/* Brand Early Access */}
+            <div className="brand-card">
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
                 <span style={{ fontSize: '11px', color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase', border: '1px solid #222', borderRadius: '100px', padding: '4px 10px' }}>Limited · 25 spots</span>
-                <span style={{ fontFamily: 'DM Serif Display, serif', fontSize: '24px', color: 'white' }}>$49.99</span>
+              </div>
+              <div style={{ marginBottom: '6px' }}>
+                <span style={{ fontFamily: 'DM Serif Display, serif', fontSize: '32px', color: 'white' }}>$49.99</span>
+                <span style={{ fontSize: '13px', color: '#555', marginLeft: '6px' }}>one-time</span>
               </div>
               <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '20px', color: 'white', marginBottom: '6px' }}>Brand Early Access</p>
-              <p style={{ fontSize: '13px', color: '#555', marginBottom: '20px', lineHeight: 1.5 }}>One-time. Be a launch partner on Shwcase.</p>
+              <p style={{ fontSize: '13px', color: '#555', marginBottom: '20px', lineHeight: 1.5 }}>Be a launch partner on Shwcase.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
                 {['Skip brand verification queue', 'Priority placement in deal marketplace', 'First access to our creator network', 'Dedicated onboarding call', 'Launch partner status', 'Direct line to the Shwcase team'].map(perk => (
                   <div key={perk} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -265,7 +277,7 @@ export default function LandingPage() {
         <span style={{ fontSize: '12px', color: '#333' }}>© 2026 Shwcase. All rights reserved.</span>
         <div style={{ display: 'flex', gap: '20px' }}>
           <a href="https://instagram.com/shwcase.app" target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#444', textDecoration: 'none' }}>Instagram</a>
-          <a href="https://tiktok.com/@shwcase" target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#444', textDecoration: 'none' }}>TikTok</a>
+          <a href="https://tiktok.com/@shwcase.app" target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#444', textDecoration: 'none' }}>TikTok</a>
         </div>
       </footer>
 
