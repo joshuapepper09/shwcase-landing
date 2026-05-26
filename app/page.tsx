@@ -119,7 +119,11 @@ export default function LandingPage() {
           {submitted ? (
             <div style={{ background: '#111', border: '1px solid #1e1e1e', borderRadius: '16px', padding: '32px', textAlign: 'center' }}>
               <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '22px', color: 'white', marginBottom: '8px' }}>You're on the list ✦</p>
-              <p style={{ fontSize: '14px', color: '#555' }}>We'll email you the moment Shwcase launches.</p>
+              <p style={{ fontSize: '14px', color: '#555', marginBottom: '16px' }}>We'll email you the moment Shwcase launches.</p>
+<a href="https://discord.gg/HH4J3fJHv" target="_blank" rel="noopener noreferrer"
+  style={{ fontSize: '13px', color: '#888', textDecoration: 'none', border: '1px solid #333', borderRadius: '100px', padding: '8px 18px', display: 'inline-block' }}>
+  Join our Discord →
+</a>
             </div>
           ) : (
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -278,6 +282,7 @@ export default function LandingPage() {
         <div style={{ display: 'flex', gap: '20px' }}>
           <a href="https://instagram.com/shwcase.app" target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#444', textDecoration: 'none' }}>Instagram</a>
           <a href="https://tiktok.com/@shwcase.app" target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#444', textDecoration: 'none' }}>TikTok</a>
+          <a href="https://discord.gg/HH4J3fJHv" target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#444', textDecoration: 'none' }}>Discord</a>
         </div>
       </footer>
 
