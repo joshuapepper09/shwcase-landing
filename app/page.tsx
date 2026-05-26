@@ -7,28 +7,9 @@ export default function LandingPage() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
   const [showFloat, setShowFloat] = useState(false)
 
-  const LAUNCH_DATE = new Date('2026-06-15T00:00:00')
   const WAITLIST_COUNT = 312
-
-  useEffect(() => {
-    const tick = () => {
-      const now = new Date()
-      const diff = LAUNCH_DATE.getTime() - now.getTime()
-      if (diff <= 0) return
-      setTimeLeft({
-        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((diff / (1000 * 60)) % 60),
-        seconds: Math.floor((diff / 1000) % 60),
-      })
-    }
-    tick()
-    const interval = setInterval(tick, 1000)
-    return () => clearInterval(interval)
-  }, [])
 
   useEffect(() => {
     const handleScroll = () => setShowFloat(window.scrollY > 500)
@@ -54,21 +35,21 @@ export default function LandingPage() {
   }
 
   const creatorFeatures = [
-    { icon: '📸', title: 'Build your portfolio', desc: 'Post your work, showcase your gear, and let your creative identity speak for itself.' },
-    { icon: '🤝', title: 'Collab with creators', desc: 'Send and receive collab requests from photographers, musicians, videographers, and more.' },
-    { icon: '💼', title: 'Land brand deals', desc: 'Apply to paid brand deals posted by companies looking for exactly your type of content.' },
-    { icon: '🔗', title: 'Grow your network', desc: 'Connect with creators in your city, your niche, and beyond. Your next opportunity is one connection away.' },
-    { icon: '📅', title: 'Host & attend events', desc: 'Create events for your community or discover creative events happening near you.' },
-    { icon: '📊', title: 'Track your growth', desc: 'See who\'s viewing your profile, which posts are performing, and how your network is expanding.' },
+    { icon: '✦', title: 'Build your portfolio', desc: 'Post your work, showcase your gear, and let your creative identity speak for itself.' },
+    { icon: '◈', title: 'Collab with creators', desc: 'Send and receive collab requests from photographers, musicians, videographers, and more.' },
+    { icon: '✦', title: 'Land brand deals', desc: 'Apply to paid brand deals posted by companies looking for exactly your type of content.' },
+    { icon: '◈', title: 'Grow your network', desc: 'Connect with creators in your city, your niche, and beyond. Your next opportunity is one connection away.' },
+    { icon: '✦', title: 'Host & attend events', desc: 'Create events for your community or discover creative events happening near you.' },
+    { icon: '◈', title: 'Track your growth', desc: "See who's viewing your profile, which posts are performing, and how your network is expanding." },
   ]
 
   const brandFeatures = [
-    { icon: '🎯', title: 'Find the right talent', desc: 'Search creators by category, location, and style. No more cold DMs or agency markups.' },
-    { icon: '📋', title: 'Post brand deals', desc: 'List your campaign, set your budget, and receive applications from qualified creators instantly.' },
-    { icon: '✅', title: 'Verified creator profiles', desc: 'Every creator on Shwcase has a verified profile with their portfolio, gear, and past work.' },
-    { icon: '💬', title: 'Manage everything in-app', desc: 'Message creators, review applications, and run your entire campaign workflow in one place.' },
-    { icon: '📈', title: 'Scale your campaigns', desc: 'From micro-creators to large productions — find talent at every level for every budget.' },
-    { icon: '🔒', title: 'Brand-only access', desc: 'Brands go through a verification process, keeping the platform trusted on both sides.' },
+    { icon: '◈', title: 'Find the right talent', desc: 'Search creators by category, location, and style. No more cold DMs or agency markups.' },
+    { icon: '✦', title: 'Post brand deals', desc: 'List your campaign, set your budget, and receive applications from qualified creators instantly.' },
+    { icon: '◈', title: 'Verified creator profiles', desc: 'Every creator on Shwcase has a verified profile with their portfolio, gear, and past work.' },
+    { icon: '✦', title: 'Manage everything in-app', desc: 'Message creators, review applications, and run your entire campaign workflow in one place.' },
+    { icon: '◈', title: 'Scale your campaigns', desc: 'From micro-creators to large productions — find talent at every level for every budget.' },
+    { icon: '✦', title: 'Brand-only access', desc: 'Brands go through a verification process, keeping the platform trusted on both sides.' },
   ]
 
   return (
@@ -80,20 +61,13 @@ export default function LandingPage() {
         body { background: #0a0a0a; }
         input::placeholder { color: #555; }
         input:focus { outline: none; border-color: #fff !important; }
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideUp {
-          from { opacity: 0; transform: translateY(40px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
         .fade-1 { animation: fadeUp 0.8s ease forwards; }
         .fade-2 { animation: fadeUp 0.8s ease 0.15s forwards; opacity: 0; }
         .fade-3 { animation: fadeUp 0.8s ease 0.3s forwards; opacity: 0; }
         .fade-4 { animation: fadeUp 0.8s ease 0.45s forwards; opacity: 0; }
         .fade-5 { animation: fadeUp 0.8s ease 0.6s forwards; opacity: 0; }
-        .fade-6 { animation: fadeUp 0.8s ease 0.75s forwards; opacity: 0; }
         .float-btn { animation: slideUp 0.4s ease forwards; }
         .feature-card:hover { border-color: #2a2a2a !important; background: #161616 !important; }
         .type-btn:hover { border-color: #444 !important; }
@@ -130,21 +104,12 @@ export default function LandingPage() {
           The platform where creators get discovered and brands find real talent. Built for the next generation of creative professionals.
         </p>
 
-        {/* Countdown */}
-        <div className="fade-4" style={{ display: 'flex', gap: '12px', marginBottom: '48px' }}>
-          {[
-            { value: timeLeft.days, label: 'Days' },
-            { value: timeLeft.hours, label: 'Hours' },
-            { value: timeLeft.minutes, label: 'Min' },
-            { value: timeLeft.seconds, label: 'Sec' },
-          ].map(t => (
-            <div key={t.label} style={{ background: '#111', border: '1px solid #1a1a1a', borderRadius: '12px', padding: '16px 20px', minWidth: '70px', textAlign: 'center' }}>
-              <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '28px', color: 'white', lineHeight: 1 }}>
-                {String(t.value).padStart(2, '0')}
-              </p>
-              <p style={{ fontSize: '10px', color: '#444', letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: '6px' }}>{t.label}</p>
-            </div>
-          ))}
+        {/* Launch TBA */}
+        <div className="fade-4" style={{ marginBottom: '48px' }}>
+          <div style={{ background: '#111', border: '1px solid #1a1a1a', borderRadius: '16px', padding: '20px 48px', display: 'inline-block', textAlign: 'center' }}>
+            <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '26px', color: 'white', marginBottom: '6px' }}>Launch date TBA</p>
+            <p style={{ fontSize: '11px', color: '#444', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Join the waitlist to be first in</p>
+          </div>
         </div>
 
         {/* Waitlist form */}
@@ -176,8 +141,8 @@ export default function LandingPage() {
                 </button>
               </div>
               <p style={{ fontSize: '12px', color: !userType ? '#666' : '#444', textAlign: 'center' }}>
-  {!userType ? 'Select Creator or Brand to continue' : 'No spam. We\'ll only email you when we launch.'}
-</p>
+                {!userType ? 'Select Creator or Brand to continue' : "No spam. We'll only email you when we launch."}
+              </p>
             </form>
           )}
         </div>
@@ -187,8 +152,6 @@ export default function LandingPage() {
           <p style={{ fontSize: '11px', color: '#444', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '8px' }}>Founding member offers</p>
           <p style={{ fontSize: '14px', color: '#555', marginBottom: '24px' }}>Skip the waitlist and lock in your spot before we launch.</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
-
-            {/* Founding Creator */}
             <div className="purchase-card" style={{ background: '#111', border: '1px solid #222', borderRadius: '20px', padding: '28px', textAlign: 'left', transition: 'all 0.2s' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
                 <span style={{ fontSize: '11px', color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase', border: '1px solid #222', borderRadius: '100px', padding: '4px 10px' }}>Limited · 100 spots</span>
@@ -197,13 +160,7 @@ export default function LandingPage() {
               <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '20px', color: 'white', marginBottom: '6px' }}>Founding Creator</p>
               <p style={{ fontSize: '13px', color: '#555', marginBottom: '20px', lineHeight: 1.5 }}>One-time. Lock in your founding status forever.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
-                {[
-                  'Skip the waitlist',
-                  'Permanent Founding Creator badge',
-                  '6 months of Pro free ($29.94 value)',
-                  'Early access on launch day',
-                  'Direct line to the Shwcase team',
-                ].map(perk => (
+                {['Skip the waitlist', 'Permanent Founding Creator badge', '6 months of Pro free ($29.94 value)', 'Early access on launch day', 'Direct line to the Shwcase team'].map(perk => (
                   <div key={perk} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ fontSize: '12px', color: '#555' }}>✦</span>
                     <span style={{ fontSize: '13px', color: '#888' }}>{perk}</span>
@@ -211,12 +168,10 @@ export default function LandingPage() {
                 ))}
               </div>
               <a href="https://buy.stripe.com/4gM7sLaOS4dx6Em3qLgw001" target="_blank" rel="noopener noreferrer"
-                style={{ display: 'block', width: '100%', padding: '14px', background: 'white', color: '#0a0a0a', borderRadius: '12px', fontSize: '14px', fontFamily: 'DM Serif Display, serif', textDecoration: 'none', textAlign: 'center', cursor: 'pointer' }}>
+                style={{ display: 'block', width: '100%', padding: '14px', background: 'white', color: '#0a0a0a', borderRadius: '12px', fontSize: '14px', fontFamily: 'DM Serif Display, serif', textDecoration: 'none', textAlign: 'center' }}>
                 Get founding access →
               </a>
             </div>
-
-            {/* Brand Early Access */}
             <div className="purchase-card" style={{ background: '#111', border: '1px solid #222', borderRadius: '20px', padding: '28px', textAlign: 'left', transition: 'all 0.2s' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
                 <span style={{ fontSize: '11px', color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase', border: '1px solid #222', borderRadius: '100px', padding: '4px 10px' }}>Limited · 25 spots</span>
@@ -225,14 +180,7 @@ export default function LandingPage() {
               <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '20px', color: 'white', marginBottom: '6px' }}>Brand Early Access</p>
               <p style={{ fontSize: '13px', color: '#555', marginBottom: '20px', lineHeight: 1.5 }}>One-time. Be a launch partner on Shwcase.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
-                {[
-                  'Skip brand verification queue',
-                  'Priority placement in deal marketplace',
-                  'First access to our creator network',
-                  'Dedicated onboarding call',
-                  'Launch partner status',
-                  'Direct line to the Shwcase team',
-                ].map(perk => (
+                {['Skip brand verification queue', 'Priority placement in deal marketplace', 'First access to our creator network', 'Dedicated onboarding call', 'Launch partner status', 'Direct line to the Shwcase team'].map(perk => (
                   <div key={perk} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ fontSize: '12px', color: '#555' }}>◈</span>
                     <span style={{ fontSize: '13px', color: '#888' }}>{perk}</span>
@@ -240,11 +188,10 @@ export default function LandingPage() {
                 ))}
               </div>
               <a href="https://buy.stripe.com/5kQfZh5uyeSb9Qy7H1gw002" target="_blank" rel="noopener noreferrer"
-                style={{ display: 'block', width: '100%', padding: '14px', background: 'white', color: '#0a0a0a', borderRadius: '12px', fontSize: '14px', fontFamily: 'DM Serif Display, serif', textDecoration: 'none', textAlign: 'center', cursor: 'pointer' }}>
+                style={{ display: 'block', width: '100%', padding: '14px', background: 'white', color: '#0a0a0a', borderRadius: '12px', fontSize: '14px', fontFamily: 'DM Serif Display, serif', textDecoration: 'none', textAlign: 'center' }}>
                 Get brand access →
               </a>
             </div>
-
           </div>
         </div>
 
@@ -274,7 +221,7 @@ export default function LandingPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px' }}>
             {creatorFeatures.map(f => (
               <div key={f.title} className="feature-card" style={{ background: '#111', border: '1px solid #1a1a1a', borderRadius: '16px', padding: '24px', transition: 'all 0.2s', cursor: 'default' }}>
-                <span style={{ fontSize: '24px', display: 'block', marginBottom: '12px' }}>{f.icon}</span>
+                <span style={{ fontSize: '18px', color: '#555', display: 'block', marginBottom: '12px' }}>{f.icon}</span>
                 <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '16px', color: 'white', marginBottom: '8px' }}>{f.title}</p>
                 <p style={{ fontSize: '13px', color: '#555', lineHeight: 1.6 }}>{f.desc}</p>
               </div>
@@ -291,7 +238,7 @@ export default function LandingPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px' }}>
             {brandFeatures.map(f => (
               <div key={f.title} className="feature-card" style={{ background: '#111', border: '1px solid #1a1a1a', borderRadius: '16px', padding: '24px', transition: 'all 0.2s', cursor: 'default' }}>
-                <span style={{ fontSize: '24px', display: 'block', marginBottom: '12px' }}>{f.icon}</span>
+                <span style={{ fontSize: '18px', color: '#555', display: 'block', marginBottom: '12px' }}>{f.icon}</span>
                 <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '16px', color: 'white', marginBottom: '8px' }}>{f.title}</p>
                 <p style={{ fontSize: '13px', color: '#555', lineHeight: 1.6 }}>{f.desc}</p>
               </div>
@@ -304,7 +251,7 @@ export default function LandingPage() {
           <h2 style={{ fontFamily: 'DM Serif Display, serif', fontSize: 'clamp(32px, 5vw, 48px)', color: 'white', marginBottom: '16px', lineHeight: 1.1 }}>
             Ready to<br /><span style={{ fontStyle: 'italic', color: '#888' }}>show up?</span>
           </h2>
-          <p style={{ fontSize: '15px', color: '#555', marginBottom: '28px' }}>Join the waitlist and be first in when we launch June 15.</p>
+          <p style={{ fontSize: '15px', color: '#555', marginBottom: '28px' }}>Join the waitlist and be first in when we launch.</p>
           <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             style={{ padding: '16px 32px', fontSize: '15px', fontFamily: 'DM Serif Display, serif', background: 'white', color: '#0a0a0a', border: 'none', borderRadius: '12px', cursor: 'pointer' }}>
             Join the waitlist
@@ -317,14 +264,11 @@ export default function LandingPage() {
       <footer style={{ padding: '24px 32px', borderTop: '1px solid #111', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
         <span style={{ fontSize: '12px', color: '#333' }}>© 2026 Shwcase. All rights reserved.</span>
         <div style={{ display: 'flex', gap: '20px' }}>
-          <a href="https://instagram.com/shwcase.app" target="_blank" rel="noopener noreferrer"
-            style={{ fontSize: '12px', color: '#444', textDecoration: 'none' }}>Instagram</a>
-          <a href="https://tiktok.com/@shwcase" target="_blank" rel="noopener noreferrer"
-            style={{ fontSize: '12px', color: '#444', textDecoration: 'none' }}>TikTok</a>
+          <a href="https://instagram.com/shwcase.app" target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#444', textDecoration: 'none' }}>Instagram</a>
+          <a href="https://tiktok.com/@shwcase" target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#444', textDecoration: 'none' }}>TikTok</a>
         </div>
       </footer>
 
-      {/* Floating button */}
       {showFloat && !submitted && (
         <div className="float-btn" style={{ position: 'fixed', bottom: '24px', left: '50%', transform: 'translateX(-50%)', zIndex: 100 }}>
           <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
