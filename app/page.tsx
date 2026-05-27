@@ -8,6 +8,7 @@ export default function LandingPage() {
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [showFloat, setShowFloat] = useState(false)
+  const [spotsLeft, setSpotsLeft] = useState(100)
 
   useEffect(() => {
     const handleScroll = () => setShowFloat(window.scrollY > 500)
@@ -26,6 +27,7 @@ export default function LandingPage() {
         body: JSON.stringify({ email, userType: userType || 'not specified' }),
       })
       setSubmitted(true)
+      setSpotsLeft(prev => Math.max(prev - 1, 0))
     } catch {
       setSubmitted(true)
     }
@@ -61,6 +63,7 @@ export default function LandingPage() {
         input:focus { outline: none; border-color: #fff !important; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         .fade-1 { animation: fadeUp 0.8s ease forwards; }
         .fade-2 { animation: fadeUp 0.8s ease 0.15s forwards; opacity: 0; }
         .fade-3 { animation: fadeUp 0.8s ease 0.3s forwards; opacity: 0; }
@@ -74,6 +77,7 @@ export default function LandingPage() {
         .founding-card:hover { transform: translateY(-2px); }
         .brand-card { background: #111; border: 1px solid #222; border-radius: 20px; padding: 28px; text-align: left; transition: all 0.2s; }
         .brand-card:hover { border-color: #333 !important; transform: translateY(-2px); }
+        .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; display: inline-block; animation: pulse 2s infinite; margin-right: 8px; }
       `}</style>
 
       {/* Header */}
@@ -91,9 +95,13 @@ export default function LandingPage() {
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '60px 24px 40px', textAlign: 'center' }}>
 
-        <div className="fade-1" style={{ marginBottom: '24px' }}>
-          <span style={{ fontSize: '11px', color: '#555', letterSpacing: '0.15em', textTransform: 'uppercase', border: '1px solid #222', borderRadius: '100px', padding: '6px 16px' }}>
-            Coming soon — be among the first
+        {/* Beta badge */}
+        <div className="fade-1" style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <span style={{ fontSize: '11px', color: '#555', letterSpacing: '0.15em', textTransform: 'uppercase', border: '1px solid #222', borderRadius: '100px', padding: '6px 16px', display: 'flex', alignItems: 'center' }}>
+            <span className="live-dot"></span>Beta — {spotsLeft} spots remaining
+          </span>
+          <span style={{ fontSize: '11px', color: '#22c55e', letterSpacing: '0.12em', textTransform: 'uppercase', border: '1px solid #1a3a1a', borderRadius: '100px', padding: '6px 16px' }}>
+            ◈ 1 brand deal live now
           </span>
         </div>
 
@@ -102,15 +110,30 @@ export default function LandingPage() {
           <span style={{ fontStyle: 'italic', color: '#888' }}>Stand out.</span>
         </h1>
 
-        <p className="fade-3" style={{ fontSize: 'clamp(16px, 2vw, 20px)', color: '#555', lineHeight: 1.6, maxWidth: '480px', marginBottom: '48px' }}>
-          The platform where creators get discovered and brands find real talent. Built for the next generation of creative professionals.
+        <p className="fade-3" style={{ fontSize: 'clamp(16px, 2vw, 20px)', color: '#555', lineHeight: 1.6, maxWidth: '480px', marginBottom: '32px' }}>
+          The professional network for creators. Build your profile, apply to brand deals, and get discovered.
         </p>
 
-        {/* Launch TBA */}
-        <div className="fade-4" style={{ marginBottom: '48px' }}>
-          <div style={{ background: '#111', border: '1px solid #1a1a1a', borderRadius: '16px', padding: '20px 48px', display: 'inline-block', textAlign: 'center' }}>
-            <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '26px', color: 'white', marginBottom: '6px' }}>Launch date TBA</p>
-            <p style={{ fontSize: '11px', color: '#444', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Join the waitlist to be first in</p>
+        {/* Beta callout */}
+        <div className="fade-4" style={{ marginBottom: '48px', width: '100%', maxWidth: '580px' }}>
+          <div style={{ background: '#0f1a0f', border: '1px solid #1a3a1a', borderRadius: '16px', padding: '24px 28px', textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span className="live-dot"></span>
+              <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '18px', color: 'white' }}>Beta drop — 100 spots only</p>
+            </div>
+            <p style={{ fontSize: '14px', color: '#4a7a4a', lineHeight: 1.6 }}>
+              We're hand-selecting the first 100 creators before public launch. One brand is already on the platform with a live deal — and they're choosing from whoever gets in.
+            </p>
+            <div style={{ display: 'flex', gap: '20px', marginTop: '4px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '11px', color: '#22c55e' }}>✦</span>
+                <span style={{ fontSize: '12px', color: '#4a7a4a' }}>Real brand. Real deal. Real money.</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '11px', color: '#22c55e' }}>✦</span>
+                <span style={{ fontSize: '12px', color: '#4a7a4a' }}>100 spots. When they're gone, they're gone.</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -118,12 +141,12 @@ export default function LandingPage() {
         <div className="fade-5" style={{ width: '100%', maxWidth: '440px', marginBottom: '80px' }}>
           {submitted ? (
             <div style={{ background: '#111', border: '1px solid #1e1e1e', borderRadius: '16px', padding: '32px', textAlign: 'center' }}>
-              <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '22px', color: 'white', marginBottom: '8px' }}>You're on the list ✦</p>
-              <p style={{ fontSize: '14px', color: '#555', marginBottom: '16px' }}>We'll email you the moment Shwcase launches.</p>
-<a href="https://discord.gg/HH4J3fJHv" target="_blank" rel="noopener noreferrer"
-  style={{ fontSize: '13px', color: '#888', textDecoration: 'none', border: '1px solid #333', borderRadius: '100px', padding: '8px 18px', display: 'inline-block' }}>
-  Join our Discord →
-</a>
+              <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '22px', color: 'white', marginBottom: '8px' }}>You're in ✦</p>
+              <p style={{ fontSize: '14px', color: '#555', marginBottom: '16px' }}>We'll reach out with your beta access.</p>
+              <a href="https://discord.gg/HH4J3fJHv" target="_blank" rel="noopener noreferrer"
+                style={{ fontSize: '13px', color: '#888', textDecoration: 'none', border: '1px solid #333', borderRadius: '100px', padding: '8px 18px', display: 'inline-block' }}>
+                Join our Discord →
+              </a>
             </div>
           ) : (
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -143,11 +166,11 @@ export default function LandingPage() {
                 />
                 <button type="submit" disabled={submitting || !userType}
                   style={{ padding: '14px 20px', fontSize: '14px', fontFamily: 'DM Serif Display, serif', background: 'white', color: '#0a0a0a', border: 'none', borderRadius: '12px', cursor: 'pointer', whiteSpace: 'nowrap', opacity: submitting || !userType ? 0.4 : 1 }}>
-                  {submitting ? 'Joining...' : 'Join waitlist'}
+                  {submitting ? 'Securing...' : 'Claim spot'}
                 </button>
               </div>
               <p style={{ fontSize: '12px', color: !userType ? '#666' : '#444', textAlign: 'center' }}>
-                {!userType ? 'Select Creator or Brand to continue' : "No spam. We'll only email you when we launch."}
+                {!userType ? 'Select Creator or Brand to continue' : `${spotsLeft} spots remaining. No spam.`}
               </p>
             </form>
           )}
@@ -159,7 +182,6 @@ export default function LandingPage() {
           <p style={{ fontSize: '14px', color: '#555', marginBottom: '24px' }}>Skip the waitlist and lock in your spot before we launch.</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
 
-            {/* Founding Creator — highlighted */}
             <div className="founding-card">
               <div style={{ position: 'absolute', top: '16px', right: '16px', fontSize: '10px', color: '#111', background: 'white', borderRadius: '100px', padding: '3px 10px', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}>
                 Most Popular
@@ -171,7 +193,7 @@ export default function LandingPage() {
               <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '20px', color: 'white', marginBottom: '6px' }}>Founding Creator</p>
               <p style={{ fontSize: '13px', color: '#555', marginBottom: '20px', lineHeight: 1.5 }}>Lock in your founding status forever.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
-                {['Skip the waitlist', 'Permanent Founding Creator badge', '6 months of Pro free ($29.94 value)', 'Early access on launch day', 'Direct line to the Shwcase team'].map(perk => (
+                {['Skip the waitlist — instant access', 'Permanent Founding Creator badge', '6 months of Pro free ($29.94 value)', 'First access to brand deals in beta', 'Direct line to the Shwcase team'].map(perk => (
                   <div key={perk} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ fontSize: '12px', color: '#888' }}>✦</span>
                     <span style={{ fontSize: '13px', color: '#aaa' }}>{perk}</span>
@@ -184,7 +206,6 @@ export default function LandingPage() {
               </a>
             </div>
 
-            {/* Brand Early Access */}
             <div className="brand-card">
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
                 <span style={{ fontSize: '11px', color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase', border: '1px solid #222', borderRadius: '100px', padding: '4px 10px' }}>Limited · 25 spots</span>
@@ -196,7 +217,7 @@ export default function LandingPage() {
               <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '20px', color: 'white', marginBottom: '6px' }}>Brand Early Access</p>
               <p style={{ fontSize: '13px', color: '#555', marginBottom: '20px', lineHeight: 1.5 }}>Be a launch partner on Shwcase.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
-                {['Skip brand verification queue', 'Priority placement in deal marketplace', 'First access to our creator network', 'Dedicated onboarding call', 'Launch partner status', 'Direct line to the Shwcase team'].map(perk => (
+                {['Post deals to our first 100 creators', 'Priority placement in deal marketplace', 'First access to our creator network', 'Dedicated onboarding call', 'Launch partner status', 'Direct line to the Shwcase team'].map(perk => (
                   <div key={perk} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ fontSize: '12px', color: '#555' }}>◈</span>
                     <span style={{ fontSize: '13px', color: '#888' }}>{perk}</span>
@@ -265,12 +286,12 @@ export default function LandingPage() {
         {/* Bottom CTA */}
         <div style={{ width: '100%', maxWidth: '480px', textAlign: 'center', marginBottom: '80px' }}>
           <h2 style={{ fontFamily: 'DM Serif Display, serif', fontSize: 'clamp(32px, 5vw, 48px)', color: 'white', marginBottom: '16px', lineHeight: 1.1 }}>
-            Ready to<br /><span style={{ fontStyle: 'italic', color: '#888' }}>show up?</span>
+            100 spots.<br /><span style={{ fontStyle: 'italic', color: '#888' }}>Are you in?</span>
           </h2>
-          <p style={{ fontSize: '15px', color: '#555', marginBottom: '28px' }}>Join the waitlist and be first in when we launch.</p>
+          <p style={{ fontSize: '15px', color: '#555', marginBottom: '28px' }}>Hand-selected beta access. One brand deal already live.</p>
           <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             style={{ padding: '16px 32px', fontSize: '15px', fontFamily: 'DM Serif Display, serif', background: 'white', color: '#0a0a0a', border: 'none', borderRadius: '12px', cursor: 'pointer' }}>
-            Join the waitlist
+            Claim your spot
           </button>
         </div>
 
@@ -290,7 +311,7 @@ export default function LandingPage() {
         <div className="float-btn" style={{ position: 'fixed', bottom: '24px', left: '50%', transform: 'translateX(-50%)', zIndex: 100 }}>
           <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             style={{ padding: '14px 28px', background: 'white', color: '#0a0a0a', borderRadius: '100px', fontSize: '14px', fontFamily: 'DM Serif Display, serif', border: 'none', cursor: 'pointer', boxShadow: '0 4px 24px rgba(0,0,0,0.4)' }}>
-            Join the waitlist ↑
+            Claim your spot ↑
           </button>
         </div>
       )}
