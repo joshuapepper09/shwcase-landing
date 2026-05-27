@@ -8,7 +8,7 @@ export default function LandingPage() {
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [showFloat, setShowFloat] = useState(false)
-  const [spotsLeft, setSpotsLeft] = useState(100)
+  const [spotsLeft] = useState(100)
 
   useEffect(() => {
     const handleScroll = () => setShowFloat(window.scrollY > 500)
@@ -27,12 +27,39 @@ export default function LandingPage() {
         body: JSON.stringify({ email, userType: userType || 'not specified' }),
       })
       setSubmitted(true)
-      setSpotsLeft(prev => Math.max(prev - 1, 0))
     } catch {
       setSubmitted(true)
     }
     setSubmitting(false)
   }
+
+  const differences = [
+    {
+      them: 'Content workers for hire',
+      us: 'Creative professionals with an identity',
+      label: 'Creators are',
+    },
+    {
+      them: 'Buy UGC content in bulk',
+      us: 'Partner with vetted creative talent',
+      label: 'Brands do',
+    },
+    {
+      them: 'No followers required — just produce',
+      us: 'Build a profile, score, and network that grows with you',
+      label: 'Career path',
+    },
+    {
+      them: 'Transactional. One and done.',
+      us: 'Long-term relationships and collabs',
+      label: 'Relationships',
+    },
+    {
+      them: 'No community',
+      us: 'Events, connections, creators who know each other',
+      label: 'Community',
+    },
+  ]
 
   const creatorFeatures = [
     { icon: '✦', title: 'Build your portfolio', desc: 'Post your work, showcase your gear, and let your creative identity speak for itself.' },
@@ -77,7 +104,8 @@ export default function LandingPage() {
         .founding-card:hover { transform: translateY(-2px); }
         .brand-card { background: #111; border: 1px solid #222; border-radius: 20px; padding: 28px; text-align: left; transition: all 0.2s; }
         .brand-card:hover { border-color: #333 !important; transform: translateY(-2px); }
-        .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; display: inline-block; animation: pulse 2s infinite; margin-right: 8px; }
+        .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; display: inline-block; animation: pulse 2s infinite; margin-right: 8px; flex-shrink: 0; }
+        .diff-row:hover { background: #111 !important; }
       `}</style>
 
       {/* Header */}
@@ -95,10 +123,10 @@ export default function LandingPage() {
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '60px 24px 40px', textAlign: 'center' }}>
 
-        {/* Beta badge */}
-        <div className="fade-1" style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
+        {/* Beta badges */}
+        <div className="fade-1" style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
           <span style={{ fontSize: '11px', color: '#555', letterSpacing: '0.15em', textTransform: 'uppercase', border: '1px solid #222', borderRadius: '100px', padding: '6px 16px', display: 'flex', alignItems: 'center' }}>
-            <span className="live-dot"></span>Beta — {spotsLeft} spots remaining
+            <span className="live-dot"></span>Beta — {spotsLeft} creator spots remaining
           </span>
           <span style={{ fontSize: '11px', color: '#22c55e', letterSpacing: '0.12em', textTransform: 'uppercase', border: '1px solid #1a3a1a', borderRadius: '100px', padding: '6px 16px' }}>
             ◈ 1 brand deal live now
@@ -176,12 +204,45 @@ export default function LandingPage() {
           )}
         </div>
 
+        {/* Why we're different */}
+        <div style={{ width: '100%', maxWidth: '720px', marginBottom: '100px' }}>
+          <p style={{ fontSize: '11px', color: '#444', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '8px' }}>Why Shwcase</p>
+          <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: 'clamp(24px, 4vw, 36px)', color: 'white', marginBottom: '8px', lineHeight: 1.2 }}>
+            Not a gig platform.<br />
+            <span style={{ fontStyle: 'italic', color: '#555' }}>A professional network.</span>
+          </p>
+          <p style={{ fontSize: '14px', color: '#444', marginBottom: '40px', maxWidth: '480px', margin: '0 auto 40px' }}>
+            Other platforms treat creators like content machines. Shwcase treats you like a professional.
+          </p>
+
+          <div style={{ border: '1px solid #1a1a1a', borderRadius: '16px', overflow: 'hidden' }}>
+            {/* Header row */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', background: '#0f0f0f', padding: '12px 20px', borderBottom: '1px solid #1a1a1a' }}>
+              <p style={{ fontSize: '11px', color: '#333', textTransform: 'uppercase', letterSpacing: '0.1em' }}></p>
+              <p style={{ fontSize: '11px', color: '#333', textTransform: 'uppercase', letterSpacing: '0.1em', textAlign: 'center' }}>Other platforms</p>
+              <p style={{ fontSize: '11px', color: '#555', textTransform: 'uppercase', letterSpacing: '0.1em', textAlign: 'center' }}>Shwcase</p>
+            </div>
+            {differences.map((d, i) => (
+              <div key={d.label} className="diff-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', padding: '16px 20px', borderBottom: i < differences.length - 1 ? '1px solid #1a1a1a' : 'none', background: 'transparent', transition: 'background 0.15s', alignItems: 'center', gap: '12px' }}>
+                <p style={{ fontSize: '11px', color: '#333', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{d.label}</p>
+                <p style={{ fontSize: '13px', color: '#333', textAlign: 'center', lineHeight: 1.4 }}>{d.them}</p>
+                <p style={{ fontSize: '13px', color: '#888', textAlign: 'center', lineHeight: 1.4 }}>{d.us}</p>
+              </div>
+            ))}
+          </div>
+
+          <p style={{ fontSize: '13px', color: '#333', marginTop: '20px', fontStyle: 'italic' }}>
+            "SideShift treats creators like content machines. Shwcase treats them like professionals."
+          </p>
+        </div>
+
         {/* Founding offers */}
         <div className="fade-5" style={{ width: '100%', maxWidth: '720px', marginBottom: '100px' }}>
           <p style={{ fontSize: '11px', color: '#444', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '8px' }}>Founding member offers</p>
           <p style={{ fontSize: '14px', color: '#555', marginBottom: '24px' }}>Skip the waitlist and lock in your spot before we launch.</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
 
+            {/* Founding Creator */}
             <div className="founding-card">
               <div style={{ position: 'absolute', top: '16px', right: '16px', fontSize: '10px', color: '#111', background: 'white', borderRadius: '100px', padding: '3px 10px', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}>
                 Most Popular
@@ -206,18 +267,21 @@ export default function LandingPage() {
               </a>
             </div>
 
+            {/* Brand Early Access — revised */}
             <div className="brand-card">
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                <span style={{ fontSize: '11px', color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase', border: '1px solid #222', borderRadius: '100px', padding: '4px 10px' }}>Limited · 25 spots</span>
+                <span style={{ fontSize: '11px', color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase', border: '1px solid #222', borderRadius: '100px', padding: '4px 10px' }}>Limited · 10 spots</span>
+                <span style={{ fontSize: '11px', color: '#22c55e', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Applications open</span>
               </div>
               <div style={{ marginBottom: '6px' }}>
-                <span style={{ fontFamily: 'DM Serif Display, serif', fontSize: '32px', color: 'white' }}>$49.99</span>
-                <span style={{ fontSize: '13px', color: '#555', marginLeft: '6px' }}>one-time</span>
+                <span style={{ fontFamily: 'DM Serif Display, serif', fontSize: '32px', color: 'white' }}>Free</span>
+                <span style={{ fontSize: '13px', color: '#555', marginLeft: '6px' }}>to apply</span>
               </div>
-              <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '20px', color: 'white', marginBottom: '6px' }}>Brand Early Access</p>
-              <p style={{ fontSize: '13px', color: '#555', marginBottom: '20px', lineHeight: 1.5 }}>Be a launch partner on Shwcase.</p>
+              <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '20px', color: 'white', marginBottom: '6px' }}>Brand Partner</p>
+              <p style={{ fontSize: '13px', color: '#555', marginBottom: '6px', lineHeight: 1.5 }}>Apply now. Pay only when approved.</p>
+              <p style={{ fontSize: '12px', color: '#333', marginBottom: '20px', lineHeight: 1.5 }}>Once we review and approve your brand, you'll unlock the ability to post deals to our creator network. Approved brands pay $99 to activate.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
-                {['Post deals to our first 100 creators', 'Priority placement in deal marketplace', 'First access to our creator network', 'Dedicated onboarding call', 'Launch partner status', 'Direct line to the Shwcase team'].map(perk => (
+                {['Access to our first 100 creators', 'Post deals to the marketplace', 'Review applications in-app', 'Message creators directly', 'Launch partner status + badge'].map(perk => (
                   <div key={perk} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ fontSize: '12px', color: '#555' }}>◈</span>
                     <span style={{ fontSize: '13px', color: '#888' }}>{perk}</span>
@@ -225,8 +289,8 @@ export default function LandingPage() {
                 ))}
               </div>
               <a href="https://buy.stripe.com/5kQfZh5uyeSb9Qy7H1gw002" target="_blank" rel="noopener noreferrer"
-                style={{ display: 'block', width: '100%', padding: '14px', background: 'white', color: '#0a0a0a', borderRadius: '12px', fontSize: '14px', fontFamily: 'DM Serif Display, serif', textDecoration: 'none', textAlign: 'center' }}>
-                Get brand access →
+                style={{ display: 'block', width: '100%', padding: '14px', background: 'transparent', color: 'white', border: '1px solid #333', borderRadius: '12px', fontSize: '14px', fontFamily: 'DM Serif Display, serif', textDecoration: 'none', textAlign: 'center' }}>
+                Apply as a brand →
               </a>
             </div>
           </div>
