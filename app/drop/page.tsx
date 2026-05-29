@@ -1,16 +1,16 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 export default function DropPage() {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
-  const router = useRouter()
+  const [error, setError] = useState('')
 
   const handleEnter = async () => {
     if (!email) return
     setLoading(true)
+    setError('')
     try {
       const res = await fetch('/api/open-call-checkout', {
         method: 'POST',
@@ -18,15 +18,17 @@ export default function DropPage() {
         body: JSON.stringify({ email }),
       })
       const data = await res.json()
-      if (data.url) window.location.href = data.url
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        setError('Something went wrong. Please try again.')
+      }
     } catch (err) {
+      setError('Something went wrong. Please try again.')
       console.error(err)
     }
     setLoading(false)
   }
-
-  const PRIZE_POOL = 40 // % of entries goes to grand prize
-  const ENTRY_PRICE = 5
 
   return (
     <main style={{ minHeight: '100vh', background: '#0a0a0a', fontFamily: 'DM Sans, sans-serif', color: 'white' }}>
@@ -36,7 +38,7 @@ export default function DropPage() {
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #0a0a0a; }
         input::placeholder { color: #444; }
-        input:focus { outline: none; border-color: #fff !important; }
+        input:focus { outline: none; border-color: #555 !important; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         .fade-1 { animation: fadeUp 0.7s ease forwards; }
@@ -47,6 +49,9 @@ export default function DropPage() {
         .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; display: inline-block; animation: pulse 2s infinite; margin-right: 8px; }
         .reward-card { background: #0f0f0f; border: 1px solid #1a1a1a; padding: 28px; transition: border-color 0.2s; }
         .reward-card:hover { border-color: #2a2a2a; }
+        .enter-btn { padding: 14px 24px; font-size: 13px; font-family: 'DM Serif Display', serif; background: white; color: #0a0a0a; border: none; cursor: pointer; white-space: nowrap; letter-spacing: 0.04em; transition: opacity 0.15s; }
+        .enter-btn:disabled { opacity: 0.4; cursor: default; }
+        .enter-btn:hover:not(:disabled) { opacity: 0.9; }
       `}</style>
 
       {/* Header */}
@@ -91,7 +96,7 @@ export default function DropPage() {
               { step: '01', title: 'Pay $5 to enter', desc: 'Entry fee goes directly into the prize pool. 40% goes back to the grand prize winner.' },
               { step: '02', title: 'Submit your portfolio', desc: 'Share your best work — photos, videos, links, social handles. Tell us who you are.' },
               { step: '03', title: 'Shwcase reviews', desc: 'Our team reviews every submission. We select based on creativity, originality, and craft.' },
-              { step: '04', title: 'Winners announced live', desc: 'We announce winners on Instagram live. Grand prize gets cash + a feature. Runners up get featured too.' },
+              { step: '04', title: 'Winners announced', desc: 'We announce winners on @shwcase.app. Grand prize gets cash + a dedicated feature post. Runners up get featured too.' },
             ].map((item) => (
               <div key={item.step} style={{ background: '#0a0a0a', padding: '24px 28px', display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
                 <span style={{ fontFamily: 'DM Serif Display, serif', fontSize: '13px', color: '#2a2a2a', flexShrink: 0, marginTop: '2px' }}>{item.step}</span>
@@ -112,12 +117,9 @@ export default function DropPage() {
             {/* Grand prize */}
             <div className="reward-card" style={{ position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, #fff, transparent)' }} />
-              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '16px' }}>
-                <div>
-                  <p style={{ fontSize: '10px', color: '#555', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '6px' }}>Grand Prize — 1 winner</p>
-                  <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '22px', color: 'white' }}>Cash + Feature + Priority</p>
-                </div>
-                <span style={{ fontSize: '10px', color: '#0a0a0a', background: 'white', padding: '3px 10px', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, flexShrink: 0 }}>Top pick</span>
+              <div style={{ marginBottom: '16px' }}>
+                <p style={{ fontSize: '10px', color: '#555', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '6px' }}>Grand Prize — 1 winner</p>
+                <p style={{ fontFamily: 'DM Serif Display, serif', fontSize: '22px', color: 'white' }}>Cash + Feature + Priority</p>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {[
@@ -176,16 +178,18 @@ export default function DropPage() {
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleEnter()}
                 placeholder="Your email address"
                 style={{ flex: 1, padding: '14px 16px', fontSize: '14px', background: '#0a0a0a', border: '1px solid #1a1a1a', color: 'white', fontFamily: 'DM Sans, sans-serif' }}
               />
               <button
+                className="enter-btn"
                 onClick={handleEnter}
-                disabled={loading || !email}
-                style={{ padding: '14px 24px', fontSize: '13px', fontFamily: 'DM Serif Display, serif', background: 'white', color: '#0a0a0a', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', opacity: loading || !email ? 0.4 : 1, letterSpacing: '0.04em' }}>
+                disabled={loading || !email}>
                 {loading ? 'Loading...' : 'Enter — $5'}
               </button>
             </div>
+            {error && <p style={{ fontSize: '12px', color: '#ff4444', marginBottom: '8px' }}>{error}</p>}
             <p style={{ fontSize: '11px', color: '#2a2a2a', letterSpacing: '0.06em' }}>Secure payment via Stripe. No subscription. One-time entry.</p>
           </div>
         </div>
