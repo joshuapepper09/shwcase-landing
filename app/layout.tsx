@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Shwcase — Show up. Stand out.",
-  description: "The platform where creators get discovered and brands find real talent. Built for the next generation of creative professionals.",
+  title: "shwcase",
+  description: "quiet films about ordinary places, and the people who send me to them.",
   openGraph: {
-    title: "Shwcase — Show up. Stand out.",
-    description: "The platform where creators get discovered and brands find real talent.",
+    title: "shwcase",
+    description: "quiet films about ordinary places, and the people who send me to them.",
     url: "https://shwcase.app",
-    siteName: "Shwcase",
+    siteName: "shwcase",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Shwcase — Show up. Stand out.",
-    description: "The platform where creators get discovered and brands find real talent.",
+    title: "shwcase",
+    description: "quiet films about ordinary places, and the people who send me to them.",
   },
 };
 
@@ -24,7 +24,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body style={{ margin: 0, padding: 0, background: '#0a0a0a' }}>{children}</body>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body
+        style={{
+          margin: 0,
+          padding: 0,
+          background: '#0a0a0a',
+          color: '#f2f2f2',
+          fontFamily: "'DM Sans', system-ui, sans-serif",
+        }}
+      >
+        {children}
+      </body>
     </html>
   );
 }
