@@ -2,10 +2,22 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://shwcase.app'),
   title: 'shwcase',
   description: 'recollections from around the world.',
+  openGraph: {
+    title: 'shwcase',
+    description: 'recollections from around the world.',
+    url: 'https://shwcase.app',
+    siteName: 'shwcase',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'shwcase',
+    description: 'recollections from around the world.',
+  },
 }
-
 export default function RootLayout({
   children,
 }: {
