@@ -8,7 +8,7 @@ const CSS = `
   .v2 .grain{position:fixed;inset:-50%;z-index:60;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.055}
   .v2 .mono-label{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--mocha)}
 
-  .v2 .hero{position:relative;min-height:100vh;background:url("/shwcase-hero.jpg") center/cover no-repeat;display:flex;flex-direction:column;justify-content:space-between}
+  .v2 .hero{position:relative;min-height:100vh;background:url("/shwcase-hero.svg") center/cover no-repeat;display:flex;flex-direction:column;justify-content:space-between}
   .v2 .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom, rgba(24,16,11,.42) 0%, rgba(24,16,11,0) 30%, rgba(24,16,11,0) 60%, rgba(24,16,11,.55) 100%)}
   .v2 nav{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:baseline;padding:26px 28px}
   .v2 .wordmark{font-size:22px;font-weight:500;color:var(--cream-soft);text-decoration:none;letter-spacing:.01em}
@@ -40,7 +40,7 @@ const CSS = `
   .v2 .statement .mono-label{display:block;margin-bottom:40px}
   .v2 .statement p{font-size:clamp(30px,6.4vw,58px);line-height:1.18;font-weight:300;max-width:20ch}
   .v2 .statement p em{font-style:italic}
-  .v2 .statement p .inline-img{display:inline-block;width:1.9em;height:1.05em;border-radius:2px;background:url("/shwcase-c-sunpath.jpg") center/cover;vertical-align:-0.14em;margin:0 .08em}
+  .v2 .statement p .inline-img{display:inline-block;width:1.9em;height:1.05em;border-radius:2px;background:url("/shwcase-c-sunpath.svg") center/cover;vertical-align:-0.14em;margin:0 .08em}
   .v2 .statement .sig{margin-top:48px;display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
   .v2 .statement .sig .mono-label{color:var(--ink-soft)}
 
@@ -86,13 +86,13 @@ const CSS = `
 
   .v2 .films{padding:90px 0 110px;max-width:1080px;margin:0 auto}
   .v2 .films .head{padding:0 28px 46px;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px 18px}
-  .v2 .film-a{position:relative;width:92%;aspect-ratio:16/9;background:url("/shwcase-hero.jpg") center 30%/cover;border-radius:2px;overflow:hidden}
+  .v2 .film-a{position:relative;width:92%;aspect-ratio:16/9;background:url("/shwcase-hero.svg") center 30%/cover;border-radius:2px;overflow:hidden}
   .v2 .film-a .veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(24,16,11,.66),rgba(24,16,11,0) 55%)}
   .v2 .film-a .cap{position:absolute;left:22px;bottom:18px;right:22px;max-width:62%;color:var(--cream-soft)}
   .v2 .film-a .cap .t{font-style:italic;font-size:clamp(21px,4.4vw,32px);line-height:1.15}
   .v2 .film-a .cap .m{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;opacity:.7;margin-top:6px}
   .v2 .film-a .no{position:absolute;top:16px;left:22px;font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.2em;color:rgba(250,246,236,.8);text-transform:uppercase}
-  .v2 .film-b{position:relative;width:58%;margin-left:38%;margin-top:-4%;aspect-ratio:4/3;background:url("/shwcase-still-dusk.jpg") center/cover;border-radius:2px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(46,33,24,.45)}
+  .v2 .film-b{position:relative;width:58%;margin-left:38%;margin-top:-4%;aspect-ratio:4/3;background:url("/shwcase-still-dusk.svg") center/cover;border-radius:2px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(46,33,24,.45)}
   .v2 .film-b .veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(24,16,11,.6),rgba(24,16,11,0) 60%)}
   .v2 .film-b .cap{position:absolute;left:16px;bottom:14px;color:var(--cream-soft)}
   .v2 .film-b .cap .t{font-style:italic;font-size:19px}
@@ -228,11 +228,11 @@ export default function Home() {
         </div>
         <div className="field">
           <div className="fig f1">
-            <img src="/shwcase-c-ridge.jpg" alt="the reservoir at dusk" />
+            <img src="/shwcase-c-ridge.svg" alt="the reservoir at dusk" />
             <span className="cap">fig. 01 · the reservoir, 16:32</span>
           </div>
           <div className="fig f2">
-            <img src="/shwcase-c-reeds2.jpg" alt="reeds by the water" />
+            <img src="/shwcase-c-reeds2.svg" alt="reeds by the water" />
             <span className="cap">fig. 02 · reeds, north shore</span>
           </div>
           <div className="qentry q1">
@@ -241,7 +241,7 @@ export default function Home() {
             <span className="qm">answers open · filming november</span>
           </div>
           <div className="fig f3">
-            <img src="/shwcase-c-water2.jpg" alt="last light on the water" />
+            <img src="/shwcase-c-water2.svg" alt="last light on the water" />
             <span className="cap">fig. 03 · last light on water</span>
           </div>
           <div className="qentry q2">
@@ -250,7 +250,7 @@ export default function Home() {
             <span className="qm">opens after film n°1</span>
           </div>
           <div className="fig f4">
-            <img src="/shwcase-c-trail2.jpg" alt="trail under the canopy" />
+            <img src="/shwcase-c-trail2.svg" alt="trail under the canopy" />
             <span className="cap">fig. 04 · hastain trail</span>
           </div>
           <div className="qentry q3">
@@ -259,7 +259,7 @@ export default function Home() {
             <span className="qm">collecting ideas</span>
           </div>
           <div className="fig f5">
-            <img src="/shwcase-c-dusk2.jpg" alt="dusk sky gradient" />
+            <img src="/shwcase-c-dusk2.svg" alt="dusk sky gradient" />
             <span className="cap">fig. 05 · dusk gradient</span>
           </div>
         </div>
@@ -322,4 +322,4 @@ export default function Home() {
       </footer>
     </main>
   )
-}
+          }
