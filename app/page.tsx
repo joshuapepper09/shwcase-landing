@@ -101,6 +101,10 @@ const CSS = `
   .v2 .film-b .cap .m{font-family:"IBM Plex Mono",monospace;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.7;margin-top:4px}
   @media (min-width:761px){.v2 .film-a{width:78%}.v2 .film-b{width:34%;margin-left:60%;margin-top:-6%}}
 
+  .v2 .quiet-motion{max-width:680px;margin:90px auto 0;padding:0 28px}
+  .v2 .quiet-motion video{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:2px}
+  .v2 .quiet-motion figcaption{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:10px;line-height:1.8}
+  @media(prefers-reduced-motion:reduce){.v2 .quiet-motion video{display:none}.v2 .quiet-motion{aspect-ratio:16/9;background:url("/shwcase-still-01.jpg") center/cover}.v2 .quiet-motion figcaption{display:none}}
   .v2 .shop{background:var(--espresso);color:var(--cream-soft);padding:120px 28px;margin-top:50px}
   .v2 .shop .inner{max-width:1080px;margin:0 auto}
   .v2 .shop .mono-label{color:var(--caramel);display:block;margin-bottom:34px}
@@ -294,6 +298,13 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <figure className="quiet-motion">
+        <video autoPlay muted loop playsInline preload="metadata" poster="/shwcase-still-01.jpg" aria-label="Coastal dusk, a quiet silent loop">
+          <source src="/shwcase-coastal-dusk-loop.mp4" type="video/mp4" />
+        </video>
+        <figcaption>coastal dusk · a quiet loop · no sound</figcaption>
+      </figure>
 
       <section className="shop" id="shop">
         <div className="inner">
