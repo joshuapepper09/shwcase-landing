@@ -1,23 +1,32 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
+const title = 'shwcase - where do you go when you need to think?'
+const description =
+  'one question, a minute. recollections from around the world, gathered one answer at a time.'
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://shwcase.app'),
-  title: 'shwcase',
-  description: 'recollections from around the world.',
+  metadataBase: new URL('https://www.shwcase.app'),
+  title,
+  description,
   openGraph: {
-    title: 'shwcase',
-    description: 'recollections from around the world.',
-    url: 'https://shwcase.app',
+    title,
+    description,
+    url: 'https://www.shwcase.app',
     siteName: 'shwcase',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'shwcase',
-    description: 'recollections from around the world.',
+    title,
+    description,
   },
 }
+
+export const viewport: Viewport = {
+  themeColor: '#F2EAD9',
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -33,16 +42,16 @@ export default function RootLayout({
           crossOrigin=""
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap"
           rel="stylesheet"
         />
       </head>
       <body
         style={{
           margin: 0,
-          background: '#fffafa',
-          color: '#2b2226',
-          fontFamily: "'DM Sans', system-ui, sans-serif",
+          background: '#F2EAD9',
+          color: '#2E2118',
+          fontFamily: "'Cormorant Garamond', Georgia, serif",
         }}
       >
         {children}
