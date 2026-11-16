@@ -300,8 +300,7 @@ export default function Home() {
               twenty-some calm clips from the first shoot · water, reeds, canopy, dusk sky ·
               personal + commercial licenses · gumroad
             </div>
-            {/* notify destination undecided: email capture (planned) vs IG link */}
-            <a className="btn-light" href="#shop">
+            <a className="btn-light" href="https://tally.so/r/OQXD58" target="_blank" rel="noopener noreferrer">
               notify me
             </a>
           </div>
@@ -322,4 +321,4 @@ export default function Home() {
       </footer>
     </main>
   )
-          }
+}
