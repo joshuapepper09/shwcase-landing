@@ -88,13 +88,13 @@ const CSS = `
 
   .v2 .films{padding:90px 0 110px;max-width:1080px;margin:0 auto}
   .v2 .films .head{padding:0 28px 46px;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px 18px}
-  .v2 .film-a{position:relative;width:92%;aspect-ratio:16/9;background:url("/shwcase-hero.svg") center 30%/cover;border-radius:2px;overflow:hidden}
+  .v2 .film-a{position:relative;width:92%;aspect-ratio:16/9;background:url("/shwcase-still-05.jpg") center/cover;border-radius:2px;overflow:hidden}
   .v2 .film-a .veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(24,16,11,.66),rgba(24,16,11,0) 55%)}
   .v2 .film-a .cap{position:absolute;left:22px;bottom:18px;right:22px;max-width:62%;color:var(--cream-soft)}
   .v2 .film-a .cap .t{font-style:italic;font-size:clamp(21px,4.4vw,32px);line-height:1.15}
   .v2 .film-a .cap .m{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;opacity:.7;margin-top:6px}
   .v2 .film-a .no{position:absolute;top:16px;left:22px;font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.2em;color:rgba(250,246,236,.8);text-transform:uppercase}
-  .v2 .film-b{position:relative;width:58%;margin-left:38%;margin-top:-4%;aspect-ratio:4/3;background:url("/shwcase-still-dusk.svg") center/cover;border-radius:2px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(46,33,24,.45)}
+  .v2 .film-b{position:relative;width:58%;margin-left:38%;margin-top:-4%;aspect-ratio:4/3;background:url("/shwcase-still-07.jpg") center/cover;border-radius:2px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(46,33,24,.45)}
   .v2 .film-b .veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(24,16,11,.6),rgba(24,16,11,0) 60%)}
   .v2 .film-b .cap{position:absolute;left:16px;bottom:14px;color:var(--cream-soft)}
   .v2 .film-b .cap .t{font-style:italic;font-size:19px}
@@ -106,6 +106,9 @@ const CSS = `
   .v2 .shop .mono-label{color:var(--caramel);display:block;margin-bottom:34px}
   .v2 .shop .big{font-size:clamp(46px,11vw,104px);line-height:.98;font-weight:300}
   .v2 .shop .big em{font-style:italic}
+  .v2 .shop-teaser{margin:44px 0 0;max-width:780px}
+  .v2 .shop-teaser img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:2px}
+  .v2 .shop-teaser figcaption{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(250,246,236,.62);margin-top:10px;line-height:1.8}
   .v2 .shop .row2{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-top:44px}
   .v2 .shop .d{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(250,246,236,.62);line-height:2.1;max-width:300px}
   .v2 .btn-light{display:inline-block;background:var(--cream-soft);color:var(--espresso);font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;padding:13px 24px;border-radius:999px}
@@ -178,7 +181,7 @@ export default function Home() {
             <div className="coords">
               34.104°n · 118.411°w
               <br />
-              franklin canyon, dusk
+              a little dusk
               <br />
               rec · 24 fps
             </div>
@@ -233,12 +236,12 @@ export default function Home() {
         </div>
         <div className="field">
           <div className="fig f1">
-            <img src="/shwcase-c-ridge.svg" alt="the reservoir at dusk" />
-            <span className="cap">fig. 01 · the reservoir, 16:32</span>
+            <img src="/shwcase-still-01.jpg" alt="coastal dusk" />
+            <span className="cap">fig. 01 · coastal dusk</span>
           </div>
           <div className="fig f2">
-            <img src="/shwcase-c-reeds2.svg" alt="reeds by the water" />
-            <span className="cap">fig. 02 · reeds, north shore</span>
+            <img src="/shwcase-still-06.jpg" alt="last light over rooftops" />
+            <span className="cap">fig. 02 · last light</span>
           </div>
           <div className="qentry q1">
             <span className="qn">n°1 · asking now</span>
@@ -246,8 +249,8 @@ export default function Home() {
             <span className="qm">answers open · filming november</span>
           </div>
           <div className="fig f3">
-            <img src="/shwcase-c-water2.svg" alt="last light on the water" />
-            <span className="cap">fig. 03 · last light on water</span>
+            <img src="/shwcase-still-10.jpg" alt="city silhouettes at dusk" />
+            <span className="cap">fig. 03 · city silhouettes</span>
           </div>
           <div className="qentry q2">
             <span className="qn">n°2 · next</span>
@@ -255,8 +258,8 @@ export default function Home() {
             <span className="qm">opens after film n°1</span>
           </div>
           <div className="fig f4">
-            <img src="/shwcase-c-trail2.svg" alt="trail under the canopy" />
-            <span className="cap">fig. 04 · hastain trail</span>
+            <img src="/shwcase-still-11.jpg" alt="hazy golden ocean" />
+            <span className="cap">fig. 04 · golden haze</span>
           </div>
           <div className="qentry q3">
             <span className="qn">n°3 · later</span>
@@ -264,8 +267,8 @@ export default function Home() {
             <span className="qm">collecting ideas</span>
           </div>
           <div className="fig f5">
-            <img src="/shwcase-c-dusk2.svg" alt="dusk sky gradient" />
-            <span className="cap">fig. 05 · dusk gradient</span>
+            <img src="/shwcase-still-12.jpg" alt="white flower in the garden" />
+            <span className="cap">fig. 05 · a quiet detail</span>
           </div>
         </div>
       </section>
@@ -280,14 +283,14 @@ export default function Home() {
           <span className="no">film n°1 · in production</span>
           <div className="cap">
             <div className="t">where do you go when you need to think</div>
-            <div className="m">franklin canyon · november 2026 · 24 fps</div>
+            <div className="m">a moment at dusk · selected still</div>
           </div>
         </div>
         <div className="film-b">
           <div className="veil"></div>
           <div className="cap">
-            <div className="t">ambient cut · dusk on the water</div>
-            <div className="m">long-form · comes with film n°1</div>
+            <div className="t">a walk at last light</div>
+            <div className="m">from the archive · selected still</div>
           </div>
         </div>
       </section>
@@ -296,14 +299,17 @@ export default function Home() {
         <div className="inner">
           <span className="mono-label">the shop · opens with pack n°1</span>
           <div className="big">
-            franklin canyon,
+            a little
             <br />
-            <em>dusk.</em>
+            <em>stillness.</em>
           </div>
+          <figure className="shop-teaser">
+            <img src="/shwcase-still-11.jpg" alt="Hazy golden light over the ocean" loading="lazy" />
+            <figcaption>an editorial glimpse · not a preview of pack contents</figcaption>
+          </figure>
           <div className="row2">
             <div className="d">
-              twenty-some calm clips from the first shoot · water, reeds, canopy, dusk sky ·
-              personal + commercial licenses · gumroad
+              a collection of calm, coming soon · details and licensing to follow
             </div>
             <a className="btn-light" href="https://tally.so/r/OQXD58" target="_blank" rel="noopener noreferrer">
               notify me
