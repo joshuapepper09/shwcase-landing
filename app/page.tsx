@@ -179,11 +179,11 @@ export default function Home() {
               <div className="m">answers open · filming nov 18</div>
             </div>
             <div className="coords">
-              34.104°n · 118.411°w
+              from the archive
               <br />
-              a little dusk
+              last light by the water
               <br />
-              rec · 24 fps
+              a quiet moment
             </div>
           </div>
         </div>
@@ -332,4 +332,4 @@ export default function Home() {
       </footer>
     </main>
   )
-          }
+}
