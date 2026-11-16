@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-export const alt = 'shwcase — recollections from around the world'
+export const alt = 'shwcase - where do you go when you need to think?'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -13,37 +13,55 @@ export default function Image() {
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
-          padding: '0 96px',
-          background: '#fffafa',
-          color: '#2b2226',
+          justifyContent: 'space-between',
+          padding: '72px 96px',
+          background: '#F2EAD9',
+          color: '#2E2118',
         }}
       >
-        <div style={{ display: 'flex', fontSize: 120, fontFamily: 'serif' }}>
-          shwcase
-        </div>
         <div
           style={{
             display: 'flex',
-            marginTop: 16,
-            fontSize: 44,
-            fontStyle: 'italic',
-            fontFamily: 'serif',
-            color: '#7b6a71',
+            fontSize: 28,
+            letterSpacing: 12,
+            fontFamily: 'monospace',
+            color: '#6F5138',
           }}
         >
-          recollections from around the world
+          ONE QUESTION · A MINUTE
         </div>
         <div
           style={{
             display: 'flex',
-            marginTop: 56,
-            width: 160,
-            height: 12,
-            borderRadius: 6,
-            background: '#f0b3c1',
+            fontSize: 96,
+            fontStyle: 'italic',
+            fontFamily: 'serif',
+            lineHeight: 1.15,
+            maxWidth: 920,
           }}
-        />
+        >
+          where do you go when you need to think?
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 36 }}>
+          <div
+            style={{
+              display: 'flex',
+              fontSize: 56,
+              fontFamily: 'serif',
+            }}
+          >
+            shwcase®
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              width: 160,
+              height: 10,
+              borderRadius: 5,
+              background: '#B4895E',
+            }}
+          />
+        </div>
       </div>
     ),
     size
