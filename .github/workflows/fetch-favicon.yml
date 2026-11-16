@@ -1,0 +1,24 @@
+name: fetch favicon
+on:
+  push:
+    branches:
+      - main
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: download favicon
+        run: |
+          curl -sL -A 'Mozilla/5.0' -o app/favicon.ico 'https://github.com/user-attachments/assets/97ba3f64-1f4b-43fa-a394-6b27294c9d37'
+          file app/favicon.ico
+      - name: commit favicon and remove this workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add app/favicon.ico
+          git rm -q .github/workflows/fetch-favicon.yml
+          git commit -m 'replace favicon with v2 brand mark'
+          git push origin main
