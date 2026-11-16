@@ -8,8 +8,10 @@ const CSS = `
   .v2 .grain{position:fixed;inset:-50%;z-index:60;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.055}
   .v2 .mono-label{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--mocha)}
 
-  .v2 .hero{position:relative;min-height:100vh;background:url("/shwcase-hero.svg") center/cover no-repeat;display:flex;flex-direction:column;justify-content:space-between}
-  .v2 .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom, rgba(24,16,11,.42) 0%, rgba(24,16,11,0) 30%, rgba(24,16,11,0) 60%, rgba(24,16,11,.55) 100%)}
+  .v2 .hero{position:relative;min-height:100vh;background:url("/shwcase-pier-poster.jpg") center/cover no-repeat;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+  .v2 .hero .hero-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  @media (prefers-reduced-motion:reduce){.v2 .hero .hero-media{display:none}}
+  .v2 .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom, rgba(24,16,11,.42) 0%, rgba(24,16,11,0) 30%, rgba(24,16,11,0) 60%, rgba(24,16,11,.55) 100%)}
   .v2 nav{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:baseline;padding:26px 28px}
   .v2 .wordmark{font-size:22px;font-weight:500;color:var(--cream-soft);text-decoration:none;letter-spacing:.01em}
   .v2 .wordmark sup{font-size:9px;vertical-align:8px;letter-spacing:0}
@@ -130,6 +132,9 @@ export default function Home() {
       <div className="grain"></div>
 
       <header className="hero">
+        <video className="hero-media" autoPlay muted loop playsInline poster="/shwcase-pier-poster.jpg" aria-hidden="true">
+          <source src="/shwcase-pier.mp4" type="video/mp4" />
+        </video>
         <nav>
           <a className="wordmark" href="/">
             shwcase<sup>®</sup>
@@ -321,4 +326,4 @@ export default function Home() {
       </footer>
     </main>
   )
-}
+          }
