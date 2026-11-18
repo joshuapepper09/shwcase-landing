@@ -157,7 +157,7 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
     renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05
     renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap
     el.appendChild(renderer.domElement)
-    const camera=new T.PerspectiveCamera(innerWidth<640?(garage?80:64):55,el.clientWidth/el.clientHeight,.1,100)
+    const camera=new T.PerspectiveCamera(innerWidth<640?(garage?92:64):55,el.clientWidth/el.clientHeight,.1,100)
     const materials:any[]=[],geometries:any[]=[],textures:any[]=[],videos:HTMLVideoElement[]=[]
     const mat=(color:string,extra:any={})=>{const m=new T.MeshStandardMaterial({color,roughness:.78,...extra});materials.push(m);return m}
     const white=mat(garage?'#a6aeb2':'#ffffff'),side=mat(garage?'#8c989f':'#edf0f2'),floor=mat(garage?'#4f5b63':'#d4dadd',{roughness:.28,metalness:.12}),metal=mat('#343b40',{metalness:.6,roughness:.3}),wood=mat('#aca69a')
@@ -236,7 +236,7 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
     const stops=[{p:garage?[5.8,3.1,6.8]:[0,1.65,9],l:garage?[0,1,-3]:[0,2,-7]},{p:[-3,1.65,3],l:[-8.3,2.4,0]},{p:[3.6,1.65,-5],l:[8.3,2.4,-7.5]},{p:[-3,1.65,-10],l:[-8.3,2.4,-14.5]},{p:[2.8,1.65,-18],l:[7.7,2.35,-21]}]
     let orbitElevation=.25,orbitRadius=innerWidth<640?7.4:6.5,previous=performance.now(),progress=target.current,raf=0,drag:null|{x:number;y:number;start:number}=null,travel=0,lastActive=-1
     const cp=new T.Vector3(),look=new T.Vector3(),raycaster=new T.Raycaster(),pointer=new T.Vector2()
-    const resize=()=>{if(!el)return;camera.aspect=el.clientWidth/el.clientHeight;camera.fov=innerWidth<640?(garage?80:68):55;if(garage)orbitRadius=innerWidth<640?7.4:6.5;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight)}
+    const resize=()=>{if(!el)return;camera.aspect=el.clientWidth/el.clientHeight;camera.fov=innerWidth<640?(garage?92:68):55;if(garage)orbitRadius=innerWidth<640?7.4:6.5;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight)}
     const animate=()=>{if(dead)return;const now=performance.now(),dt=Math.min((now-previous)/1000,.5);previous=now;progress+=(target.current-progress)*(1-Math.exp(-dt*3));if(garage){camera.position.set(Math.sin(progress+.6)*orbitRadius,1+Math.sin(orbitElevation)*orbitRadius,-3+Math.cos(progress+.6)*orbitRadius);camera.lookAt(0,.85,-3);renderer.render(scene,camera);raf=requestAnimationFrame(animate);return}const a=Math.min(roomWorks.length-1,Math.floor(progress)),f=Math.max(0,Math.min(1,progress-a));const t=f*f*(3-2*f);cp.fromArray(stops[a].p).lerp(new T.Vector3().fromArray(stops[a+1].p),t);look.fromArray(stops[a].l).lerp(new T.Vector3().fromArray(stops[a+1].l),t);camera.position.copy(cp);camera.lookAt(look);renderer.render(scene,camera);raf=requestAnimationFrame(animate)}
     const update=(v:number)=>{target.current=garage?v:Math.max(0,Math.min(roomWorks.length,v));const a=Math.round(target.current);if(a!==lastActive){lastActive=a;callbacks.current.onActive(a)}}
     const wheel=(e:WheelEvent)=>{e.preventDefault();if(garage){orbitRadius=Math.max(4.4,Math.min(7.7,orbitRadius+e.deltaY*.005));return}update(target.current+e.deltaY*.0016)}
@@ -359,4 +359,4 @@ export default function Home(){
  {screening!==null&&<section className="screenRoom" role="dialog" aria-modal="true" aria-label="The screening room"><video className="screenGlow" src={WORKS[screening].video} autoPlay muted loop playsInline aria-hidden="true"/><div className="roomShell"/><div className="screenFloor"/><header className="screenTop"><div className="roomLabel"><strong>shwcase / screening room</strong><br/>moving images, kept quietly.</div><button autoFocus className="back" onClick={()=>setScreening(null)}><Arrow left/> back to the museum</button></header><div className="projection"><video key={screening} src={WORKS[screening].video} poster={WORKS[screening].image} autoPlay muted loop playsInline aria-label={WORKS[screening].title}/></div><div className="seat"/><footer className="screenCaption"><div><span className="chapterNo">G.02 / SCREENING</span><h2>{WORKS[screening].title}</h2><p className="quietNote">no sound. no hurry.</p></div><div className="filmChoices">{[0,2].map(i=><button key={i} className={screening===i?'selected':''} onClick={()=>setScreening(i)}>{WORKS[i].title}</button>)}</div></footer></section>}
 
  </main>
-       }
+}
