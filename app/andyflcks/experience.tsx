@@ -8,7 +8,7 @@ const IMG_LEDGE = 'https://drive.google.com/thumbnail?id=1aK_e1MBY6yEUlIU5A-UEaw
 
 const CSS = `
 .cp{--night:#0B0B0D;--night-soft:#131316;--red:#D3242C;--red-soft:#E5484D;--bone:#EDE9E2;--bone-dim:rgba(237,233,226,.6);--hairline:rgba(237,233,226,.14);
-  --wall:#F2EDE3;--wall-low:#E8E1D2;--floor:#D8CFBB;--ink:#221C14;--ink-dim:rgba(34,28,20,.55);--ink-hair:rgba(34,28,20,.16)}
+  --wall:#FFFFFF;--wall-low:#F4F5F6;--floor:#E8EAEC;--ink:#17191B;--ink-dim:rgba(34,28,20,.55);--ink-hair:rgba(34,28,20,.16)}
 .cp{background:var(--night);color:var(--bone);font-family:"Cormorant Garamond",Georgia,serif;font-weight:400;-webkit-font-smoothing:antialiased}
 .cp *{margin:0;padding:0;box-sizing:border-box}
 .cp .mono{font-family:"IBM Plex Mono",monospace}
@@ -73,7 +73,7 @@ html.cp-lock,html.cp-lock body{overflow:hidden;height:100%}
 
 .piece{position:absolute;left:50%;top:45%;width:min(56vw,300px);transform-style:preserve-3d}
 .piece .spot{position:absolute;left:-18%;right:-18%;top:-34%;height:40%;background:radial-gradient(55% 100% at 50% 0%,rgba(255,255,255,.85),rgba(255,255,255,0) 72%);pointer-events:none}
-.piece .frame{background:#FBF8F1;padding:10px 10px 10px;border:1px solid rgba(34,28,20,.35);box-shadow:0 22px 40px rgba(70,58,38,.30),0 3px 8px rgba(70,58,38,.18);cursor:pointer}
+.piece .frame{background:#FFFFFF;padding:10px 10px 10px;border:1px solid rgba(34,28,20,.35);box-shadow:0 22px 40px rgba(70,58,38,.30),0 3px 8px rgba(70,58,38,.18);cursor:pointer}
 .piece .frame img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;pointer-events:none}
 .piece .plate{margin:14px auto 0;width:max-content;max-width:100%;background:rgba(251,248,241,.9);border:1px solid var(--ink-hair);padding:6px 12px;display:flex;gap:10px;align-items:baseline}
 .piece .plate .pno{font-size:8.5px;letter-spacing:.18em;color:var(--ink-dim)}
@@ -94,9 +94,9 @@ html.cp-lock,html.cp-lock body{overflow:hidden;height:100%}
 @media (max-width:640px){.roomFoot span:last-child{display:none}}
 
 /* ---------- look closer ---------- */
-.closer{position:fixed;inset:0;z-index:70;background:rgba(242,237,227,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:70px 24px 40px;animation:clIn .45s ease}
+.closer{position:fixed;inset:0;z-index:70;background:#FFFFFF;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:70px 24px 40px;animation:clIn .45s ease}
 @keyframes clIn{from{opacity:0}to{opacity:1}}
-.clFrame{background:#FBF8F1;padding:12px;border:1px solid rgba(34,28,20,.35);box-shadow:0 30px 60px rgba(70,58,38,.3);max-width:min(92vw,440px)}
+.clFrame{background:#FFFFFF;padding:12px;border:1px solid rgba(34,28,20,.35);box-shadow:0 30px 60px rgba(70,58,38,.3);max-width:min(92vw,440px)}
 .clFrame img{display:block;width:100%;max-height:56svh;object-fit:cover}
 .clMeta{margin-top:18px;text-align:center;max-width:min(92vw,440px)}
 .clMeta .clT{font-size:26px;font-style:italic;font-weight:300;color:var(--ink)}
@@ -111,7 +111,7 @@ html.cp-lock,html.cp-lock body{overflow:hidden;height:100%}
 .listHead .cnt{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-dim)}
 .listRow{display:grid;grid-template-columns:minmax(0,46%) 1fr;gap:clamp(20px,5vw,70px);align-items:center;max-width:980px;margin:0 auto;padding:54px 0;border-bottom:1px solid var(--ink-hair)}
 @media (max-width:640px){.listRow{grid-template-columns:1fr;gap:22px;padding:44px 0}}
-.listRow .lf{background:#FBF8F1;padding:9px;border:1px solid rgba(34,28,20,.3);box-shadow:0 16px 34px rgba(70,58,38,.22)}
+.listRow .lf{background:#FFFFFF;padding:9px;border:1px solid rgba(34,28,20,.3);box-shadow:0 16px 34px rgba(70,58,38,.22)}
 .listRow .lf img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover}
 .listRow .lr .no{font-size:9px;letter-spacing:.22em;color:var(--ink-dim);text-transform:uppercase}
 .listRow .lr h3{margin-top:12px;font-size:clamp(26px,4.4vw,36px);font-style:italic;font-weight:300}
@@ -123,6 +123,27 @@ html.cp-lock,html.cp-lock body{overflow:hidden;height:100%}
   .gate .entryArt,.gate .entryCopy,.gate{transition:opacity .3s ease !important;transform:none !important}
   .closer{animation:none}
 }
+
+.galleryArchitecture{position:absolute;inset:0;overflow:hidden;pointer-events:none;background:linear-gradient(90deg,#e9eaeb 0%,#fafafa 13%,#fff 40%,#fff 75%,#f1f2f3 100%)}
+.galleryArchitecture .ceiling{position:absolute;inset:0 0 auto;height:17%;background:linear-gradient(#ebedef,#fafafa);clip-path:polygon(0 0,100% 0,86% 100%,14% 100%);border-bottom:1px solid #ddd}
+.galleryArchitecture .leftWall{position:absolute;inset:0 auto 0 0;width:14%;background:linear-gradient(90deg,#f3f3f3,#e6e7e8);clip-path:polygon(0 0,100% 17%,100% 69%,0 100%)}
+.galleryArchitecture .rightWall{position:absolute;inset:0 0 0 auto;width:14%;background:linear-gradient(90deg,#e7e8e9,#f6f6f6);clip-path:polygon(0 17%,100% 0,100% 100%,0 69%)}
+.galleryArchitecture .floor{position:absolute;left:0;right:0;top:69%;height:31%;background:linear-gradient(#e2e4e5,#f6f7f7);border-top:2px solid #d9dbdc}
+.galleryArchitecture .floor:after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0,transparent calc(25% - 1px),rgba(130,135,140,.09) 25%);transform:perspective(150px) rotateX(35deg);transform-origin:top center}
+.galleryArchitecture .track{position:absolute;left:17%;right:17%;top:10%;height:2px;background:#c4c6c8;box-shadow:0 1px 2px #fff;display:flex;justify-content:space-around}
+.galleryArchitecture .track i{display:block;width:9px;height:15px;border-radius:2px;background:linear-gradient(90deg,#373b3f,#62666a);transform:rotate(-12deg);box-shadow:0 4px 5px #bfc2c5}
+.galleryArchitecture .bench{position:absolute;bottom:15%;left:19%;width:14%;height:13px;background:linear-gradient(#c6c1b8,#9f9a91);box-shadow:0 17px 15px rgba(0,0,0,.12)}
+.galleryArchitecture .bench:before,.galleryArchitecture .bench:after{content:'';position:absolute;top:10px;width:4px;height:29px;background:#34383b;left:9%}.galleryArchitecture .bench:after{left:auto;right:9%}
+@media(max-width:640px){.galleryArchitecture .leftWall,.galleryArchitecture .rightWall{width:7%}.galleryArchitecture .ceiling{height:15%;clip-path:polygon(0 0,100% 0,93% 100%,7% 100%)}.galleryArchitecture .bench{left:12%;width:25%;bottom:20%;height:8px}.galleryArchitecture .bench:before,.galleryArchitecture .bench:after{height:22px;top:7px}.galleryArchitecture .track{left:12%;right:12%;top:11%}}
+
+.room{background:#fff}
+.room:before{display:none}
+.roomScene{z-index:1}
+.roomTop,.roomArrows,.roomFoot,.walkHint{z-index:6}
+.piece .frame{padding:16px;border-color:#c3c7ca;box-shadow:2px 3px 2px #bfc1c2,8px 14px 20px rgba(28,32,35,.14)}
+.piece .plate{background:#fff;border-color:#d5d9dc}
+.gate .entryArt{background:white;border-color:#c3c7ca;transform:rotate(0deg);box-shadow:3px 5px 2px #d3d5d7,12px 20px 30px rgba(28,32,35,.12)}
+
 `
 
 const PIECES = [
@@ -289,7 +310,7 @@ export default function Experience() {
         <div className="entryFooter"><span>recollections from around the world</span><span>shwcase / 001</span></div>
       </div>
 
-      <section className="room" ref={roomRef}>
+      <section className="room" ref={roomRef}><div className="galleryArchitecture" aria-hidden="true"><div className="ceiling"/><div className="leftWall"/><div className="rightWall"/><div className="floor"/><div className="track"><i/><i/><i/><i/></div><div className="bench"/></div>
         <div className="roomTop">
           <span className="wm">
             shwcase<sup>®</sup>
