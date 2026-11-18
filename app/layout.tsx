@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
-const title = 'shwcase - where do you go when you need to think?'
+const title = 'shwcase'
 const description =
-  'one question, a minute. recollections from around the world, gathered one answer at a time.'
+  'recollections from around the world.'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.shwcase.app'),
