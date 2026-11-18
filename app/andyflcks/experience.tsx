@@ -19,10 +19,11 @@ html.cp-lock,html.cp-lock body{overflow:hidden;height:100%}
 .gate .stage{position:absolute;inset:0}
 
 /* the car, parked */
-.gate .car{position:absolute;inset:0;background-image:url("${IMG_CAR}");background-size:cover;background-position:32% 60%;transform-origin:34% 46%;transition:transform 1.15s cubic-bezier(.55,.06,.35,1),filter 1.15s ease}
+.gate .car{position:absolute;inset:0;background-image:url("${IMG_CAR}");background-size:cover;background-position:32% 60%;transform-origin:34% 46%;transition:transform 1.15s cubic-bezier(.55,.06,.35,1),filter 1.15s ease,opacity 1.05s ease .2s}
 .gate.s1 .car{transform:scale(2.4);filter:brightness(.78) saturate(1.15)}
-.gate.s2 .car,.gate.s3 .car{transform:scale(2.9);filter:brightness(.5) blur(3px)}
-.gate .carTint{position:absolute;inset:0;background:radial-gradient(120% 90% at 30% 55%,transparent 40%,rgba(0,0,0,.55) 100%)}
+.gate.s2 .car,.gate.s3 .car{transform:scale(2.9);filter:brightness(.5) blur(3px);opacity:0}
+.gate .carTint{position:absolute;inset:0;background:radial-gradient(120% 90% at 30% 55%,transparent 40%,rgba(0,0,0,.55) 100%);transition:opacity .8s ease .3s}
+.gate.s2 .carTint,.gate.s3 .carTint{opacity:0}
 
 /* interior revealed behind the door */
 .gate .cab{position:absolute;inset:0;background-image:url("${IMG_INTERIOR}");background-size:cover;background-position:center 30%;opacity:0;transform:scale(1.08);transition:opacity 1.1s ease,transform 1.6s ease}
@@ -50,7 +51,7 @@ html.cp-lock,html.cp-lock body{overflow:hidden;height:100%}
 .gate .mark{position:absolute;top:26px;left:28px;font-size:20px;font-weight:500;letter-spacing:.01em;color:var(--bone)}
 .gate .mark sup{font-size:8px;vertical-align:8px}
 .gate .invite{position:absolute;left:0;right:0;bottom:9%;display:flex;flex-direction:column;align-items:center;gap:14px;transition:opacity .5s ease}
-.gate.s1 .invite,.gate.s2 .invite,.gate.s3 .invite{opacity:0}
+.gate.s1 .invite,.gate.s2 .invite,.gate.s3 .invite,.gate.s4 .invite{opacity:0}
 .gate .invite .l1{font-size:30px;font-style:italic;font-weight:300;color:var(--bone)}
 .gate .invite .l2{font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--bone-dim)}
 .gate .dot{width:44px;height:44px;border-radius:50%;border:1px solid rgba(229,72,77,.7);position:relative;animation:pulse 2.2s ease-out infinite}
