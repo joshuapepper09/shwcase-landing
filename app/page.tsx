@@ -8,6 +8,13 @@ const WORKS = [
   { title: 'coastal dusk.', by: 'from the shwcase archive', meta: 'a quiet loop · no sound', image: '/shwcase-still-01.jpg', video: '/shwcase-coastal-dusk-loop.mp4', shape: 'wide' },
   { title: 'watching the light.', by: 'josh', meta: 'from the archive · a still', image: '/q-light-rooftop.jpg', shape: 'portrait' },
 ]
+
+const GARAGE_WORKS = [
+ {title:'the rear.',by:'andyflcks',meta:'01 / night garage · Los Angeles',image:'https://lh3.googleusercontent.com/d/1xQgcSK5w__0BQERRlp9-Ycl0OhtYya58=w1080',shape:'portrait'},
+ {title:'inside.',by:'andyflcks',meta:'02 / night garage · Los Angeles',image:'https://lh3.googleusercontent.com/d/1w0gGNkvcRGRAogoSyGaSlZK59bPZ62Wa=w1080',shape:'portrait'},
+ {title:'the ledge.',by:'andyflcks',meta:'03 / night garage · Los Angeles',image:'https://lh3.googleusercontent.com/d/1aK_e1MBY6yEUlIU5A-UEawxdoKXs0JOB=w1080',shape:'portrait'},
+]
+
 const CSS = `
 .homeGallery{--wall:#FFFFFF;--ink:#17191B;--dim:#72777B;--hair:rgba(40,37,31,.2);height:100svh;min-height:580px;overflow:hidden;position:relative;background:var(--wall);color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;-webkit-font-smoothing:antialiased}
 .homeGallery *{box-sizing:border-box;margin:0;padding:0}
@@ -120,10 +127,15 @@ const CSS = `
 @media(max-width:640px){.hgToggle button{padding:9px 9px;font-size:7px}.screenRoom.journal h2{font-size:80px}.screenRoom.journal .screenCaption{bottom:30px}.screenRoom .screenView{right:22px;bottom:245px;font-size:17px}.screenRoom .chapterNo{font-size:7px}.screenRoom.journal .filmChoices{margin-top:28px}.screenRoom.journal .filmChoices button{font-size:23px}.screenRoom.journal .roomLabel{max-width:140px}.screenRoom.journal .back{font-size:6px;letter-spacing:.02em}}
 @media(prefers-reduced-motion:reduce){.screenRoom.journal .projection video{animation:none}}
 
+.museumLocation{position:absolute;left:30px;top:88px;z-index:10;font:8px 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.19em;line-height:1.8}.museumLocation strong{display:block;font:italic 25px 'Cormorant Garamond',Georgia,serif;letter-spacing:0;text-transform:none}.museumMapBtn{position:absolute;left:30px;bottom:135px;z-index:12;background:rgba(255,255,255,.9);border:1px solid #a9adb0;border-radius:30px;padding:13px 19px;font:9px 'IBM Plex Mono',monospace;letter-spacing:.12em;display:flex;gap:12px;align-items:center}.museumMapBtn span{font-size:17px}.garageMode{--ink:#f0f2f3;--dim:#bfc4c6;background:#23272a;color:#f0f2f3}.garageMode .hgTop{background:linear-gradient(#171b1be6,transparent)}.garageMode .hgToggle{background:#202627cc;border-color:#767e82}.garageMode .hgToggle .on{background:#e7e9e7;color:#202627}.garageMode .museumMapBtn,.garageMode .roomWayfinding,.garageMode .hgPosition,.garageMode .hgSeatLink,.garageMode .hgArrows button{background:#1c2429e0;color:#e9eded;border-color:#758087}.garageMode .roomWayfinding button.selected:before{background:#e8b85d}.garageMode .roomWayfinding small{color:#d9dfe1}.garageMode .hgBottom{color:#d0d7db}.garageMode .hgList{background:#242b30}.garageMode .hgCloseup{background:#141a1f;color:white}
+.museumMap{position:fixed;inset:0;z-index:100;background:#f7f8f8;color:#20262a;overflow:auto;padding:28px 36px 25px}.mapHeader{display:flex;justify-content:space-between;align-items:flex-start}.mapEyebrow{font:8px 'IBM Plex Mono',monospace;letter-spacing:.2em;line-height:1.8;text-transform:uppercase}.museumMap h1{font:italic 68px/.95 'Cormorant Garamond',Georgia,serif;margin-top:20px;letter-spacing:-.04em}.mapClose{border:1px solid #9ba4a8;border-radius:30px;padding:12px 18px;background:none;font:9px 'IBM Plex Mono',monospace}.mapLayout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(245px,.65fr);gap:5vw;align-items:center;max-width:1360px;margin:14px auto 0}.mapPlan{position:relative}.mapPlan svg{width:100%;max-height:440px;display:block}.mapRoom{fill:#eef0f1;stroke:#9ca6ad;stroke-width:1.3;cursor:pointer;transition:fill .25s,stroke .25s}.mapRoom:hover,.mapRoom.selected{fill:#d8e1e6;stroke:#253b49;stroke-width:2}.mapRoom.garage{fill:#27343d;stroke:#27343d}.mapRoom.garage:hover,.mapRoom.garage.selected{fill:#405765;stroke:#b98e44;stroke-width:3}.mapPlan text{pointer-events:none;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;fill:#3b4b55}.mapPlan .mapName{font:italic 29px 'Cormorant Garamond',Georgia,serif;letter-spacing:0}.mapPlan .mapLight{fill:#edf1f3}.mapPlan .mapDim{fill:#929b9f;font-size:8px}.mapCaption{display:flex;justify-content:space-between;font:7px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;padding:4px 15px}.mapDetails{border-top:1px solid #acb4b9;padding-top:19px;min-height:270px}.mapDetails h2{font:italic 44px/.95 'Cormorant Garamond',Georgia,serif;margin:12px 0 18px}.mapDetails p{font:12px/1.7 'IBM Plex Mono',monospace;color:#667178;max-width:310px}.mapEnter{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:25px;padding:14px 0;border:0;border-top:1px solid #afb7bc;background:none;font:italic 24px 'Cormorant Garamond',Georgia,serif}.mapLegend{display:flex;gap:9px;flex-wrap:wrap;max-width:1360px;margin:20px auto 0;border-top:1px solid #d3d9dc;padding-top:16px}.mapLegend button{border:1px solid #b9c2c7;background:none;border-radius:25px;padding:10px 16px;font:8px 'IBM Plex Mono',monospace}.mapLegend button.selected{background:#283a46;color:white;border-color:#283a46}.mapFooter{font:7px 'IBM Plex Mono',monospace;letter-spacing:.15em;color:#7c888e;text-transform:uppercase;max-width:1360px;margin:24px auto 0;display:flex;justify-content:space-between}
+@media(max-width:640px){.museumLocation{top:80px;left:22px;font-size:6px}.museumLocation strong{font-size:23px}.museumMapBtn{left:22px;bottom:126px;padding:10px 14px;font-size:7px}.museumMap{padding:23px 20px}.museumMap h1{font-size:47px;margin-top:14px}.mapLayout{grid-template-columns:1fr;gap:15px;margin-top:24px}.mapPlan svg{max-height:none}.mapDetails{min-height:0;padding-top:14px}.mapDetails h2{font-size:36px;margin:9px 0 10px}.mapDetails p{font-size:10px;max-width:none}.mapEnter{font-size:23px;margin-top:17px;padding:12px 0}.mapLegend{margin-top:12px;gap:6px;padding-top:12px}.mapLegend button{font-size:7px;padding:9px 11px}.mapFooter{font-size:6px;margin-top:18px;line-height:1.7;gap:15px}.mapClose{font-size:7px;padding:10px 13px}.mapEyebrow{font-size:7px}.mapCaption{font-size:5px;padding:4px 0}}
+
 `
 
 
-function SpatialGallery({target,onActive,onOpen}:{target:{current:number};onActive:(n:number)=>void;onOpen:(n:number)=>void}){
+function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target:{current:number};onActive:(n:number)=>void;onOpen:(n:number)=>void;garage?:boolean;josh?:boolean}){
+ const roomWorks=garage?GARAGE_WORKS:josh?WORKS.filter((_,i)=>i!==1):WORKS
  const mount=useRef<HTMLDivElement>(null)
  const [status,setStatus]=useState('preparing the rooms')
  const callbacks=useRef({onActive,onOpen});callbacks.current={onActive,onOpen}
@@ -135,7 +147,7 @@ function SpatialGallery({target,onActive,onOpen}:{target:{current:number};onActi
     const T=await import(/* webpackIgnore: true */ moduleUrl)
     if(dead||!mount.current)return
     const el=mount.current
-    const scene=new T.Scene();scene.background=new T.Color('#f0f2f3');scene.fog=new T.Fog('#f1f3f4',28,65)
+    const scene=new T.Scene();scene.background=new T.Color(garage?'#202a31':'#f0f2f3');scene.fog=new T.Fog(garage?'#202a31':'#f1f3f4',28,65)
     const renderer=new T.WebGLRenderer({antialias:true,alpha:false,powerPreference:'low-power'})
     renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.setSize(el.clientWidth,el.clientHeight)
     renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05
@@ -144,7 +156,7 @@ function SpatialGallery({target,onActive,onOpen}:{target:{current:number};onActi
     const camera=new T.PerspectiveCamera(innerWidth<640?64:55,el.clientWidth/el.clientHeight,.1,100)
     const materials:any[]=[],geometries:any[]=[],textures:any[]=[],videos:HTMLVideoElement[]=[]
     const mat=(color:string,extra:any={})=>{const m=new T.MeshStandardMaterial({color,roughness:.78,...extra});materials.push(m);return m}
-    const white=mat('#ffffff'),side=mat('#edf0f2'),floor=mat('#d4dadd',{roughness:.28,metalness:.12}),metal=mat('#343b40',{metalness:.6,roughness:.3}),wood=mat('#aca69a')
+    const white=mat(garage?'#a6aeb2':'#ffffff'),side=mat(garage?'#8c989f':'#edf0f2'),floor=mat(garage?'#4f5b63':'#d4dadd',{roughness:.28,metalness:.12}),metal=mat('#343b40',{metalness:.6,roughness:.3}),wood=mat('#aca69a')
     const box=(w:number,h:number,d:number,x:number,y:number,z:number,m:any)=>{const g=new T.BoxGeometry(w,h,d);geometries.push(g);const o=new T.Mesh(g,m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;scene.add(o);return o}
     box(17,.2,40,0,-.1,-8,floor)
     box(.25,5.6,40,-8.5,2.8,-8,side);box(.25,5.6,40,8.5,2.8,-8,white)
@@ -156,22 +168,22 @@ function SpatialGallery({target,onActive,onOpen}:{target:{current:number};onActi
     const seam=mat('#bac3c8')
     for(let z=10;z>=-27;z-=3.5)box(17,.003,.009,0,.006,z,seam)
     for(let x=-7;x<=7;x+=3.5)box(.009,.003,40,x,.006,-8,seam)
-    const hemi=new T.HemisphereLight('#f7fbff','#e4e8eb',3);scene.add(hemi)
-    const sun=new T.DirectionalLight('#ffffff',3.2);sun.position.set(-3,12,6);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-17;sun.shadow.camera.right=17;sun.shadow.camera.top=24;sun.shadow.camera.bottom=-24;sun.shadow.camera.far=55;sun.shadow.bias=-.0008;scene.add(sun);sun.target.position.set(1,0,-9);scene.add(sun.target)
+    const hemi=new T.HemisphereLight('#f7fbff',garage?'#24313c':'#e4e8eb',garage?1.1:3);scene.add(hemi)
+    const sun=new T.DirectionalLight('#ffffff',garage ? .6 : 3.2);sun.position.set(-3,12,6);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-17;sun.shadow.camera.right=17;sun.shadow.camera.top=24;sun.shadow.camera.bottom=-24;sun.shadow.camera.far=55;sun.shadow.bias=-.0008;scene.add(sun);sun.target.position.set(1,0,-9);scene.add(sun.target)
     // Slim gallery benches and an arrival plinth give the walk a human scale.
-    for(const z of [-4,-16]){box(2.8,.13,.72,0,.62,z,wood);for(const x of [-1.15,1.15])box(.055,.59,.5,x,.3,z,metal)}
+    for(const z of (garage?[]:[-4,-16])){box(2.8,.13,.72,0,.62,z,wood);for(const x of [-1.15,1.15])box(.055,.59,.5,x,.3,z,metal)}
     const label=(lines:{text:string,size:number,italic?:boolean,color?:string}[],w:number,h:number)=>{
      const c=document.createElement('canvas');c.width=1024;c.height=512;const ctx=c.getContext('2d')!;ctx.fillStyle='#ffffff';ctx.fillRect(0,0,1024,512)
      let y=70;for(const l of lines){ctx.fillStyle=l.color||'#22282b';ctx.font=`${l.italic?'italic ':''}${l.size}px ${l.italic?'Georgia':'monospace'}`;ctx.textAlign='center';ctx.fillText(l.text,512,y);y+=l.size*1.5+15}
      const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;textures.push(tex);const m=new T.MeshBasicMaterial({map:tex,toneMapped:false});materials.push(m);const g=new T.PlaneGeometry(w,h);geometries.push(g);return new T.Mesh(g,m)
     }
     // A freestanding dedication wall, not a website headline pinned to the screen.
-    box(4.2,3.2,.2,0,1.6,-7,white)
-    const dedication=label([{text:'SHWCASE / THE RECOLLECTION ROOMS',size:23,color:'#747d83'},{text:'some places',size:78,italic:true},{text:'stay with you.',size:78,italic:true},{text:'WALK THROUGH. STAY A WHILE.',size:20,color:'#7e878d'}],3.8,1.9);dedication.position.set(0,2,-6.88);scene.add(dedication)
+    if(!garage)box(4.2,3.2,.2,0,1.6,-7,white)
+    const dedication=label([{text:'SHWCASE / THE RECOLLECTION ROOMS',size:23,color:'#747d83'},{text:'some places',size:78,italic:true},{text:'stay with you.',size:78,italic:true},{text:'WALK THROUGH. STAY A WHILE.',size:20,color:'#7e878d'}],3.8,1.9);dedication.position.set(0,2,-6.88);if(!garage)scene.add(dedication)
     const exhibits:any[]=[];const loader=new T.TextureLoader()
     const placements=[{x:-8.31,z:0,angle:Math.PI/2,w:4.4,h:2.7},{x:8.31,z:-7.5,angle:-Math.PI/2,w:2.25,h:3.05},{x:-8.31,z:-14.5,angle:Math.PI/2,w:4.4,h:2.7},{x:8.31,z:-21,angle:-Math.PI/2,w:3.6,h:2.4}]
-    for(let i=0;i<WORKS.length;i++){
-     const w=WORKS[i],p=placements[i],group=new T.Group();group.position.set(p.x,2.45,p.z);group.rotation.y=p.angle;scene.add(group)
+    for(let i=0;i<roomWorks.length;i++){
+     const w:any=roomWorks[i],p=garage?{...placements[i],w:2.5,h:3.1}:placements[i],group=new T.Group();group.position.set(p.x,2.45,p.z);group.rotation.y=p.angle;scene.add(group)
      const frame=new T.Mesh(new T.BoxGeometry(p.w+.25,p.h+.25,.12),white);frame.castShadow=true;group.add(frame);geometries.push(frame.geometry)
      let tex
      if(w.video){const v=document.createElement('video');v.src=w.video;v.crossOrigin='anonymous';v.muted=true;v.loop=true;v.playsInline=true;v.preload='auto';v.play().catch(()=>{});videos.push(v);tex=new T.VideoTexture(v)}
@@ -182,15 +194,24 @@ function SpatialGallery({target,onActive,onOpen}:{target:{current:number};onActi
      const lamp=new T.SpotLight('#ffffff',24,10,Math.PI/5,.7,1);lamp.position.set(p.x*.75,5.1,p.z+1.4);lamp.target.position.set(p.x,2.5,p.z);scene.add(lamp);scene.add(lamp.target)
     }
     // Far wall becomes a living window: an installation, not another framed thumbnail.
-    const endVideo=document.createElement('video');endVideo.src='/shwcase-coastal-dusk-loop.mp4';endVideo.muted=true;endVideo.loop=true;endVideo.playsInline=true;endVideo.play().catch(()=>{});videos.push(endVideo)
+    if(!garage){const endVideo=document.createElement('video');endVideo.src='/shwcase-coastal-dusk-loop.mp4';endVideo.muted=true;endVideo.loop=true;endVideo.playsInline=true;endVideo.play().catch(()=>{});videos.push(endVideo)
     const endTex=new T.VideoTexture(endVideo);endTex.colorSpace=T.SRGBColorSpace;textures.push(endTex)
-    const vista=new T.Mesh(new T.PlaneGeometry(9,4.7),new T.MeshBasicMaterial({map:endTex,toneMapped:false}));vista.position.set(0,2.6,-27.8);scene.add(vista);materials.push(vista.material);geometries.push(vista.geometry)
+    const vista=new T.Mesh(new T.PlaneGeometry(9,4.7),new T.MeshBasicMaterial({map:endTex,toneMapped:false}));vista.position.set(0,2.6,-27.8);scene.add(vista);materials.push(vista.material);geometries.push(vista.geometry)}
+    if(garage){
+     const concrete=mat('#424d56'),stripe=mat('#b4a071'),glow=mat('#ecf4ff',{emissive:'#dbeeff',emissiveIntensity:2});
+     box(17,.25,40,0,5.6,-8,concrete);
+     for(let z=7;z>=-26;z-=5){box(17,.4,.35,0,5.1,z,concrete);box(4,.035,.17,0,4.86,z,glow);const light=new T.PointLight('#e0ecff',22,12,2);light.position.set(0,4.5,z);scene.add(light)}
+     for(const x of [-5.5,5.5])for(let z=7;z>=-24;z-=5){box(3.1,.004,.065,x,.015,z,stripe);box(.065,.004,3.2,x+1.5,.015,z-1.6,stripe)}
+     for(let y=.25;y<4.8;y+=.22)box(7.5,.035,.08,0,y,-27.65,concrete);
+     const sign=label([{text:'B1 / THE GARAGE',size:56},{text:"andy\'s mustang.",size:80,italic:true},{text:'THREE FRAMES. ONE NIGHT.',size:24}],5.2,2.6);sign.position.set(0,3.1,-27.5);scene.add(sign);
+     const entry=label([{text:'THE SHWCASE MUSEUM',size:30},{text:'B1 / ANDYFLCKS',size:64},{text:'THE NIGHT GARAGE COLLECTION',size:25}],3.2,1.6);entry.position.set(-3,2.6,4);entry.rotation.y=.15;scene.add(entry);
+    }
     const stops=[{p:[0,1.65,9],l:[0,2,-7]},{p:[-3,1.65,3],l:[-8.3,2.4,0]},{p:[3.6,1.65,-5],l:[8.3,2.4,-7.5]},{p:[-3,1.65,-10],l:[-8.3,2.4,-14.5]},{p:[2.8,1.65,-18],l:[7.7,2.35,-21]}]
     let previous=performance.now(),progress=target.current,raf=0,drag:null|{x:number;y:number;start:number}=null,travel=0,lastActive=-1
     const cp=new T.Vector3(),look=new T.Vector3(),raycaster=new T.Raycaster(),pointer=new T.Vector2()
     const resize=()=>{if(!el)return;camera.aspect=el.clientWidth/el.clientHeight;camera.fov=innerWidth<640?68:55;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight)}
-    const animate=()=>{if(dead)return;const now=performance.now(),dt=Math.min((now-previous)/1000,.5);previous=now;progress+=(target.current-progress)*(1-Math.exp(-dt*3));const a=Math.min(3,Math.floor(progress)),f=Math.max(0,Math.min(1,progress-a));const t=f*f*(3-2*f);cp.fromArray(stops[a].p).lerp(new T.Vector3().fromArray(stops[a+1].p),t);look.fromArray(stops[a].l).lerp(new T.Vector3().fromArray(stops[a+1].l),t);camera.position.copy(cp);camera.lookAt(look);renderer.render(scene,camera);raf=requestAnimationFrame(animate)}
-    const update=(v:number)=>{target.current=Math.max(0,Math.min(4,v));const a=Math.round(target.current);if(a!==lastActive){lastActive=a;callbacks.current.onActive(a)}}
+    const animate=()=>{if(dead)return;const now=performance.now(),dt=Math.min((now-previous)/1000,.5);previous=now;progress+=(target.current-progress)*(1-Math.exp(-dt*3));const a=Math.min(roomWorks.length-1,Math.floor(progress)),f=Math.max(0,Math.min(1,progress-a));const t=f*f*(3-2*f);cp.fromArray(stops[a].p).lerp(new T.Vector3().fromArray(stops[a+1].p),t);look.fromArray(stops[a].l).lerp(new T.Vector3().fromArray(stops[a+1].l),t);camera.position.copy(cp);camera.lookAt(look);renderer.render(scene,camera);raf=requestAnimationFrame(animate)}
+    const update=(v:number)=>{target.current=Math.max(0,Math.min(roomWorks.length,v));const a=Math.round(target.current);if(a!==lastActive){lastActive=a;callbacks.current.onActive(a)}}
     const wheel=(e:WheelEvent)=>{e.preventDefault();update(target.current+e.deltaY*.0016)}
     const down=(e:PointerEvent)=>{drag={x:e.clientX,y:e.clientY,start:target.current};travel=0}
     const move=(e:PointerEvent)=>{if(!drag)return;const dy=drag.y-e.clientY,dx=drag.x-e.clientX;travel=Math.hypot(dx,dy);update(drag.start+(Math.abs(dy)>Math.abs(dx)?dy:dx)/400)}
@@ -200,11 +221,16 @@ function SpatialGallery({target,onActive,onOpen}:{target:{current:number};onActi
     dispose=()=>{cancelAnimationFrame(raf);el.removeEventListener('wheel',wheel);el.removeEventListener('pointerdown',down);window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);window.removeEventListener('resize',resize);videos.forEach(v=>{v.pause();v.removeAttribute('src');v.load()});textures.forEach(t=>t.dispose());materials.forEach(m=>m.dispose());geometries.forEach(g=>g.dispose());renderer.dispose();renderer.domElement.remove()}
    }catch(e){setStatus('The spatial room could not load. LIST is always available.');console.error(e)}
   };boot();return()=>{dead=true;dispose()}
- },[target])
+ },[target,garage,josh])
  return <div className="spatialCanvas"><div className="spatialMount" ref={mount}/>{status?<p className="spatialStatus">{status}</p>:null}</div>
 }
 
 export default function Home(){
+ const [josh,setJosh]=useState(false)
+ const [garage,setGarage]=useState(false)
+ const [mapOpen,setMapOpen]=useState(false)
+ const [mapRoom,setMapRoom]=useState<'lobby'|'josh'|'garage'|'screen'>('lobby')
+ const works=garage?GARAGE_WORKS:josh?WORKS.filter((_,i)=>i!==1):WORKS
  const [mode,setMode]=useState<'gallery'|'list'>('gallery')
  const [active,setActive]=useState(0)
  const [zoom,setZoom]=useState<number|null>(null)
@@ -213,7 +239,7 @@ export default function Home(){
  const root=useRef<HTMLDivElement>(null)
  const current=useRef(0),target=useRef(0)
  const drag=useRef<{x:number,start:number}|null>(null), moved=useRef(0)
- const count=WORKS.length+1
+ const count=works.length+1
  const go=(n:number)=>{target.current=Math.max(0,Math.min(count-1,n));setActive(Math.round(target.current))}
  useEffect(()=>{
   if(mode!=='gallery')return
@@ -238,19 +264,22 @@ export default function Home(){
   el.addEventListener('wheel',wheel,{passive:false});el.addEventListener('pointerdown',down);window.addEventListener('pointermove',move);window.addEventListener('pointerup',up)
   return()=>{cancelAnimationFrame(raf);el.removeEventListener('wheel',wheel);el.removeEventListener('pointerdown',down);window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up)}
  },[mode,count])
- useEffect(()=>{const fn=(e:KeyboardEvent)=>{if(e.key==='Escape'){setZoom(null);setScreening(null)}if(screening!==null||zoom!==null||mode!=='gallery')return;if(e.key==='ArrowRight')go(Math.round(target.current)+1);if(e.key==='ArrowLeft')go(Math.round(target.current)-1)};window.addEventListener('keydown',fn);return()=>window.removeEventListener('keydown',fn)},[zoom,mode,screening])
- const open=(i:number)=>{if(moved.current>8)return;const w=WORKS[i];if(w.href){location.href=w.href;return}setZoom(i)}
- return <main className="homeGallery" data-home="spatial-journal-v6">
+ useEffect(()=>{const fn=(e:KeyboardEvent)=>{if(e.key==='Escape'){setZoom(null);setScreening(null);setMapOpen(false)}if(screening!==null||zoom!==null||mode!=='gallery')return;if(e.key==='ArrowRight')go(Math.round(target.current)+1);if(e.key==='ArrowLeft')go(Math.round(target.current)-1)};window.addEventListener('keydown',fn);return()=>window.removeEventListener('keydown',fn)},[zoom,mode,screening])
+ const open=(i:number)=>{if(moved.current>8)return;const w:any=works[i];if(w.href){enterRoom('garage');return}setZoom(i)}
+ const enterRoom=(room:string)=>{setMapOpen(false);setZoom(null);setScreening(null);setMode('gallery');if(room==='screen'){setJournal(false);setScreening(0);return}setJosh(room==='josh');setGarage(room==='garage');target.current=0;current.current=target.current;setActive(target.current)}
+ return <main className={`homeGallery ${garage?'garageMode':''}`} data-home="museum-map-v1">
  <style>{CSS}</style>
- <header className="hgTop"><a className="hgMark" href="/">shwcase<sup>®</sup></a><span className="tag">recollections from around the world</span><div className="hgToggle"><button className={mode==='gallery'?'on':''} onClick={()=>setMode('gallery')}>GALLERY</button><button onClick={()=>{setJournal(true);setScreening(0)}}>JOURNAL</button><button className={mode==='list'?'on':''} onClick={()=>setMode('list')}>LIST</button></div></header>
+ <header className="hgTop"><a className="hgMark" href="/">shwcase<sup>®</sup></a><span className="tag">the shwcase museum</span><div className="hgToggle"><button className={mode==='gallery'?'on':''} onClick={()=>setMode('gallery')}>GALLERY</button><button onClick={()=>{setJournal(true);setScreening(0)}}>JOURNAL</button><button className={mode==='list'?'on':''} onClick={()=>setMode('list')}>LIST</button></div></header>
  {mode==='gallery'?<>
- <SpatialGallery target={target} onActive={setActive} onOpen={open}/>
- <nav className="roomWayfinding" aria-label="Exhibition route">{['arrival','last light','andy','coast','rooftop'].map((name,i)=><button key={name} onClick={()=>go(i)} className={active===i?'selected':''} aria-label={`Walk to ${name}`}><span>{String(i).padStart(2,'0')}</span><small>{name}</small></button>)}</nav>
- <div className="hgControls"><div className="hgPosition" aria-live="polite">{active===0?'the entrance':`${String(active).padStart(2,'0')} / ${WORKS[active-1].title}`}<br/>{active===0?'scroll or drag to walk round':'tap the frame to step closer'}</div><div className="hgArrows"><button disabled={active===0} onClick={()=>go(Math.round(target.current)-1)} aria-label="Walk back">←</button><button disabled={active===count-1} onClick={()=>go(Math.round(target.current)+1)} aria-label="Walk on">→</button></div></div>
- </>:<div className="hgList"><h1>the collection.</h1>{WORKS.map((w,i)=><article className="hgRow" key={w.title}><button onClick={()=>{moved.current=0;open(i)}} aria-label={`Open ${w.title}`}><img src={w.image} alt={w.title}/></button><div><h2>{w.title}</h2><p>{String(i+1).padStart(2,'0')} / {w.by}<br/>{w.meta}</p><button className="view" style={{width:'auto'}} onClick={()=>{moved.current=0;open(i)}}>{w.href?'enter the room ↗':'look closer ↗'}</button></div></article>)}</div>}
+ <SpatialGallery target={target} garage={garage} josh={josh} onActive={setActive} onOpen={open}/>
+ <div className="museumLocation">{garage?'B1 / ANDYFLCKS':josh?'G.01 / JOSH PEPPER':'G / THE SHWCASE MUSEUM'}<strong>{garage?'the garage.':'the recollection rooms.'}</strong></div>
+ <nav className="roomWayfinding" aria-label="Exhibition route">{(garage?['arrival','the rear','inside','the ledge']:josh?['arrival','last light','coast','rooftop']:['arrival','last light','andy','coast','rooftop']).map((name,i)=><button key={name} onClick={()=>go(i)} className={active===i?'selected':''} aria-label={`Walk to ${name}`}><span>{String(i).padStart(2,'0')}</span><small>{name}</small></button>)}</nav>
+ <div className="hgControls"><div className="hgPosition" aria-live="polite">{active===0?'the entrance':`${String(active).padStart(2,'0')} / ${works[Math.min(active-1,works.length-1)].title}`}<br/>{active===0?'scroll or drag to walk round':'tap the frame to step closer'}</div><div className="hgArrows"><button disabled={active===0} onClick={()=>go(Math.round(target.current)-1)} aria-label="Walk back">←</button><button disabled={active===count-1} onClick={()=>go(Math.round(target.current)+1)} aria-label="Walk on">→</button></div></div>
+ </>:<div className="hgList"><h1>the collection.</h1>{works.map((w:any,i)=><article className="hgRow" key={w.title}><button onClick={()=>{moved.current=0;open(i)}} aria-label={`Open ${w.title}`}><img src={w.image} alt={w.title}/></button><div><h2>{w.title}</h2><p>{String(i+1).padStart(2,'0')} / {w.by}<br/>{w.meta}</p><button className="view" style={{width:'auto'}} onClick={()=>{moved.current=0;open(i)}}>{w.href?'enter the room ↗':'look closer ↗'}</button></div></article>)}</div>}
  {mode==='gallery'&&<button className="hgSeatLink" onClick={()=>setScreening(0)}>enter the moment<small>the moving journal ↗</small></button>}
+ <button className="museumMapBtn" onClick={()=>{setMapRoom(garage?'garage':josh?'josh':'lobby');setMapOpen(true)}}><span>⌑</span> MUSEUM MAP</button>
  <footer className="hgBottom"><span>shwcase / selected recollections</span><span className="about">a growing collection, kept quietly.</span><a href="/ask">leave a recollection ↗</a></footer>
- {zoom!==null&&<section className="hgCloseup" role="dialog" aria-modal="true" aria-label={WORKS[zoom].title}><button className="close" onClick={()=>setZoom(null)} autoFocus>close ×</button>{WORKS[zoom].video?<video src={WORKS[zoom].video} autoPlay muted loop playsInline poster={WORKS[zoom].image}/>:<img src={WORKS[zoom].image} alt={WORKS[zoom].title}/>}<h2>{WORKS[zoom].title}</h2><p>{WORKS[zoom].meta}</p>{WORKS[zoom].video&&<button className="hgSit" onClick={()=>{setScreening(zoom);setZoom(null)}}>sit with this moment ↗</button>}</section>}
+ {zoom!==null&&<section className="hgCloseup" role="dialog" aria-modal="true" aria-label={works[zoom].title}><button className="close" onClick={()=>setZoom(null)} autoFocus>close ×</button>{(works[zoom] as any).video?<video src={(works[zoom] as any).video} autoPlay muted loop playsInline poster={works[zoom].image}/>:<img src={works[zoom].image} alt={works[zoom].title}/>}<h2>{works[zoom].title}</h2><p>{works[zoom].meta}</p>{(works[zoom] as any).video&&<button className="hgSit" onClick={()=>{setScreening(josh&&zoom>0?zoom+1:zoom);setZoom(null)}}>sit with this moment ↗</button>}</section>}
  {screening!==null&&<section className={`screenRoom ${journal?'journal':''}`} role="dialog" aria-modal="true" aria-label="The moving journal">
  <video className="screenGlow" key={'glow'+screening} src={WORKS[screening].video} autoPlay muted loop playsInline aria-hidden="true"/>
  <div className="roomShell"/><div className="screenFloor"/>
@@ -260,5 +289,22 @@ export default function Home(){
  <footer className="screenCaption"><div><span className="chapterNo">{screening===0?'01':'02'} / FIELD NOTES</span><h2>{WORKS[screening].title}</h2><p className="quietNote">a moving image, a place to pause.<br/>no sound. no hurry.</p></div><div className="filmChoices">{[0,2].map(i=><button key={i} className={screening===i?'selected':''} onClick={()=>setScreening(i)}>{WORKS[i].title}</button>)}</div></footer>
  </section>}
 
+ {mapOpen&&<section className="museumMap" role="dialog" aria-modal="true" aria-label="Museum map">
+ <header className="mapHeader"><div><div className="mapEyebrow">the shwcase museum<br/>a collection of worlds, kept together.</div><h1>find your next room.</h1></div><button autoFocus className="mapClose" onClick={()=>setMapOpen(false)}>close ×</button></header>
+ <div className="mapLayout"><div className="mapPlan"><svg viewBox="0 0 760 440" role="img" aria-label="Museum floor plan: Josh's recollection rooms and screening room on ground level, Andy's garage below">
+ <defs><pattern id="planGrid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#dce1e4" strokeWidth=".5"/></pattern></defs><rect width="760" height="440" fill="url(#planGrid)"/>
+ <path d="M70 340V70H690V340Z" fill="none" stroke="#bec8ce" strokeWidth="8"/>
+ <path d="M85 325H675" stroke="#f7f8f8" strokeWidth="22"/>
+ <g role="button" tabIndex={0} aria-label="Select Josh's gallery" onClick={()=>setMapRoom('josh')} onKeyDown={e=>e.key==='Enter'&&setMapRoom('josh')}><path className={`mapRoom ${mapRoom==='josh'?'selected':''}`} d="M83 83H430V275H83Z"/><text x="110" y="111">G.01 / JOSH PEPPER</text><text className="mapName" x="110" y="159">the recollection rooms.</text><path d="M110 195H170 M205 195H265 M300 195H360 M110 230H170" stroke="#8c9ba5" strokeWidth="5"/><text className="mapDim" x="110" y="257">LIGHT / COAST / MOMENTS KEPT</text></g>
+ <g role="button" tabIndex={0} aria-label="Select screening room" onClick={()=>setMapRoom('screen')} onKeyDown={e=>e.key==='Enter'&&setMapRoom('screen')}><path className={`mapRoom ${mapRoom==='screen'?'selected':''}`} d="M446 83H677V275H446Z"/><path d="M470 108H652" stroke="#8c9ba5" strokeWidth="5"/><text x="469" y="145">G.02 / MOVING IMAGES</text><text className="mapName" x="469" y="183">the screening room.</text><path d="M505 220H620 M505 232H620" stroke="#a8b2b8" strokeWidth="6"/></g>
+ <g role="button" tabIndex={0} aria-label="Select museum lobby" onClick={()=>setMapRoom('lobby')} onKeyDown={e=>e.key==='Enter'&&setMapRoom('lobby')}><path className={`mapRoom ${mapRoom==='lobby'?'selected':''}`} d="M83 290H430V330H83Z"/><text x="111" y="315">G.00 / THE LOBBY</text><circle cx="402" cy="310" r="5" fill="#9e7540"/></g>
+ <path d="M480 290V340H520V355" fill="none" stroke="#9ca9b1" strokeDasharray="4 4"/><text className="mapDim" x="537" y="317">↓ LOWER GROUND</text>
+ <g role="button" tabIndex={0} aria-label="Select Andy's garage" onClick={()=>setMapRoom('garage')} onKeyDown={e=>e.key==='Enter'&&setMapRoom('garage')}><path className={`mapRoom garage ${mapRoom==='garage'?'selected':''}`} d="M300 355H678V423H300Z"/><text className="mapLight" x="320" y="376">B1 / ANDYFLCKS</text><text className="mapName mapLight" x="320" y="407">the garage.</text><path d="M525 370V406 M553 370V406 M581 370V406 M609 370V406 M637 370V406" stroke="#b59c73" strokeWidth="1"/></g>
+ <text className="mapDim" x="83" y="390">THE MUSEUM IS GROWING.</text><text className="mapDim" x="83" y="405">MORE WORLDS, IN TIME.</text><path d="M714 105V70L708 80M714 70L720 80" fill="none" stroke="#7e8d96"/><text x="710" y="120">N</text>
+ </svg><div className="mapCaption"><span>choose a room on the plan</span><span>ground level + lower ground / not to scale</span></div></div>
+ <aside className="mapDetails"><div className="mapEyebrow">{mapRoom==='garage'?'B1 / LOWER GROUND':mapRoom==='josh'?'G.01 / GROUND LEVEL':mapRoom==='screen'?'G.02 / GROUND LEVEL':'G.00 / GROUND LEVEL'}</div><h2>{mapRoom==='garage'?"andy's garage.":mapRoom==='josh'?"josh's gallery.":mapRoom==='screen'?'the screening room.':'the museum lobby.'}</h2><p>{mapRoom==='garage'?"Concrete, fluorescent light and three frames from a night in Los Angeles. A room by andyflcks.":mapRoom==='josh'?'A skylit walk through the shwcase archive. Blue hour at the pier, the coast at dusk, and the light in between.':mapRoom==='screen'?'Take a seat. Silent moving images, projected at their own pace. No sound. No hurry.':'Start in the white hall, follow the light, or choose a world of your own. This is the shwcase museum.'}</p><button className="mapEnter" onClick={()=>enterRoom(mapRoom)}>enter {mapRoom==='garage'?'the garage':mapRoom==='josh'?'the gallery':mapRoom==='screen'?'the screening room':'the museum'} <span>↗</span></button></aside></div>
+ <nav className="mapLegend" aria-label="Choose a museum gallery">{(['lobby','josh','screen','garage'] as const).map(r=><button className={mapRoom===r?'selected':''} key={r} onClick={()=>setMapRoom(r)}>{r==='lobby'?'G.00 / LOBBY':r==='josh'?"G.01 / JOSH":r==='screen'?'G.02 / SCREENING':"B1 / ANDY"}</button>)}</nav><footer className="mapFooter"><span>shwcase / recollections from around the world</span><span>a museum without closing hours.</span></footer>
+ </section>}
+
  </main>
-       }
+      }
