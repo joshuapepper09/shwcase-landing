@@ -9,7 +9,7 @@ const WORKS = [
   { title: 'watching the light.', by: 'josh', meta: 'from the archive · a still', image: '/q-light-rooftop.jpg', shape: 'portrait' },
 ]
 const CSS = `
-.homeGallery{--wall:#F2EDE3;--ink:#28251F;--dim:#777267;--hair:rgba(40,37,31,.2);height:100svh;min-height:580px;overflow:hidden;position:relative;background:var(--wall);color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;-webkit-font-smoothing:antialiased}
+.homeGallery{--wall:#FFFFFF;--ink:#17191B;--dim:#72777B;--hair:rgba(40,37,31,.2);height:100svh;min-height:580px;overflow:hidden;position:relative;background:var(--wall);color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;-webkit-font-smoothing:antialiased}
 .homeGallery *{box-sizing:border-box;margin:0;padding:0}
 .homeGallery button,.homeGallery a{-webkit-tap-highlight-color:transparent}
 .homeGallery button{color:inherit;cursor:pointer}
@@ -24,7 +24,7 @@ const CSS = `
 .hgRoom:after{content:'';position:absolute;left:0;right:0;top:64%;height:5%;background:linear-gradient(transparent,rgba(80,65,40,.055));pointer-events:none}
 .hgPiece{position:absolute;left:50%;top:44%;width:min(52vw,430px);transform-style:preserve-3d;will-change:transform,opacity}
 .hgPiece .spot{position:absolute;top:-135px;left:-50px;right:-50px;height:180px;background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.9),transparent 68%);pointer-events:none}
-.hgFrame{display:block;width:100%;border:1px solid rgba(45,37,25,.32);background:#FCF9F2;padding:12px;box-shadow:0 21px 32px rgba(70,55,30,.18),0 3px 5px rgba(70,55,30,.12);text-align:left}
+.hgFrame{display:block;width:100%;border:1px solid rgba(45,37,25,.32);background:#FFFFFF;padding:12px;box-shadow:0 21px 32px rgba(70,55,30,.18),0 3px 5px rgba(70,55,30,.12);text-align:left}
 .hgFrame img,.hgFrame video{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;background:#D9D2C5;pointer-events:none}
 .hgPiece.portrait{width:min(35vw,280px)}.hgPiece.portrait .hgFrame img{aspect-ratio:3/4}
 .hgCaption{margin:18px auto 0;width:max-content;max-width:100%;text-align:center;font-size:23px;font-style:italic}.hgCaption small{display:block;font:7px 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.15em;color:var(--dim);margin-top:6px}
@@ -35,7 +35,7 @@ const CSS = `
 .hgPosition{font:8px 'IBM Plex Mono',monospace;letter-spacing:.17em;text-transform:uppercase;color:var(--dim);line-height:1.9}
 .hgArrows{display:flex;gap:10px}.hgArrows button{background:transparent;border:1px solid var(--hair);border-radius:50%;width:44px;height:44px;font:18px Georgia,serif}.hgArrows button:disabled{opacity:.22;cursor:default}.hgArrows button:hover:not(:disabled){background:var(--ink);color:var(--wall)}
 .hgList{position:absolute;inset:90px 0 65px;overflow-y:auto;padding:15px max(30px,calc((100vw - 1000px)/2)) 80px}.hgList h1{font-weight:300;font-style:italic;font-size:56px;line-height:.98;margin:30px 0 50px}.hgRow{padding:40px 0;border-top:1px solid var(--hair);display:grid;grid-template-columns:1.25fr 1fr;gap:50px;align-items:center}.hgRow button{width:100%;border:0;background:none}.hgRow img{display:block;width:100%;max-height:400px;object-fit:cover}.hgRow h2{font-weight:300;font-style:italic;font-size:38px}.hgRow p{font:8px 'IBM Plex Mono',monospace;letter-spacing:.15em;line-height:2;text-transform:uppercase;margin-top:14px;color:var(--dim)}.hgRow .view{display:inline-block;margin-top:24px;border-bottom:1px solid var(--hair);padding-bottom:4px;font-style:italic;font-size:21px;text-decoration:none;color:inherit}
-.hgCloseup{position:fixed;inset:0;z-index:30;background:rgba(242,237,227,.99);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:85px 25px 35px}.hgCloseup .close{position:absolute;top:25px;right:30px;border:1px solid var(--hair);background:none;border-radius:30px;padding:10px 20px;font:9px 'IBM Plex Mono',monospace}.hgCloseup img,.hgCloseup video{max-width:85vw;max-height:60svh;object-fit:contain;background:#FCF9F2;border:12px solid #FCF9F2;box-shadow:0 20px 45px rgba(70,55,30,.14)}.hgCloseup h2{font-style:italic;font-size:35px;font-weight:300;margin-top:25px}.hgCloseup p{font:8px 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:9px}
+.hgCloseup{position:fixed;inset:0;z-index:30;background:#FFFFFF;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:85px 25px 35px}.hgCloseup .close{position:absolute;top:25px;right:30px;border:1px solid var(--hair);background:none;border-radius:30px;padding:10px 20px;font:9px 'IBM Plex Mono',monospace}.hgCloseup img,.hgCloseup video{max-width:85vw;max-height:60svh;object-fit:contain;background:#FFFFFF;border:12px solid #FFFFFF;box-shadow:0 20px 45px rgba(70,55,30,.14)}.hgCloseup h2{font-style:italic;font-size:35px;font-weight:300;margin-top:25px}.hgCloseup p{font:8px 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:9px}
 @media(max-width:640px){
 .hgTop{padding:22px}.hgTop .tag{display:none}.hgMark{font-size:25px}.hgToggle button{padding:9px 12px;font-size:7px}
 .hgPiece{width:76vw;top:43%}.hgPiece.portrait{width:60vw}.hgFrame{padding:9px}.hgCaption{font-size:25px}.hgCaption small{font-size:7px;letter-spacing:.1em}.hgIntro{width:79vw}.hgIntro h1{font-size:54px}.hgIntro .introNote{font-size:7px}.hgRoom:before{top:65%;height:35%}.hgRoom:after{top:61%}
@@ -43,6 +43,30 @@ const CSS = `
 .hgList{padding:10px 22px 60px}.hgList h1{font-size:44px}.hgRow{grid-template-columns:1fr;gap:22px}.hgRow h2{font-size:34px}.hgCloseup img,.hgCloseup video{max-width:90vw;border-width:8px}
 }
 @media(prefers-reduced-motion:reduce){.hgPiece video{display:none}.hgPiece .stillFallback{display:block!important}}
+
+.galleryArchitecture{position:absolute;inset:0;overflow:hidden;pointer-events:none;background:linear-gradient(90deg,#e9eaeb 0%,#fafafa 13%,#fff 40%,#fff 75%,#f1f2f3 100%)}
+.galleryArchitecture .ceiling{position:absolute;inset:0 0 auto;height:17%;background:linear-gradient(#ebedef,#fafafa);clip-path:polygon(0 0,100% 0,86% 100%,14% 100%);border-bottom:1px solid #ddd}
+.galleryArchitecture .leftWall{position:absolute;inset:0 auto 0 0;width:14%;background:linear-gradient(90deg,#f3f3f3,#e6e7e8);clip-path:polygon(0 0,100% 17%,100% 69%,0 100%)}
+.galleryArchitecture .rightWall{position:absolute;inset:0 0 0 auto;width:14%;background:linear-gradient(90deg,#e7e8e9,#f6f6f6);clip-path:polygon(0 17%,100% 0,100% 100%,0 69%)}
+.galleryArchitecture .floor{position:absolute;left:0;right:0;top:69%;height:31%;background:linear-gradient(#e2e4e5,#f6f7f7);border-top:2px solid #d9dbdc}
+.galleryArchitecture .floor:after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0,transparent calc(25% - 1px),rgba(130,135,140,.09) 25%);transform:perspective(150px) rotateX(35deg);transform-origin:top center}
+.galleryArchitecture .track{position:absolute;left:17%;right:17%;top:10%;height:2px;background:#c4c6c8;box-shadow:0 1px 2px #fff;display:flex;justify-content:space-around}
+.galleryArchitecture .track i{display:block;width:9px;height:15px;border-radius:2px;background:linear-gradient(90deg,#373b3f,#62666a);transform:rotate(-12deg);box-shadow:0 4px 5px #bfc2c5}
+.galleryArchitecture .bench{position:absolute;bottom:15%;left:19%;width:14%;height:13px;background:linear-gradient(#c6c1b8,#9f9a91);box-shadow:0 17px 15px rgba(0,0,0,.12)}
+.galleryArchitecture .bench:before,.galleryArchitecture .bench:after{content:'';position:absolute;top:10px;width:4px;height:29px;background:#34383b;left:9%}.galleryArchitecture .bench:after{left:auto;right:9%}
+@media(max-width:640px){.galleryArchitecture .leftWall,.galleryArchitecture .rightWall{width:7%}.galleryArchitecture .ceiling{height:15%;clip-path:polygon(0 0,100% 0,93% 100%,7% 100%)}.galleryArchitecture .bench{left:12%;width:25%;bottom:20%;height:8px}.galleryArchitecture .bench:before,.galleryArchitecture .bench:after{height:22px;top:7px}.galleryArchitecture .track{left:12%;right:12%;top:11%}}
+
+.hgRoom:before,.hgRoom:after{display:none}
+.hgFrame{padding:18px;border:1px solid #c6c9ca;box-shadow:2px 3px 2px #bfc1c2,8px 14px 20px rgba(28,32,35,.14);background:white}
+.hgPiece .spot{top:-110px;height:130%;left:-60px;right:-60px;background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,1),rgba(255,255,255,.4) 40%,transparent 70%)}
+.hgCaption{font-size:22px}.hgCaption small{color:#666d72;letter-spacing:.18em}
+.hgIntro h1{font-size:57px;letter-spacing:-.045em}.hgIntro .rule{width:25px}
+.hgIntro{width:350px}.hgTop{padding-top:25px}.hgMark{font-size:25px}
+.hgPosition{background:rgba(255,255,255,.75);padding:9px 12px;border-left:1px solid #bfc3c6}
+.hgArrows button{background:rgba(255,255,255,.65);border-color:#bcc1c4}
+.hgBottom{font-size:7px;letter-spacing:.19em}.hgBottom a{font-size:7px}
+@media(max-width:640px){.hgIntro{width:78vw}.hgIntro h1{font-size:49px}.hgPiece{top:42%}.hgPiece.portrait{width:55vw}.hgFrame{padding:13px}.hgCaption{font-size:23px}.hgTop{background:linear-gradient(#fff,rgba(255,255,255,.65),transparent)}.hgPosition{font-size:7px;max-width:65%}}
+
 `
 
 export default function Home(){
@@ -79,8 +103,8 @@ export default function Home(){
  },[mode,count])
  useEffect(()=>{const fn=(e:KeyboardEvent)=>{if(e.key==='Escape')setZoom(null);if(zoom!==null||mode!=='gallery')return;if(e.key==='ArrowRight')go(Math.round(target.current)+1);if(e.key==='ArrowLeft')go(Math.round(target.current)-1)};window.addEventListener('keydown',fn);return()=>window.removeEventListener('keydown',fn)},[zoom,mode])
  const open=(i:number)=>{if(moved.current>8)return;const w=WORKS[i];if(w.href){location.href=w.href;return}setZoom(i)}
- return <main className="homeGallery" data-home="gallery-v1">
- <style>{CSS}</style>
+ return <main className="homeGallery" data-home="white-gallery-v2">
+ <style>{CSS}</style><div className="galleryArchitecture" aria-hidden="true"><div className="ceiling"/><div className="leftWall"/><div className="rightWall"/><div className="floor"/><div className="track"><i/><i/><i/><i/></div><div className="bench"/></div>
  <header className="hgTop"><a className="hgMark" href="/">shwcase<sup>®</sup></a><span className="tag">recollections from around the world</span><div className="hgToggle"><button className={mode==='gallery'?'on':''} onClick={()=>setMode('gallery')}>GALLERY</button><button className={mode==='list'?'on':''} onClick={()=>setMode('list')}>LIST</button></div></header>
  {mode==='gallery'?<>
  <div className="hgRoom" ref={root} aria-label="Gallery. Scroll, drag, or use arrow buttons to walk.">
