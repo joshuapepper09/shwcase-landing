@@ -204,7 +204,7 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
      for(const x of [-5.5,5.5])for(let z=7;z>=-24;z-=5){box(3.1,.004,.065,x,.015,z,stripe);box(.065,.004,3.2,x+1.5,.015,z-1.6,stripe)}
      for(let y=.25;y<4.8;y+=.22)box(7.5,.035,.08,0,y,-27.65,concrete);
      const sign=label([{text:'B1 / THE GARAGE',size:56},{text:"andy\'s mustang.",size:80,italic:true},{text:'THREE FRAMES. ONE NIGHT.',size:24}],5.2,2.6);sign.position.set(0,3.1,-27.5);scene.add(sign);
-     const entry=label([{text:'THE SHWCASE MUSEUM',size:30},{text:'B1 / ANDYFLCKS',size:64},{text:'THE NIGHT GARAGE COLLECTION',size:25}],3.2,1.6);entry.position.set(-3,2.6,4);entry.rotation.y=.15;scene.add(entry);
+
     }
     const stops=[{p:[0,1.65,9],l:[0,2,-7]},{p:[-3,1.65,3],l:[-8.3,2.4,0]},{p:[3.6,1.65,-5],l:[8.3,2.4,-7.5]},{p:[-3,1.65,-10],l:[-8.3,2.4,-14.5]},{p:[2.8,1.65,-18],l:[7.7,2.35,-21]}]
     let previous=performance.now(),progress=target.current,raf=0,drag:null|{x:number;y:number;start:number}=null,travel=0,lastActive=-1
@@ -267,7 +267,7 @@ export default function Home(){
  useEffect(()=>{const fn=(e:KeyboardEvent)=>{if(e.key==='Escape'){setZoom(null);setScreening(null);setMapOpen(false)}if(screening!==null||zoom!==null||mode!=='gallery')return;if(e.key==='ArrowRight')go(Math.round(target.current)+1);if(e.key==='ArrowLeft')go(Math.round(target.current)-1)};window.addEventListener('keydown',fn);return()=>window.removeEventListener('keydown',fn)},[zoom,mode,screening])
  const open=(i:number)=>{if(moved.current>8)return;const w:any=works[i];if(w.href){enterRoom('garage');return}setZoom(i)}
  const enterRoom=(room:string)=>{setMapOpen(false);setZoom(null);setScreening(null);setMode('gallery');if(room==='screen'){setJournal(false);setScreening(0);return}setJosh(room==='josh');setGarage(room==='garage');target.current=0;current.current=target.current;setActive(target.current)}
- return <main className={`homeGallery ${garage?'garageMode':''}`} data-home="museum-map-v1">
+ return <main className={`homeGallery ${garage?'garageMode':''}`} data-home="museum-map-v2">
  <style>{CSS}</style>
  <header className="hgTop"><a className="hgMark" href="/">shwcase<sup>®</sup></a><span className="tag">the shwcase museum</span><div className="hgToggle"><button className={mode==='gallery'?'on':''} onClick={()=>setMode('gallery')}>GALLERY</button><button onClick={()=>{setJournal(true);setScreening(0)}}>JOURNAL</button><button className={mode==='list'?'on':''} onClick={()=>setMode('list')}>LIST</button></div></header>
  {mode==='gallery'?<>
@@ -307,4 +307,4 @@ export default function Home(){
  </section>}
 
  </main>
-                                                                           }
+      }
