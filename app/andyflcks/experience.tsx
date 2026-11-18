@@ -20,8 +20,8 @@ html.cp-lock,html.cp-lock body{overflow:hidden;height:100%}
 
 /* the car, parked */
 .gate .car{position:absolute;inset:0;background-image:url("${IMG_CAR}");background-size:cover;background-position:32% 60%;transform-origin:34% 46%;transition:transform 1.15s cubic-bezier(.55,.06,.35,1),filter 1.15s ease}
-.gate.s1 .car{transform:scale(2.4);filter:brightness(.55) saturate(1.1)}
-.gate.s2 .car,.gate.s3 .car{transform:scale(2.9);filter:brightness(.3) blur(2px)}
+.gate.s1 .car{transform:scale(2.4);filter:brightness(.78) saturate(1.15)}
+.gate.s2 .car,.gate.s3 .car{transform:scale(2.9);filter:brightness(.5) blur(3px)}
 .gate .carTint{position:absolute;inset:0;background:radial-gradient(120% 90% at 30% 55%,transparent 40%,rgba(0,0,0,.55) 100%)}
 
 /* interior revealed behind the door */
@@ -31,18 +31,20 @@ html.cp-lock,html.cp-lock body{overflow:hidden;height:100%}
 
 /* the door itself */
 .gate .doorWrap{position:absolute;inset:0;perspective:1200px;perspective-origin:20% 50%;pointer-events:none}
-.gate .door{position:absolute;top:0;bottom:0;left:-2%;width:78%;transform-origin:left center;transform:rotateY(0deg);transition:transform 1.25s cubic-bezier(.6,.02,.28,1),opacity .4s ease;opacity:0;
-  background:linear-gradient(160deg,#17181c 0%,#0c0d10 55%,#08090b 100%);
-  border-right:1px solid rgba(237,233,226,.16);
-  box-shadow:inset -60px 0 90px -40px rgba(211,36,44,.28), 30px 0 80px rgba(0,0,0,.8)}
-.gate .door::before{content:"";position:absolute;left:8%;right:10%;top:12%;height:34%;border:1px solid rgba(237,233,226,.14);border-bottom:none;border-radius:46% 54% 0 0/70% 70% 0 0;opacity:.8}
-.gate .door::after{content:"";position:absolute;right:12%;top:56%;width:9%;height:5px;border-radius:3px;background:linear-gradient(90deg,rgba(237,233,226,.35),rgba(237,233,226,.08))}
+.gate .door{position:absolute;top:0;bottom:0;left:-2%;width:78%;transform-origin:left center;transform:rotateY(0deg);transition:transform 1.25s cubic-bezier(.6,.02,.28,1),opacity .35s ease;opacity:0;
+  background:linear-gradient(155deg,#26282e 0%,#16171b 48%,#0b0c0f 100%);
+  border-right:2px solid rgba(237,233,226,.28);
+  box-shadow:inset -70px 0 110px -50px rgba(211,36,44,.45), inset 0 0 0 1px rgba(237,233,226,.05), 40px 0 90px rgba(0,0,0,.9)}
+.gate .door::before{content:"";position:absolute;left:8%;right:12%;top:11%;height:36%;border:1.5px solid rgba(237,233,226,.32);border-bottom:none;border-radius:46% 54% 0 0/70% 70% 0 0;background:linear-gradient(rgba(237,233,226,.05),transparent)}
+.gate .door::after{content:"";position:absolute;right:14%;top:57%;width:10%;height:6px;border-radius:3px;background:linear-gradient(90deg,rgba(237,233,226,.6),rgba(237,233,226,.15));box-shadow:0 0 8px rgba(237,233,226,.2)}
 .gate.s2 .door,.gate.s3 .door{opacity:1;transform:rotateY(-112deg)}
 
 /* red taillight bleed as you approach */
 .gate .glow{position:absolute;left:-10%;top:35%;width:60%;height:40%;background:radial-gradient(closest-side,rgba(211,36,44,.35),transparent 70%);opacity:0;transition:opacity 1s ease}
 .gate.s1 .glow{opacity:.9}
 .gate.s2 .glow,.gate.s3 .glow{opacity:.35}
+.gate .spill{position:absolute;top:0;bottom:0;left:0;width:70%;background:linear-gradient(100deg,rgba(237,233,226,.14),rgba(237,233,226,.03) 60%,transparent);opacity:0;transition:opacity .9s ease .3s}
+.gate.s2 .spill,.gate.s3 .spill{opacity:1}
 
 /* entrance copy */
 .gate .mark{position:absolute;top:26px;left:28px;font-size:20px;font-weight:500;letter-spacing:.01em;color:var(--bone)}
@@ -147,6 +149,7 @@ export default function Experience() {
           <div className="car" />
           <div className="carTint" />
           <div className="glow" />
+          <div className="spill" />
           <div className="doorWrap">
             <div className="door" />
           </div>
