@@ -131,6 +131,9 @@ const CSS = `
 .museumMap{position:fixed;inset:0;z-index:100;background:#f7f8f8;color:#20262a;overflow:auto;padding:28px 36px 25px}.mapHeader{display:flex;justify-content:space-between;align-items:flex-start}.mapEyebrow{font:8px 'IBM Plex Mono',monospace;letter-spacing:.2em;line-height:1.8;text-transform:uppercase}.museumMap h1{font:italic 68px/.95 'Cormorant Garamond',Georgia,serif;margin-top:20px;letter-spacing:-.04em}.mapClose{border:1px solid #9ba4a8;border-radius:30px;padding:12px 18px;background:none;font:9px 'IBM Plex Mono',monospace}.mapLayout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(245px,.65fr);gap:5vw;align-items:center;max-width:1360px;margin:14px auto 0}.mapPlan{position:relative}.mapPlan svg{width:100%;max-height:440px;display:block}.mapRoom{fill:#eef0f1;stroke:#9ca6ad;stroke-width:1.3;cursor:pointer;transition:fill .25s,stroke .25s}.mapRoom:hover,.mapRoom.selected{fill:#d8e1e6;stroke:#253b49;stroke-width:2}.mapRoom.garage{fill:#27343d;stroke:#27343d}.mapRoom.garage:hover,.mapRoom.garage.selected{fill:#405765;stroke:#b98e44;stroke-width:3}.mapPlan text{pointer-events:none;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;fill:#3b4b55}.mapPlan .mapName{font:italic 29px 'Cormorant Garamond',Georgia,serif;letter-spacing:0}.mapPlan .mapLight{fill:#edf1f3}.mapPlan .mapDim{fill:#929b9f;font-size:8px}.mapCaption{display:flex;justify-content:space-between;font:7px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;padding:4px 15px}.mapDetails{border-top:1px solid #acb4b9;padding-top:19px;min-height:270px}.mapDetails h2{font:italic 44px/.95 'Cormorant Garamond',Georgia,serif;margin:12px 0 18px}.mapDetails p{font:12px/1.7 'IBM Plex Mono',monospace;color:#667178;max-width:310px}.mapEnter{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:25px;padding:14px 0;border:0;border-top:1px solid #afb7bc;background:none;font:italic 24px 'Cormorant Garamond',Georgia,serif}.mapLegend{display:flex;gap:9px;flex-wrap:wrap;max-width:1360px;margin:20px auto 0;border-top:1px solid #d3d9dc;padding-top:16px}.mapLegend button{border:1px solid #b9c2c7;background:none;border-radius:25px;padding:10px 16px;font:8px 'IBM Plex Mono',monospace}.mapLegend button.selected{background:#283a46;color:white;border-color:#283a46}.mapFooter{font:7px 'IBM Plex Mono',monospace;letter-spacing:.15em;color:#7c888e;text-transform:uppercase;max-width:1360px;margin:24px auto 0;display:flex;justify-content:space-between}
 @media(max-width:640px){.museumLocation{top:80px;left:22px;font-size:6px}.museumLocation strong{font-size:23px}.museumMapBtn{left:22px;bottom:126px;padding:10px 14px;font-size:7px}.museumMap{padding:23px 20px}.museumMap h1{font-size:47px;margin-top:14px}.mapLayout{grid-template-columns:1fr;gap:15px;margin-top:24px}.mapPlan svg{max-height:none}.mapDetails{min-height:0;padding-top:14px}.mapDetails h2{font-size:36px;margin:9px 0 10px}.mapDetails p{font-size:10px;max-width:none}.mapEnter{font-size:23px;margin-top:17px;padding:12px 0}.mapLegend{margin-top:12px;gap:6px;padding-top:12px}.mapLegend button{font-size:7px;padding:9px 11px}.mapFooter{font-size:6px;margin-top:18px;line-height:1.7;gap:15px}.mapClose{font-size:7px;padding:10px 13px}.mapEyebrow{font-size:7px}.mapCaption{font-size:5px;padding:4px 0}}
 
+.exteriorCanvas,.exteriorMount{position:absolute;inset:0;touch-action:none}.exteriorStatus{position:absolute;top:45%;width:100%;text-align:center;font:9px 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase}.exteriorHeading{position:absolute;top:98px;left:32px;pointer-events:none;z-index:2}.exteriorHeading p{font:8px 'IBM Plex Mono',monospace;letter-spacing:.2em;text-transform:uppercase;margin-bottom:15px}.exteriorHeading h1{font:italic clamp(45px,5.7vw,83px)/.84 'Cormorant Garamond',Georgia,serif;letter-spacing:-.045em}.exteriorHeading h1 span{display:block}.exteriorHint{position:absolute;right:32px;top:100px;font:7px/1.9 'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;pointer-events:none;color:#606f76}.campusNav{position:absolute;left:32px;right:32px;bottom:55px;display:flex;align-items:end;justify-content:space-between;gap:20px;z-index:5;pointer-events:none}.campusSelect{pointer-events:auto;max-width:390px;background:rgba(247,250,250,.87);backdrop-filter:blur(15px);border:1px solid rgba(97,118,130,.28);padding:21px 24px;box-shadow:0 12px 35px #233a4810}.campusSelect .eyebrow{font:7px 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase}.campusSelect h2{font:italic 34px/1.05 'Cormorant Garamond',Georgia,serif;margin:9px 0 11px}.campusSelect p{font:9px/1.8 'IBM Plex Mono',monospace;color:#63717a}.campusEnter{font:italic 23px 'Cormorant Garamond',Georgia,serif;border:0;border-top:1px solid #aebbc2;background:none;width:100%;display:flex;justify-content:space-between;align-items:center;padding-top:12px;margin-top:15px}.campusRooms{pointer-events:auto;display:flex;flex-wrap:wrap;gap:7px;justify-content:flex-end;max-width:550px}.campusRooms button{font:7px 'IBM Plex Mono',monospace;letter-spacing:.07em;border:1px solid #9baab2;border-radius:30px;background:#f1f5f3d9;padding:12px 16px}.campusRooms button.selected{background:#2a3c46;border-color:#2a3c46;color:white}.campusMode .hgBottom{color:#647780}.campusMode .hgTop{background:linear-gradient(#e9eef0cc,transparent)}.museumTopNav{display:flex;gap:8px}.museumTopNav button{background:#f5f7f4d9;border:1px solid #a9b5bc;border-radius:28px;padding:11px 17px;font:7px 'IBM Plex Mono',monospace;letter-spacing:.12em}.garageMode .museumTopNav button{background:#243039db;color:#e3e9ec;border-color:#84919a}.museumLocation{pointer-events:none}.garageMode .roomWayfinding button{color:#e6ebed}.roomWayfinding{bottom:155px}.museumMapBtn{bottom:80px}.hgControls{bottom:90px}.carNote{position:absolute;right:30px;bottom:38px;font:6px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#b3bfc6}.screenRoom .screenTop .back{margin-left:auto}.screenRoom .screenCaption{bottom:42px}
+@media(max-width:640px){.exteriorHeading{top:82px;left:22px}.exteriorHeading p{font-size:6px;margin-bottom:11px}.exteriorHeading h1{font-size:47px}.exteriorHint{top:88px;right:22px;font-size:5px;max-width:88px;text-align:right}.campusNav{left:22px;right:22px;bottom:53px;display:flex;flex-direction:column-reverse;align-items:stretch;gap:9px}.campusSelect{padding:13px 16px;max-width:none}.campusSelect h2{font-size:28px;margin:7px 0}.campusSelect p{font-size:7px;line-height:1.7}.campusSelect .eyebrow{font-size:6px}.campusEnter{font-size:21px;padding-top:8px;margin-top:9px}.campusRooms{justify-content:flex-start;gap:5px;max-width:none}.campusRooms button{font-size:5.5px;padding:9px 11px}.museumTopNav{gap:5px}.museumTopNav button{padding:9px 12px;font-size:6px}.roomWayfinding{bottom:122px}.museumMapBtn{bottom:68px}.hgControls{bottom:68px}.carNote{font-size:5px;bottom:41px;right:22px}.hgBottom{font-size:5px}.screenRoom .screenCaption{bottom:32px}.screenRoom .roomLabel{max-width:130px}}
+
 `
 
 
@@ -206,7 +209,29 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
      const sign=label([{text:'B1 / THE GARAGE',size:56},{text:"andy\'s mustang.",size:80,italic:true},{text:'THREE FRAMES. ONE NIGHT.',size:24}],5.2,2.6);sign.position.set(0,3.1,-27.5);scene.add(sign);
 
     }
-    const stops=[{p:[0,1.65,9],l:[0,2,-7]},{p:[-3,1.65,3],l:[-8.3,2.4,0]},{p:[3.6,1.65,-5],l:[8.3,2.4,-7.5]},{p:[-3,1.65,-10],l:[-8.3,2.4,-14.5]},{p:[2.8,1.65,-18],l:[7.7,2.35,-21]}]
+    if(garage){
+     // A sculptural black fastback study, based on the rear and cabin photographs.
+     const car=new T.Group();car.position.set(0,.03,-3);car.rotation.y=-.16;scene.add(car)
+     const black=mat('#11171d',{metalness:.72,roughness:.23}),rubber=mat('#101214',{roughness:.95}),rim=mat('#646e75',{metalness:.9,roughness:.22}),windowMat=mat('#1c303e',{metalness:.65,roughness:.12}),red=mat('#bc1920',{emissive:'#ff1722',emissiveIntensity:1.7}),chrome=mat('#b2bec8',{metalness:1,roughness:.2})
+     const cb=(w:number,h:number,d:number,x:number,y:number,z:number,m:any)=>{const g=new T.BoxGeometry(w,h,d);geometries.push(g);const mesh=new T.Mesh(g,m);mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;car.add(mesh);return mesh}
+     cb(2.05,.43,4.75,0,.66,0,black);cb(2.12,.22,4.5,0,.48,.02,black);cb(1.92,.18,1.55,0,.95,-1.4,black)
+     // Sloping fastback cabin, wide rear deck and long hood.
+     const profile=new T.Shape();profile.moveTo(-1.7,.86);profile.lineTo(-.74,1.46);profile.lineTo(.55,1.5);profile.lineTo(1.65,.88);profile.closePath();const bodyG=new T.ExtrudeGeometry(profile,{depth:1.73,bevelEnabled:true,bevelThickness:.035,bevelSize:.035,bevelSegments:2,steps:1});geometries.push(bodyG);const cabin=new T.Mesh(bodyG,black);cabin.rotation.y=Math.PI/2;cabin.position.set(-.865,0,0);cabin.castShadow=true;car.add(cabin)
+     const windshield=cb(1.65,.025,.94,0,1.22,-1.12,windowMat);windshield.rotation.x=-.56
+     const rearGlass=cb(1.68,.025,1.16,0,1.19,1.06,windowMat);rearGlass.rotation.x=.48
+     for(const x of [-.91,.91]){const sideWindow=cb(.018,.43,1.7,x,1.19,.03,windowMat);cb(.025,.08,1.8,x,1.41,.02,black);cb(.03,.51,.07,x,1.18,.2,black);cb(.15,.1,.3,x*1.15,1.05,-.72,black);cb(.035,.04,.24,x*1.11,.86,.3,chrome);cb(.03,.08,3.4,x*1.14,.48,0,black)}
+     cb(2.08,.24,.13,0,.78,2.42,black);cb(2.1,.09,.5,0,.98,2.16,black);cb(1.55,.15,.04,0,.42,2.49,black)
+     for(const side of [-1,1])for(let j=0;j<3;j++){const lamp=cb(.10,.24,.045,side*(.64+j*.145),.79,2.502,red);lamp.rotation.z=side*-.13}
+     cb(.4,.18,.02,0,.6,2.51,chrome);cb(.34,.13,.025,0,.6,2.525,mat('#d3d9d7'));cb(.13,.11,.03,0,.82,2.51,chrome)
+     cb(1.5,.23,.1,0,.64,-2.43,black);for(const x of [-.77,.77])cb(.38,.075,.025,x,.87,-2.457,mat('#b6d8ee',{emissive:'#c8e8ff',emissiveIntensity:.8}))
+     const wheelG=new T.CylinderGeometry(.44,.44,.28,32);geometries.push(wheelG);const hubG=new T.CylinderGeometry(.31,.31,.292,24);geometries.push(hubG)
+     for(const x of [-1.02,1.02])for(const z of [-1.51,1.48]){const tire=new T.Mesh(wheelG,rubber);tire.rotation.z=Math.PI/2;tire.position.set(x,.45,z);tire.castShadow=true;car.add(tire);const hub=new T.Mesh(hubG,rim);hub.rotation.z=Math.PI/2;hub.position.copy(tire.position);car.add(hub);for(let k=0;k<5;k++){const spoke=cb(.31,.035,.045,x*1.155,.45,z,chrome);spoke.rotation.x=k*Math.PI/2.5;spoke.position.y+=Math.sin(k*Math.PI/2.5)*.15;spoke.position.z+=Math.cos(k*Math.PI/2.5)*.15}}
+     const exhaustG=new T.CylinderGeometry(.09,.09,.22,16);geometries.push(exhaustG);for(const x of [-.78,.78]){const pipe=new T.Mesh(exhaustG,chrome);pipe.rotation.x=Math.PI/2;pipe.position.set(x,.35,2.41);car.add(pipe)}
+     const glowLight=new T.PointLight('#ff3333',.7,3,2);glowLight.position.set(0,.7,2.6);car.add(glowLight)
+     const carPlate=label([{text:'B1 / FLOOR INSTALLATION',size:26},{text:'the mustang.',size:72,italic:true},{text:'FORM STUDY / ANDYFLCKS',size:25}],1.7,.85);carPlate.position.set(2.15,.75,-.3);carPlate.rotation.y=-.3;scene.add(carPlate)
+    }
+
+    const stops=[{p:garage?[5.8,3.1,6.8]:[0,1.65,9],l:garage?[0,1,-3]:[0,2,-7]},{p:[-3,1.65,3],l:[-8.3,2.4,0]},{p:[3.6,1.65,-5],l:[8.3,2.4,-7.5]},{p:[-3,1.65,-10],l:[-8.3,2.4,-14.5]},{p:[2.8,1.65,-18],l:[7.7,2.35,-21]}]
     let previous=performance.now(),progress=target.current,raf=0,drag:null|{x:number;y:number;start:number}=null,travel=0,lastActive=-1
     const cp=new T.Vector3(),look=new T.Vector3(),raycaster=new T.Raycaster(),pointer=new T.Vector2()
     const resize=()=>{if(!el)return;camera.aspect=el.clientWidth/el.clientHeight;camera.fov=innerWidth<640?68:55;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight)}
@@ -225,70 +250,97 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
  return <div className="spatialCanvas"><div className="spatialMount" ref={mount}/>{status?<p className="spatialStatus">{status}</p>:null}</div>
 }
 
+function MuseumExterior({onSelect}:{onSelect:(room:'lobby'|'josh'|'garage'|'screen')=>void}){
+ const mount=useRef<HTMLDivElement>(null),callback=useRef(onSelect);callback.current=onSelect
+ const [status,setStatus]=useState('opening the museum grounds')
+ useEffect(()=>{let dead=false,clean=()=>{};const boot=async()=>{try{
+ const url='https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js',T=await import(/* webpackIgnore: true */ url);if(dead||!mount.current)return
+ const el=mount.current,scene=new T.Scene();scene.background=new T.Color('#e4eaec');scene.fog=new T.Fog('#e4eaec',65,170)
+ const renderer=new T.WebGLRenderer({antialias:true,powerPreference:'low-power'});renderer.setSize(el.clientWidth,el.clientHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;el.appendChild(renderer.domElement)
+ const camera=new T.PerspectiveCamera(36,el.clientWidth/el.clientHeight,.1,220),world=new T.Group();scene.add(world)
+ const mats:any[]=[],geos:any[]=[],targets:any[]=[],trees:any[]=[]
+ const mat=(c:string,e:any={})=>{const m=new T.MeshStandardMaterial({color:c,roughness:.72,...e});mats.push(m);return m}
+ const white=mat('#f5f5ef'),edge=mat('#d7dcd9'),glass=mat('#66818d',{metalness:.25,roughness:.15}),dark=mat('#26353d'),paving=mat('#c1c9c6'),green=mat('#687c6d'),water=mat('#71969e',{metalness:.4,roughness:.18}),sand=mat('#b2b8ad'),gold=mat('#b7a681',{metalness:.5,roughness:.2})
+ const box=(w:number,h:number,d:number,x:number,y:number,z:number,m:any,parent:any=world)=>{const g=new T.BoxGeometry(w,h,d);geos.push(g);const o=new T.Mesh(g,m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o}
+ const ground=box(240,.3,240,0,-1,0,mat('#dce3df'));ground.castShadow=false
+ box(41,1.15,33,0,-.22,0,edge);box(40,.1,32,0,.4,0,paving)
+ // A pale stone campus: a long skylit gallery, a dark cinema and a garage court.
+ const gallery=new T.Group();world.add(gallery)
+ box(17,4.8,17,-7,2.85,-3,white,gallery);box(18,.32,18,-7,5.38,-3,white,gallery)
+ box(17.3,.07,17.3,-7,5.58,-3,edge,gallery)
+ for(let i=0;i<5;i++){box(1.5,.22,14,-12.5+i*2.7,5.78,-3,glass,gallery);box(.11,.22,14,-13.2+i*2.7,5.88,-3,white,gallery)}
+ box(17,1.45,.08,-7,2.1,5.55,glass,gallery);for(let x=-15;x<2;x+=2)box(.13,3.8,.18,x,2.35,5.65,white,gallery)
+ const cinema=new T.Group();world.add(cinema);box(10,6.8,13,8,3.85,-5,dark,cinema);box(10.5,.3,13.5,8,7.38,-5,dark,cinema)
+ for(let x=3.3;x<13;x+=.55)box(.12,6.6,.12,x,3.8,1.6,edge,cinema)
+ box(8,3.5,7,5,2.2,5,white);box(8.5,.35,7.5,5,4.1,5,white);box(6.4,2.7,.1,5,1.9,8.57,glass)
+ for(let x=2.5;x<8;x+=1.4)box(.1,2.7,.2,x,1.9,8.6,dark)
+ // A cutaway lower-ground garage, open to the sky at the far right.
+ const garage=new T.Group();world.add(garage);box(8,1.1,11,15,.7,6,dark,garage);box(.25,2.1,11,11.1,1.2,6,white,garage);box(8,2.1,.25,15,1.2,.5,white,garage);box(.25,2.1,11,18.9,1.2,6,white,garage)
+ for(let z=2;z<11;z+=2.5){box(3,.02,.06,15,1.28,z,gold,garage);box(.06,.02,2.5,16.5,1.28,z+1.25,gold,garage)}
+ const ramp=box(7,.17,9,15,.7,14.1,paving,garage);ramp.rotation.x=.08
+ // Gallery walk, reflecting pool, sculpture court and quiet planting.
+ box(18,.04,3,-1,.49,11,white);box(4,.04,13,-2,.49,14,white)
+ box(11,.07,3.8,-11,.5,10.5,dark);box(10.5,.08,3.3,-11,.55,10.5,water)
+ const ringG=new T.TorusGeometry(1.7,.16,12,64);geos.push(ringG);const ring=new T.Mesh(ringG,gold);ring.position.set(-2,2.3,11);ring.rotation.y=.65;ring.castShadow=true;world.add(ring);box(3,.25,3,-2,.6,11,white)
+ for(const x of [-18.2,18.1])for(let z=-13;z<14;z+=4.5){box(2.2,.25,2.2,x,.55,z,sand);const trunk=box(.18,1.8,.18,x,1.5,z,mat('#77796a'));const g=new T.IcosahedronGeometry(.95,1);geos.push(g);const crown=new T.Mesh(g,green);crown.position.set(x,2.8,z);crown.scale.set(1,1.3,1);crown.castShadow=true;world.add(crown);trees.push(crown)}
+ for(let z=-13;z<12;z+=4.5)box(1.3,.4,.45,-16.8,.8,z,dark)
+ for(let i=0;i<4;i++)box(8+i*.6,.13,.6,5,.43-i*.11,9+i*.6,white)
+ // Labels are part of the miniature, and remain readable from the orbit.
+ const label=(text:string,x:number,y:number,z:number,w:number,d:number,color='#2c3d46')=>{const c=document.createElement('canvas');c.width=1024;c.height=128;const ctx=c.getContext('2d')!;ctx.clearRect(0,0,1024,128);ctx.fillStyle=color;ctx.textAlign='center';ctx.font='500 60px monospace';ctx.fillText(text,512,85);const tx=new T.CanvasTexture(c);tx.colorSpace=T.SRGBColorSpace;const m=new T.MeshBasicMaterial({map:tx,transparent:true,toneMapped:false});mats.push(m);const g=new T.PlaneGeometry(w,d);geos.push(g);const p=new T.Mesh(g,m);p.rotation.x=-Math.PI/2;p.position.set(x,y,z);world.add(p);return tx}
+ const txs=[label('S H W C A S E',-6,.52,14.8,10,1.25),label('01 / RECOLLECTIONS',-7,5.95,4.5,11,1),label('02 / SCREENING',8,7.58,-5,7,.8,'#d4dee2'),label('B1 / GARAGE',15,1.4,4,5,.6,'#d4dee2')]
+ const hit=(group:any,id:string)=>{group.traverse((o:any)=>{if(o.isMesh){o.userData.room=id;targets.push(o)}})};hit(gallery,'josh');hit(cinema,'screen');hit(garage,'garage')
+ const lobbyHit=box(8,3.5,7,5,2.2,5,new T.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));lobbyHit.userData.room='lobby';targets.push(lobbyHit)
+ scene.add(new T.HemisphereLight('#f4fbff','#b8c1b9',2.7));const sun=new T.DirectionalLight('#fff4d9',3.2);sun.position.set(-30,50,28);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-35,right:35,top:35,bottom:-35,far:130});sun.shadow.bias=-.0005;scene.add(sun)
+ let az=.7,goal=.7,elevation=.85,goalElevation=.85,radius=innerWidth<640?78:63,goalRadius=radius,drag:null|{x:number;y:number;a:number;e:number}=null,moved=0,raf=0,last=performance.now()
+ const aim=new T.Vector3(0,0,0),pointer=new T.Vector2(),ray=new T.Raycaster()
+ const resize=()=>{camera.aspect=el.clientWidth/el.clientHeight;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight);goalRadius=innerWidth<640?78:63}
+ const draw=()=>{if(dead)return;const now=performance.now(),dt=Math.min(.1,(now-last)/1000);last=now;const f=1-Math.exp(-dt*6);az+=(goal-az)*f;elevation+=(goalElevation-elevation)*f;radius+=(goalRadius-radius)*f;camera.position.set(Math.sin(az)*radius*Math.cos(elevation),Math.sin(elevation)*radius,Math.cos(az)*radius*Math.cos(elevation));camera.lookAt(aim);renderer.render(scene,camera);raf=requestAnimationFrame(draw)}
+ const down=(e:PointerEvent)=>{drag={x:e.clientX,y:e.clientY,a:goal,e:goalElevation};moved=0;el.setPointerCapture(e.pointerId)}
+ const move=(e:PointerEvent)=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;moved=Math.hypot(dx,dy);goal=drag.a-dx*.006;goalElevation=Math.max(.48,Math.min(1.25,drag.e+dy*.003))}
+ const up=(e:PointerEvent)=>{if(!drag)return;drag=null;if(moved>8)return;const r=el.getBoundingClientRect();pointer.set((e.clientX-r.left)/r.width*2-1,-((e.clientY-r.top)/r.height)*2+1);ray.setFromCamera(pointer,camera);const h=ray.intersectObjects(targets)[0];if(h)callback.current(h.object.userData.room)}
+ const wheel=(e:WheelEvent)=>{e.preventDefault();goalRadius=Math.max(45,Math.min(95,goalRadius+e.deltaY*.025))}
+ el.addEventListener('pointerdown',down);el.addEventListener('pointermove',move);el.addEventListener('pointerup',up);el.addEventListener('wheel',wheel,{passive:false});window.addEventListener('resize',resize);draw();setStatus('')
+ clean=()=>{cancelAnimationFrame(raf);window.removeEventListener('resize',resize);el.removeEventListener('pointerdown',down);el.removeEventListener('pointermove',move);el.removeEventListener('pointerup',up);el.removeEventListener('wheel',wheel);mats.forEach(m=>m.dispose());geos.forEach(g=>g.dispose());txs.forEach(t=>t.dispose());renderer.dispose();renderer.domElement.remove()}
+ }catch(e){console.error(e);setStatus('Choose a gallery below to enter the museum.')}};boot();return()=>{dead=true;clean()}},[])
+ return <div className="exteriorCanvas"><div ref={mount} className="exteriorMount"/>{status&&<p className="exteriorStatus">{status}</p>}</div>
+}
+
+
 export default function Home(){
- const [josh,setJosh]=useState(false)
+ const [exterior,setExterior]=useState(false)
  const [garage,setGarage]=useState(true)
+ const [josh,setJosh]=useState(false)
  const [mapOpen,setMapOpen]=useState(false)
- const [mapRoom,setMapRoom]=useState<'lobby'|'josh'|'garage'|'screen'>('lobby')
- const works=garage?GARAGE_WORKS:josh?WORKS.filter((_,i)=>i!==1):WORKS
- const [mode,setMode]=useState<'gallery'|'list'>('gallery')
+ const [mapRoom,setMapRoom]=useState<'lobby'|'josh'|'garage'|'screen'>('josh')
  const [active,setActive]=useState(0)
  const [zoom,setZoom]=useState<number|null>(null)
  const [screening,setScreening]=useState<number|null>(null)
- const [journal,setJournal]=useState(true)
- const root=useRef<HTMLDivElement>(null)
- const current=useRef(0),target=useRef(0)
- const drag=useRef<{x:number,start:number}|null>(null), moved=useRef(0)
- const count=works.length+1
- const go=(n:number)=>{target.current=Math.max(0,Math.min(count-1,n));setActive(Math.round(target.current))}
- useEffect(()=>{
-  if(mode!=='gallery')return
-  const el=root.current;if(!el)return
-  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches
-  let raf=0
-  const draw=()=>{
-   current.current+=(target.current-current.current)*(reduced?1:.085)
-   const spacing=innerWidth<640?innerWidth*.91:520
-   el.querySelectorAll<HTMLElement>('.hgPiece').forEach((p,i)=>{
-    const d=i-current.current
-    p.style.transform=`translate(-50%,-50%) translate3d(${d*spacing}px,${Math.min(Math.abs(d),3)*10}px,${-Math.min(Math.abs(d),3)*115}px) rotateY(${-Math.max(-2,Math.min(2,d))*18}deg)`
-    p.style.opacity=Math.abs(d)>2.5?'0':'1'
-    p.style.pointerEvents=Math.abs(d)<.65?'auto':'none'
-   })
-   raf=requestAnimationFrame(draw)
-  };draw()
-  const wheel=(e:WheelEvent)=>{e.preventDefault();target.current=Math.max(0,Math.min(count-1,target.current+(Math.abs(e.deltaY)>Math.abs(e.deltaX)?e.deltaY:e.deltaX)*.0025));setActive(Math.round(target.current))}
-  const down=(e:PointerEvent)=>{drag.current={x:e.clientX,start:target.current};moved.current=0}
-  const move=(e:PointerEvent)=>{if(!drag.current)return;const dx=e.clientX-drag.current.x;moved.current=Math.abs(dx);target.current=Math.max(0,Math.min(count-1,drag.current.start-dx/(innerWidth<640?280:500)));setActive(Math.round(target.current))}
-  const up=()=>{if(!drag.current)return;drag.current=null;target.current=Math.round(target.current);setActive(target.current)}
-  el.addEventListener('wheel',wheel,{passive:false});el.addEventListener('pointerdown',down);window.addEventListener('pointermove',move);window.addEventListener('pointerup',up)
-  return()=>{cancelAnimationFrame(raf);el.removeEventListener('wheel',wheel);el.removeEventListener('pointerdown',down);window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up)}
- },[mode,count])
- useEffect(()=>{const fn=(e:KeyboardEvent)=>{if(e.key==='Escape'){setZoom(null);setScreening(null);setMapOpen(false)}if(mapOpen||screening!==null||zoom!==null||mode!=='gallery')return;if(e.key==='ArrowRight')go(Math.round(target.current)+1);if(e.key==='ArrowLeft')go(Math.round(target.current)-1)};window.addEventListener('keydown',fn);return()=>window.removeEventListener('keydown',fn)},[zoom,mode,screening,mapOpen])
- const open=(i:number)=>{if(moved.current>8)return;const w:any=works[i];if(w.href){enterRoom('garage');return}setZoom(i)}
- const enterRoom=(room:string)=>{setMapOpen(false);setZoom(null);setScreening(null);setMode('gallery');if(room==='screen'){setJournal(false);setScreening(0);return}setJosh(room==='josh');setGarage(room==='garage');target.current=0;current.current=target.current;setActive(target.current)}
- return <main className={`homeGallery ${garage?'garageMode':''}`} data-home="museum-map-v3">
+ const target=useRef(0)
+ const works:any[]=garage?GARAGE_WORKS:josh?WORKS.filter((_,i)=>i!==1):WORKS
+ const go=(n:number)=>{target.current=Math.max(0,Math.min(works.length,n));setActive(Math.round(target.current))}
+ const enterRoom=(room:string)=>{setMapOpen(false);setZoom(null);setScreening(null);setExterior(false);if(room==='screen'){setScreening(0);return}setJosh(room==='josh');setGarage(room==='garage');target.current=0;setActive(0)}
+ const open=(i:number)=>{if(works[i].href){enterRoom('garage');return}setZoom(i)}
+ const outside=()=>{setExterior(true);setScreening(null);setMapOpen(false);setZoom(null)}
+ useEffect(()=>{const key=(e:KeyboardEvent)=>{if(e.key==='Escape'){setMapOpen(false);setZoom(null);setScreening(null)}if(exterior||mapOpen||zoom!==null||screening!==null)return;if(e.key==='ArrowRight')go(Math.round(target.current)+1);if(e.key==='ArrowLeft')go(Math.round(target.current)-1)};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key)},[exterior,mapOpen,zoom,screening,works.length])
+ const roomName=mapRoom==='garage'?"andy's garage.":mapRoom==='josh'?"josh's gallery.":mapRoom==='screen'?'the screening room.':'the museum lobby.'
+ return <main className={`homeGallery ${exterior?'campusMode':garage?'garageMode':''}`} data-home="museum-exterior-v1">
  <style>{CSS}</style>
- <header className="hgTop"><a className="hgMark" href="/">shwcase<sup>®</sup></a><span className="tag">the shwcase museum</span><div className="hgToggle"><button className={mode==='gallery'?'on':''} onClick={()=>setMode('gallery')}>GALLERY</button><button onClick={()=>{setJournal(true);setScreening(0)}}>JOURNAL</button><button className={mode==='list'?'on':''} onClick={()=>setMode('list')}>LIST</button></div></header>
- {mode==='gallery'?<>
+ <header className="hgTop"><a className="hgMark" href="/">shwcase<sup>®</sup></a><span className="tag">the shwcase museum</span><nav className="museumTopNav" aria-label="Museum navigation">{!exterior&&<button onClick={outside}>THE GROUNDS ↗</button>}<button onClick={()=>setMapOpen(true)}>FLOOR PLAN ⌑</button></nav></header>
+ {exterior?<>
+ <MuseumExterior onSelect={setMapRoom}/>
+ <div className="exteriorHeading"><p>a museum without closing hours</p><h1>the shwcase<span>museum.</span></h1></div><p className="exteriorHint">drag to orbit<br/>tap a building<br/>choose your room</p>
+ <div className="campusNav"><aside className="campusSelect"><div className="eyebrow">{mapRoom==='garage'?'B1 / ANDYFLCKS':mapRoom==='josh'?'G.01 / JOSH PEPPER':mapRoom==='screen'?'G.02 / MOVING IMAGES':'G.00 / WELCOME'}</div><h2>{roomName}</h2><p>{mapRoom==='garage'?'A black Mustang. Three frames. A night kept underground.':mapRoom==='josh'?'Follow the light through the white gallery. Recollections from the shwcase archive.':mapRoom==='screen'?'Silent films, a quiet seat, and a moment that can last.':'Step inside the skylit hall and find your way through the collection.'}</p><button className="campusEnter" onClick={()=>enterRoom(mapRoom)}>step inside <span>↗</span></button></aside><nav className="campusRooms" aria-label="Select a building">{(['lobby','josh','screen','garage'] as const).map(r=><button key={r} onClick={()=>setMapRoom(r)} className={mapRoom===r?'selected':''}>{r==='lobby'?'00 / LOBBY':r==='josh'?"01 / JOSH'S GALLERY":r==='screen'?'02 / SCREENING':"B1 / ANDY'S GARAGE"}</button>)}</nav></div>
+ </>:<>
  <SpatialGallery target={target} garage={garage} josh={josh} onActive={setActive} onOpen={open}/>
- <div className="museumLocation">{garage?'B1 / ANDYFLCKS':josh?'G.01 / JOSH PEPPER':'G / THE SHWCASE MUSEUM'}<strong>{garage?'the garage.':'the recollection rooms.'}</strong></div>
- <nav className="roomWayfinding" aria-label="Exhibition route">{(garage?['arrival','the rear','inside','the ledge']:josh?['arrival','last light','coast','rooftop']:['arrival','last light','andy','coast','rooftop']).map((name,i)=><button key={name} onClick={()=>go(i)} className={active===i?'selected':''} aria-label={`Walk to ${name}`}><span>{String(i).padStart(2,'0')}</span><small>{name}</small></button>)}</nav>
- <div className="hgControls"><div className="hgPosition" aria-live="polite">{active===0?'the entrance':`${String(active).padStart(2,'0')} / ${works[Math.min(active-1,works.length-1)].title}`}<br/>{active===0?'scroll or drag to walk round':'tap the frame to step closer'}</div><div className="hgArrows"><button disabled={active===0} onClick={()=>go(Math.round(target.current)-1)} aria-label="Walk back">←</button><button disabled={active===count-1} onClick={()=>go(Math.round(target.current)+1)} aria-label="Walk on">→</button></div></div>
- </>:<div className="hgList"><h1>the collection.</h1>{works.map((w:any,i)=><article className="hgRow" key={w.title}><button onClick={()=>{moved.current=0;open(i)}} aria-label={`Open ${w.title}`}><img src={w.image} alt={w.title}/></button><div><h2>{w.title}</h2><p>{String(i+1).padStart(2,'0')} / {w.by}<br/>{w.meta}</p><button className="view" style={{width:'auto'}} onClick={()=>{moved.current=0;open(i)}}>{w.href?'enter the room ↗':'look closer ↗'}</button></div></article>)}</div>}
- {mode==='gallery'&&<button className="hgSeatLink" onClick={()=>setScreening(0)}>enter the moment<small>the moving journal ↗</small></button>}
+ <div className="museumLocation">{garage?'B1 / ANDYFLCKS':josh?'G.01 / JOSH PEPPER':'G.00 / THE SHWCASE MUSEUM'}<strong>{garage?'the garage.':'the recollection rooms.'}</strong></div>
+ <nav className="roomWayfinding" aria-label="Exhibition route">{(garage?['the mustang','the rear','inside','the ledge']:josh?['arrival','last light','coast','rooftop']:['arrival','last light','andy','coast','rooftop']).map((name,i)=><button key={name} onClick={()=>go(i)} className={active===i?'selected':''} aria-label={`Walk to ${name}`}><span>{String(i).padStart(2,'0')}</span><small>{name}</small></button>)}</nav>
  <button className="museumMapBtn" onClick={()=>{setMapRoom(garage?'garage':josh?'josh':'lobby');setMapOpen(true)}}><span>⌑</span> MUSEUM MAP</button>
- <footer className="hgBottom"><span>shwcase / selected recollections</span><span className="about">a growing collection, kept quietly.</span><a href="/ask">leave a recollection ↗</a></footer>
- {zoom!==null&&<section className="hgCloseup" role="dialog" aria-modal="true" aria-label={works[zoom].title}><button className="close" onClick={()=>setZoom(null)} autoFocus>close ×</button>{(works[zoom] as any).video?<video src={(works[zoom] as any).video} autoPlay muted loop playsInline poster={works[zoom].image}/>:<img src={works[zoom].image} alt={works[zoom].title}/>}<h2>{works[zoom].title}</h2><p>{works[zoom].meta}</p>{(works[zoom] as any).video&&<button className="hgSit" onClick={()=>{setScreening(josh&&zoom>0?zoom+1:zoom);setZoom(null)}}>sit with this moment ↗</button>}</section>}
- {screening!==null&&<section className={`screenRoom ${journal?'journal':''}`} role="dialog" aria-modal="true" aria-label="The moving journal">
- <video className="screenGlow" key={'glow'+screening} src={WORKS[screening].video} autoPlay muted loop playsInline aria-hidden="true"/>
- <div className="roomShell"/><div className="screenFloor"/>
- <header className="screenTop"><div className="roomLabel"><strong>shwcase / moving journal</strong><br/>recollections from around the world</div><button autoFocus className="back" onClick={()=>setScreening(null)}>← back to the gallery</button></header>
- <div className="projection"><video key={screening} src={WORKS[screening].video} poster={WORKS[screening].image} autoPlay muted loop playsInline aria-label={WORKS[screening].title}/></div>
- <div className="seat" aria-hidden="true"/><button className="screenView" onClick={()=>setJournal(!journal)}>{journal?'take a seat in the screening room ↗':'let the film fill the room ↗'}</button>
- <footer className="screenCaption"><div><span className="chapterNo">{screening===0?'01':'02'} / FIELD NOTES</span><h2>{WORKS[screening].title}</h2><p className="quietNote">a moving image, a place to pause.<br/>no sound. no hurry.</p></div><div className="filmChoices">{[0,2].map(i=><button key={i} className={screening===i?'selected':''} onClick={()=>setScreening(i)}>{WORKS[i].title}</button>)}</div></footer>
- </section>}
-
+ <div className="hgControls"><div className="hgPosition" aria-live="polite">{active===0?(garage?'THE MUSTANG / FLOOR INSTALLATION':'THE ENTRANCE'):`${String(active).padStart(2,'0')} / ${works[Math.min(active-1,works.length-1)].title}`}<br/>{active===0?'scroll or drag to walk round':'tap the frame to step closer'}</div><div className="hgArrows"><button disabled={active===0} onClick={()=>go(Math.round(target.current)-1)} aria-label="Walk back">←</button><button disabled={active===works.length} onClick={()=>go(Math.round(target.current)+1)} aria-label="Walk on">→</button></div></div>
+ {garage&&<p className="carNote">a sculptural form study / andyflcks</p>}
+ </>}
+ <footer className="hgBottom"><span>shwcase / recollections from around the world</span><span className="about">a growing museum, kept quietly.</span></footer>
+ {zoom!==null&&<section className="hgCloseup" role="dialog" aria-modal="true" aria-label={works[zoom].title}><button autoFocus className="close" onClick={()=>setZoom(null)}>close ×</button>{works[zoom].video?<video src={works[zoom].video} autoPlay muted loop playsInline poster={works[zoom].image}/>:<img src={works[zoom].image} alt={works[zoom].title}/>}<h2>{works[zoom].title}</h2><p>{works[zoom].meta}</p></section>}
+ {screening!==null&&<section className="screenRoom" role="dialog" aria-modal="true" aria-label="The screening room"><video className="screenGlow" src={WORKS[screening].video} autoPlay muted loop playsInline aria-hidden="true"/><div className="roomShell"/><div className="screenFloor"/><header className="screenTop"><div className="roomLabel"><strong>shwcase / screening room</strong><br/>moving images, kept quietly.</div><button autoFocus className="back" onClick={()=>setScreening(null)}>← back to the museum</button></header><div className="projection"><video key={screening} src={WORKS[screening].video} poster={WORKS[screening].image} autoPlay muted loop playsInline aria-label={WORKS[screening].title}/></div><div className="seat"/><footer className="screenCaption"><div><span className="chapterNo">G.02 / SCREENING</span><h2>{WORKS[screening].title}</h2><p className="quietNote">no sound. no hurry.</p></div><div className="filmChoices">{[0,2].map(i=><button key={i} className={screening===i?'selected':''} onClick={()=>setScreening(i)}>{WORKS[i].title}</button>)}</div></footer></section>}
  {mapOpen&&<section className="museumMap" role="dialog" aria-modal="true" aria-label="Museum map">
  <header className="mapHeader"><div><div className="mapEyebrow">the shwcase museum<br/>a collection of worlds, kept together.</div><h1>find your next room.</h1></div><button autoFocus className="mapClose" onClick={()=>setMapOpen(false)}>close ×</button></header>
  <div className="mapLayout"><div className="mapPlan"><svg viewBox="0 0 760 440" role="img" aria-label="Museum floor plan: Josh's recollection rooms and screening room on ground level, Andy's garage below">
@@ -302,9 +354,9 @@ export default function Home(){
  <g role="button" tabIndex={0} aria-label="Select Andy's garage" onClick={()=>setMapRoom('garage')} onKeyDown={e=>e.key==='Enter'&&setMapRoom('garage')}><path className={`mapRoom garage ${mapRoom==='garage'?'selected':''}`} d="M300 355H678V423H300Z"/><text className="mapLight" x="320" y="376">B1 / ANDYFLCKS</text><text className="mapName mapLight" x="320" y="407">the garage.</text><path d="M525 370V406 M553 370V406 M581 370V406 M609 370V406 M637 370V406" stroke="#b59c73" strokeWidth="1"/></g>
  <text className="mapDim" x="83" y="390">THE MUSEUM IS GROWING.</text><text className="mapDim" x="83" y="405">MORE WORLDS, IN TIME.</text><path d="M714 105V70L708 80M714 70L720 80" fill="none" stroke="#7e8d96"/><text x="710" y="120">N</text>
  </svg><div className="mapCaption"><span>choose a room on the plan</span><span>ground level + lower ground / not to scale</span></div></div>
- <aside className="mapDetails"><div className="mapEyebrow">{mapRoom==='garage'?'B1 / LOWER GROUND':mapRoom==='josh'?'G.01 / GROUND LEVEL':mapRoom==='screen'?'G.02 / GROUND LEVEL':'G.00 / GROUND LEVEL'}</div><h2>{mapRoom==='garage'?"andy's garage.":mapRoom==='josh'?"josh's gallery.":mapRoom==='screen'?'the screening room.':'the museum lobby.'}</h2><p>{mapRoom==='garage'?"Concrete, fluorescent light and three frames from a night in Los Angeles. A room by andyflcks.":mapRoom==='josh'?'A skylit walk through the shwcase archive. Blue hour at the pier, the coast at dusk, and the light in between.':mapRoom==='screen'?'Take a seat. Silent moving images, projected at their own pace. No sound. No hurry.':'Start in the white hall, follow the light, or choose a world of your own. This is the shwcase museum.'}</p><button className="mapEnter" onClick={()=>enterRoom(mapRoom)}>enter {mapRoom==='garage'?'the garage':mapRoom==='josh'?'the gallery':mapRoom==='screen'?'the screening room':'the museum'} <span>↗</span></button></aside></div>
+ <aside className="mapDetails"><div className="mapEyebrow">{mapRoom==='garage'?'B1 / LOWER GROUND':mapRoom==='josh'?'G.01 / GROUND LEVEL':mapRoom==='screen'?'G.02 / GROUND LEVEL':'G.00 / GROUND LEVEL'}</div><h2>{mapRoom==='garage'?"andy's garage.":mapRoom==='josh'?"josh's gallery.":mapRoom==='screen'?'the screening room.':'the museum lobby.'}</h2><p>{mapRoom==='garage'?"Concrete, fluorescent light and three frames from a night in Los Angeles. A room by andyflcks.":mapRoom==='josh'?'A skylit walk through the shwcase archive. Blue hour at the pier, the coast at dusk, and the light in between.':mapRoom==='screen'?'Take a seat. Silent moving images, projected at their own pace. No sound. No hurry.':'Step inside the white hall, or return to the grounds to explore the museum from above.'}</p><button className="mapEnter" onClick={()=>enterRoom(mapRoom)}>enter {mapRoom==='garage'?'the garage':mapRoom==='josh'?'the gallery':mapRoom==='screen'?'the screening room':'the museum'} <span>↗</span></button></aside></div>
  <nav className="mapLegend" aria-label="Choose a museum gallery">{(['lobby','josh','screen','garage'] as const).map(r=><button className={mapRoom===r?'selected':''} key={r} onClick={()=>setMapRoom(r)}>{r==='lobby'?'G.00 / LOBBY':r==='josh'?"G.01 / JOSH":r==='screen'?'G.02 / SCREENING':"B1 / ANDY"}</button>)}</nav><footer className="mapFooter"><span>shwcase / recollections from around the world</span><span>a museum without closing hours.</span></footer>
  </section>}
 
  </main>
-       }
+         }
