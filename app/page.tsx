@@ -1,8 +1,12 @@
 import Link from 'next/link'
+import TimeTheme from './TimeTheme'
 
 const CSS = `
-  .v2{--cream:#F2EAD9;--cream-soft:#FAF6EC;--espresso:#2E2118;--mocha:#6F5138;--caramel:#B4895E;--ink-soft:rgba(46,33,24,.58);--hairline:rgba(46,33,24,.16)}
-  .v2{background:var(--cream);color:var(--espresso);font-family:"Cormorant Garamond",Georgia,serif;font-weight:400;-webkit-font-smoothing:antialiased}
+  .v2{--cream:#F2EAD9;--cream-soft:#FAF6EC;--espresso:#2E2118;--mocha:#6F5138;--caramel:#B4895E;--ink-soft:rgba(46,33,24,.58);--hairline:rgba(46,33,24,.16);--hero-tint:rgba(24,16,11,.10)}
+  html[data-shw-time='morning'] .v2{--cream:#F7EFE3;--espresso:#2E2118;--mocha:#77573D;--caramel:#C08E68;--ink-soft:rgba(46,33,24,.58);--hairline:rgba(46,33,24,.16);--hero-tint:rgba(70,42,30,.14)}
+  html[data-shw-time='dusk'] .v2{--cream:#F4E3CB;--espresso:#2B1B11;--mocha:#6E4527;--caramel:#C97F4B;--ink-soft:rgba(43,27,17,.58);--hairline:rgba(43,27,17,.18);--hero-tint:rgba(64,28,8,.22)}
+  html[data-shw-time='night'] .v2{--cream:#131926;--cream-soft:#F4EEE0;--espresso:#E9E2D2;--mocha:#9AA6BE;--caramel:#C99A6C;--ink-soft:rgba(233,226,210,.55);--hairline:rgba(233,226,210,.18);--hero-tint:rgba(6,10,22,.35)}
+  .v2{background:var(--cream);color:var(--espresso);font-family:"Cormorant Garamond",Georgia,serif;font-weight:400;-webkit-font-smoothing:antialiased;transition:background .9s ease,color .9s ease}
   .v2 *{margin:0;padding:0;box-sizing:border-box}
   .v2 .mono{font-family:"IBM Plex Mono",monospace;font-weight:400}
   .v2 .grain{position:fixed;inset:-50%;z-index:60;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.055}
@@ -12,6 +16,7 @@ const CSS = `
   .v2 .hero .hero-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
   @media (prefers-reduced-motion:reduce){.v2 .hero .hero-media{display:none}}
   .v2 .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom, rgba(24,16,11,.42) 0%, rgba(24,16,11,0) 30%, rgba(24,16,11,0) 60%, rgba(24,16,11,.55) 100%)}
+  .v2 .hero::after{content:"";position:absolute;inset:0;z-index:1;background:var(--hero-tint);transition:background .9s ease;pointer-events:none}
   .v2 nav{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:baseline;padding:26px 28px}
   .v2 .wordmark{font-size:22px;font-weight:500;color:var(--cream-soft);text-decoration:none;letter-spacing:.01em}
   .v2 .wordmark sup{font-size:9px;vertical-align:8px;letter-spacing:0}
@@ -28,10 +33,11 @@ const CSS = `
   .v2 .hero-type .q .l3{display:block;margin-left:2.5%}
   .v2 .hero-type .q .l4{display:block;margin-left:13%}
   .v2 .hero-cta{position:relative;z-index:3;padding:34px 28px 0;display:flex;align-items:center;gap:18px}
-  .v2 .btn-dark{display:inline-block;background:var(--espresso);color:var(--cream-soft);font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;padding:13px 24px;border-radius:999px}
+  .v2 .btn-dark{display:inline-block;background:var(--espresso);color:var(--cream);font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;padding:13px 24px;border-radius:999px}
+  html[data-shw-time='night'] .v2 .btn-dark{background:var(--cream-soft);color:#131926}
   .v2 .hero-cta .micro{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;color:rgba(250,246,236,.66);text-transform:uppercase}
   .v2 .hero-bottom{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:flex-end;padding:40px 28px 30px;gap:20px}
-  .v2 .now-card{background:rgba(24,16,11,.55);backdrop-filter:blur(6px);border:1px solid rgba(250,246,236,.14);padding:16px 18px;max-width:210px;border-radius:2px}
+  .v2 .now-card{background:rgba(24,16,11,.55);backdrop-filter:blur(6px);border:1px solid rgba(250,246,236,.14);padding:16px 18px;max-width:230px;border-radius:2px}
   .v2 .now-card .mono-label{color:var(--caramel);margin-bottom:8px;display:block}
   .v2 .now-card .t{color:var(--cream-soft);font-style:italic;font-size:19px;line-height:1.25}
   .v2 .now-card .m{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.12em;color:rgba(250,246,236,.6);margin-top:8px;text-transform:uppercase}
@@ -56,34 +62,33 @@ const CSS = `
   .v2 .row .d{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);text-align:right;max-width:180px;line-height:1.9}
   @media (max-width:640px){.v2 .row .d{display:none}}
 
-  .v2 .archive{padding:40px 0 80px;overflow:hidden}
-  .v2 .archive .head{max-width:1080px;margin:0 auto;padding:0 28px 60px;display:flex;justify-content:space-between;align-items:baseline;gap:6px 18px;flex-wrap:wrap}
-  .v2 .field{position:relative;max-width:1080px;margin:0 auto;height:1080px}
-  .v2 .field .fig{position:absolute}
-  .v2 .field .fig img{display:block;width:100%}
+  .v2 .questions{padding:40px 0 90px;overflow:hidden}
+  .v2 .questions .head{max-width:1080px;margin:0 auto;padding:0 28px 60px;display:flex;justify-content:space-between;align-items:baseline;gap:6px 18px;flex-wrap:wrap}
+  .v2 .field{display:flex;flex-direction:column;gap:26px;padding:0 28px}
+  .v2 .field .fig{width:84%}
+  .v2 .field .fig:nth-of-type(odd){align-self:flex-end}
+  .v2 .field .fig img{display:block;width:100%;border-radius:2px}
   .v2 .field .fig .cap{display:block;margin-top:7px;font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);line-height:1.8}
-  .v2 .field .qentry{position:absolute}
   .v2 .field .qentry .qn{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.2em;color:var(--caramel);text-transform:uppercase;display:block;margin-bottom:6px}
-  .v2 .field .qentry .qq{display:block;font-size:clamp(21px,5.4vw,30px);font-style:italic;font-weight:400;line-height:1.15;max-width:14ch}
+  .v2 .field .qentry .qq{display:block;font-size:clamp(21px,5.4vw,30px);font-style:italic;font-weight:400;line-height:1.15;max-width:15ch}
   .v2 .field .qentry .qm{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-top:8px}
-  .v2 .f1{left:0;top:0;width:46%}
-  .v2 .f2{right:4%;top:60px;width:32%}
-  .v2 .q1{left:4%;top:240px}
-  .v2 .f3{right:0;top:430px;width:38%}
-  .v2 .q2{left:6%;top:580px}
-  .v2 .f4{left:34%;top:740px;width:32%}
-  .v2 .f5{right:6%;top:790px;width:24%}
-  .v2 .q3{left:4%;top:930px}
+  .v2 .field .qentry .qa{display:inline-block;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mocha);text-decoration:none;border-bottom:1px solid var(--hairline);padding-bottom:3px}
   @media (min-width:761px){
-    .v2 .field{height:840px}
-    .v2 .f1{left:0;right:auto;top:0;width:26%}
-    .v2 .q1{left:31%;right:auto;top:30px}
-    .v2 .f2{left:auto;right:0;top:20px;width:24%}
-    .v2 .f3{left:8%;right:auto;top:430px;width:22%}
-    .v2 .q2{left:37%;right:auto;top:470px}
-    .v2 .f4{left:auto;right:24%;top:470px;width:20%}
-    .v2 .q3{left:auto;right:2%;top:430px}
-    .v2 .f5{left:66%;right:auto;top:700px;width:16%}
+    .v2 .field{display:block;position:relative;height:1240px;padding:0}
+    .v2 .field .fig{position:absolute}
+    .v2 .field .qentry{position:absolute;max-width:220px}
+    .v2 .field .f1{left:0;top:0;width:24%}
+    .v2 .field .q1{left:29%;top:30px}
+    .v2 .field .f2{left:auto;right:0;top:15px;width:22%}
+    .v2 .field .f7{left:2%;top:350px;width:18%}
+    .v2 .field .q2{left:25%;top:390px}
+    .v2 .field .f3{left:52%;top:350px;width:19%}
+    .v2 .field .f4{left:auto;right:3%;top:400px;width:22%}
+    .v2 .field .f8{left:26%;top:640px;width:17%}
+    .v2 .field .q3{left:50%;top:660px}
+    .v2 .field .f5{left:2%;top:700px;width:19%}
+    .v2 .field .f6{left:auto;right:5%;top:760px;width:23%}
+    .v2 .field .q4{left:auto;right:8%;top:1030px}
   }
 
   .v2 .films{padding:90px 0 110px;max-width:1080px;margin:0 auto}
@@ -105,9 +110,9 @@ const CSS = `
   .v2 .quiet-motion video{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:2px}
   .v2 .quiet-motion figcaption{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:10px;line-height:1.8}
   @media(prefers-reduced-motion:reduce){.v2 .quiet-motion video{display:none}.v2 .quiet-motion{aspect-ratio:16/9;background:url("/shwcase-still-01.jpg") center/cover}.v2 .quiet-motion figcaption{display:none}}
-  .v2 .shop{background:var(--espresso);color:var(--cream-soft);padding:120px 28px;margin-top:50px}
+  .v2 .shop{background:#2E2118;color:#FAF6EC;padding:120px 28px;margin-top:50px}
   .v2 .shop .inner{max-width:1080px;margin:0 auto}
-  .v2 .shop .mono-label{color:var(--caramel);display:block;margin-bottom:34px}
+  .v2 .shop .mono-label{color:#B4895E;display:block;margin-bottom:34px}
   .v2 .shop .big{font-size:clamp(46px,11vw,104px);line-height:.98;font-weight:300}
   .v2 .shop .big em{font-style:italic}
   .v2 .shop-teaser{margin:44px 0 0;max-width:780px}
@@ -115,7 +120,7 @@ const CSS = `
   .v2 .shop-teaser figcaption{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(250,246,236,.62);margin-top:10px;line-height:1.8}
   .v2 .shop .row2{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-top:44px}
   .v2 .shop .d{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(250,246,236,.62);line-height:2.1;max-width:300px}
-  .v2 .btn-light{display:inline-block;background:var(--cream-soft);color:var(--espresso);font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;padding:13px 24px;border-radius:999px}
+  .v2 .btn-light{display:inline-block;background:#FAF6EC;color:#2E2118;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;padding:13px 24px;border-radius:999px}
 
   .v2 footer{padding:100px 28px 70px;max-width:1080px;margin:0 auto}
   .v2 footer .mark{font-size:clamp(40px,9vw,84px);font-style:italic;font-weight:300;line-height:1}
@@ -135,6 +140,7 @@ export default function Home() {
         rel="stylesheet"
       />
       <style>{CSS}</style>
+      <TimeTheme />
 
       <div className="grain"></div>
 
@@ -147,7 +153,7 @@ export default function Home() {
             shwcase<sup>®</sup>
           </a>
           <div className="links">
-            <a href="#archive">archive</a>
+            <a href="#questions">questions</a>
             <a href="#films">films</a>
             <Link href="/ask">ask</Link>
             <a href="#shop" className="soon">
@@ -172,22 +178,22 @@ export default function Home() {
         <div>
           <div className="hero-cta">
             <Link className="btn-dark" href="/ask">
-              answer the question
+              answer a question
             </Link>
-            <span className="micro">one question · a minute</span>
+            <span className="micro">four open · a minute each</span>
           </div>
           <div className="hero-bottom">
             <div className="now-card">
               <span className="mono-label">now asking</span>
-              <div className="t">question n°1, answered by you, filmed by me.</div>
-              <div className="m">answers open · filming nov 18</div>
+              <div className="t">four questions, all open at once. answer whichever one is yours.</div>
+              <div className="m">n°1–4 · answers open</div>
             </div>
             <div className="coords">
               from the archive
               <br />
               last light by the water
               <br />
-              a quiet moment
+              <span id="time-note">viewing in daylight</span>
             </div>
           </div>
         </div>
@@ -197,7 +203,7 @@ export default function Home() {
         <span className="mono-label">shwcase is</span>
         <p>
           calm, quiet <em>footage</em> <span className="inline-img"></span> from the places people
-          send me. one question at a time, answered slowly, <em>filmed</em> the way it felt.
+          send me. a few questions, open all at once, each one <em>answered</em> the way it felt.
         </p>
         <div className="sig">
           <span className="mono-label">recollections from around the world</span>
@@ -213,66 +219,95 @@ export default function Home() {
         <div className="row">
           <span className="n">01</span>
           <span className="t">
-            i ask <em>one question.</em>
+            pick the question <em>that's yours.</em>
           </span>
-          <span className="d">nothing to prepare · no right answer</span>
+          <span className="d">four open · no right answer</span>
         </div>
         <div className="row">
           <span className="n">02</span>
           <span className="t">
-            you <em>answer it.</em>
+            answer it with <em>a place.</em>
           </span>
-          <span className="d">online in a minute · or on a card</span>
+          <span className="d">online in a minute · or 20 seconds of footage</span>
         </div>
         <div className="row">
           <span className="n">03</span>
           <span className="t">
-            i film <em>the places</em> you send me.
+            it joins the archive <em>with your name on it.</em>
           </span>
-          <span className="d">your answer · on screen or in voiceover</span>
+          <span className="d">full credit · your own page</span>
         </div>
       </section>
 
-      <section className="archive" id="archive">
+      <section className="questions" id="questions">
         <div className="head">
-          <span className="mono-label">the archive</span>
-          <span className="mono-label">every question becomes an entry</span>
+          <span className="mono-label">the questions</span>
+          <span className="mono-label">all open · answered in images</span>
         </div>
         <div className="field">
-          <div className="fig f1">
-            <img src="/shwcase-still-01.jpg" alt="coastal dusk" />
-            <span className="cap">fig. 01 · coastal dusk</span>
-          </div>
-          <div className="fig f2">
-            <img src="/shwcase-still-06.jpg" alt="last light over rooftops" />
-            <span className="cap">fig. 02 · last light</span>
-          </div>
           <div className="qentry q1">
-            <span className="qn">n°1 · asking now</span>
+            <span className="qn">n°1 · open</span>
             <span className="qq">where do you go when you need to think?</span>
-            <span className="qm">answers open · filming november</span>
+            <span className="qm">answered in images · yours could be here</span>
+            <Link className="qa" href="/ask?src=q1">
+              answer n°1
+            </Link>
           </div>
-          <div className="fig f3">
-            <img src="/shwcase-still-10.jpg" alt="city silhouettes at dusk" />
-            <span className="cap">fig. 03 · city silhouettes</span>
+          <div className="fig f1">
+            <img src="/q-think-water.jpg" alt="sitting on the rocks, watching the sun path over the ocean" />
+            <span className="cap">answered by josh · los angeles</span>
+          </div>
+          <div className="fig f7">
+            <img src="/q-think-trail.jpg" alt="boots on a quiet trail" />
+            <span className="cap">answered by josh · los angeles</span>
           </div>
           <div className="qentry q2">
-            <span className="qn">n°2 · next</span>
+            <span className="qn">n°2 · open</span>
             <span className="qq">where were you the last time you felt completely calm?</span>
-            <span className="qm">opens after film n°1</span>
+            <span className="qm">answered in images · yours could be here</span>
+            <Link className="qa" href="/ask?src=q2">
+              answer n°2
+            </Link>
           </div>
-          <div className="fig f4">
-            <img src="/shwcase-still-11.jpg" alt="hazy golden ocean" />
-            <span className="cap">fig. 04 · golden haze</span>
+          <div className="fig f3">
+            <img src="/q-calm-blossom.jpg" alt="a camellia in spring" />
+            <span className="cap">answered by josh · los angeles</span>
+          </div>
+          <div className="fig f8">
+            <img src="/q-calm-canopy.jpg" alt="blossom canopy against the sky" />
+            <span className="cap">answered by josh · los angeles</span>
           </div>
           <div className="qentry q3">
-            <span className="qn">n°3 · later</span>
+            <span className="qn">n°3 · open</span>
             <span className="qq">what does home sound like?</span>
-            <span className="qm">collecting ideas</span>
+            <span className="qm">answered in images · yours could be here</span>
+            <Link className="qa" href="/ask?src=q3">
+              answer n°3
+            </Link>
+          </div>
+          <div className="fig f4">
+            <img src="/q-home-vinyl.jpg" alt="a record playing at home" />
+            <span className="cap">answered by josh · los angeles</span>
           </div>
           <div className="fig f5">
-            <img src="/shwcase-still-12.jpg" alt="white flower in the garden" />
-            <span className="cap">fig. 05 · a quiet detail</span>
+            <img src="/q-home-candle.jpg" alt="a candle burning in the dark" />
+            <span className="cap">answered by josh · los angeles</span>
+          </div>
+          <div className="qentry q4">
+            <span className="qn">n°4 · open</span>
+            <span className="qq">when did you last stop to watch the light change?</span>
+            <span className="qm">answered in images · yours could be here</span>
+            <Link className="qa" href="/ask?src=q4">
+              answer n°4
+            </Link>
+          </div>
+          <div className="fig f2">
+            <img src="/q-light-rooftop.jpg" alt="rooftop sunset over the city" />
+            <span className="cap">answered by josh · los angeles</span>
+          </div>
+          <div className="fig f6">
+            <img src="/q-light-watch.jpg" alt="watching the light change from the rooftop" />
+            <span className="cap">answered by josh · los angeles</span>
           </div>
         </div>
       </section>
