@@ -67,12 +67,36 @@ const CSS = `
 .hgBottom{font-size:7px;letter-spacing:.19em}.hgBottom a{font-size:7px}
 @media(max-width:640px){.hgIntro{width:78vw}.hgIntro h1{font-size:49px}.hgPiece{top:42%}.hgPiece.portrait{width:55vw}.hgFrame{padding:13px}.hgCaption{font-size:23px}.hgTop{background:linear-gradient(#fff,rgba(255,255,255,.65),transparent)}.hgPosition{font-size:7px;max-width:65%}}
 
+
+.hgSeatLink{position:absolute;left:50%;bottom:85px;transform:translateX(-50%);z-index:11;border:0;background:none;font:italic 22px 'Cormorant Garamond',Georgia,serif;border-bottom:1px solid #aeb3b7;padding:8px 0!important;white-space:nowrap}
+.hgSeatLink small{display:block;font:6px 'IBM Plex Mono',monospace;letter-spacing:.17em;text-transform:uppercase;margin-top:7px;color:#757b80}
+.screenRoom{position:fixed;inset:0;z-index:40;background:#0e1114;color:#e8eaec;overflow:hidden;animation:screenArrive 1.3s ease both;font-family:'Cormorant Garamond',Georgia,serif}
+@keyframes screenArrive{from{opacity:0}to{opacity:1}}
+.screenRoom .screenGlow{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(80px) saturate(.5);opacity:.18;transform:scale(1.2);pointer-events:none}
+.screenRoom .roomShell{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.6),transparent 22%,transparent 78%,rgba(0,0,0,.6))}
+.screenRoom .screenTop{position:absolute;left:30px;right:30px;top:25px;z-index:2;display:flex;justify-content:space-between;align-items:center}
+.screenRoom .roomLabel{font:8px 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:#a5adb5;line-height:2}.screenRoom .roomLabel strong{font-weight:400;color:#eee}
+.screenRoom .back{border:1px solid #59616a;border-radius:30px;background:transparent;padding:11px 18px;color:#e0e4e7;font:8px 'IBM Plex Mono',monospace;letter-spacing:.12em}
+.screenRoom .projection{position:absolute;left:14%;right:14%;top:18%;bottom:27%;display:flex;align-items:center;justify-content:center}
+.screenRoom .projection video{display:block;width:100%;height:100%;object-fit:contain;filter:none;box-shadow:0 0 60px rgba(197,217,237,.06);animation:screenArrive 1.7s ease both}
+.screenRoom .projection:after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 45px 8px #0e1114;pointer-events:none}
+.screenRoom .screenFloor{position:absolute;top:73%;bottom:0;left:0;right:0;background:linear-gradient(rgba(10,12,14,.1),#080a0d);border-top:1px solid rgba(255,255,255,.035)}
+.screenRoom .seat{position:absolute;width:28%;height:16px;left:36%;bottom:15%;background:linear-gradient(#4d4842,#252320);box-shadow:0 25px 24px #020304;transform:perspective(300px) rotateX(18deg)}
+.screenRoom .seat:before,.screenRoom .seat:after{content:'';position:absolute;top:12px;width:5px;height:35px;background:#08090a;left:7%}.screenRoom .seat:after{left:auto;right:7%}
+.screenRoom .screenCaption{position:absolute;bottom:30px;left:30px;right:30px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
+.screenRoom h2{font-size:36px;font-weight:300;font-style:italic;margin:0 0 8px}.screenRoom .quietNote{font:7px 'IBM Plex Mono',monospace;line-height:2;letter-spacing:.14em;text-transform:uppercase;color:#8c959e}
+.screenRoom .filmChoices{display:flex;gap:22px}.screenRoom .filmChoices button{border:0;border-bottom:1px solid transparent;color:#89939c;background:none;font:italic 20px 'Cormorant Garamond',Georgia,serif;padding:4px 0}.screenRoom .filmChoices button.selected{color:#e6eaed;border-color:#78838c}
+.hgSit{background:none;border:0;border-bottom:1px solid #aaa;margin-top:25px!important;font:italic 23px 'Cormorant Garamond',Georgia,serif;padding:5px 0!important}
+@media(max-width:640px){.hgSeatLink{bottom:145px;font-size:20px}.hgSeatLink small{font-size:6px}.screenRoom .screenTop{left:22px;right:22px;top:22px}.screenRoom .roomLabel{font-size:6px;letter-spacing:.1em}.screenRoom .back{padding:10px 12px;font-size:7px}.screenRoom .projection{left:5%;right:5%;top:25%;bottom:32%}.screenRoom .projection:after{box-shadow:inset 0 0 18px 3px #0e1114}.screenRoom .seat{width:45%;left:27.5%;bottom:22%;height:12px}.screenRoom .screenFloor{top:68%}.screenRoom .screenCaption{left:22px;right:22px;bottom:30px;display:block}.screenRoom h2{font-size:32px}.screenRoom .filmChoices{margin-top:25px;gap:25px}.screenRoom .filmChoices button{font-size:20px}.screenRoom .quietNote{font-size:6px}}
+@media(prefers-reduced-motion:reduce){.screenRoom,.screenRoom .projection video{animation:none}}
+
 `
 
 export default function Home(){
  const [mode,setMode]=useState<'gallery'|'list'>('gallery')
  const [active,setActive]=useState(0)
  const [zoom,setZoom]=useState<number|null>(null)
+ const [screening,setScreening]=useState<number|null>(null)
  const root=useRef<HTMLDivElement>(null)
  const current=useRef(0),target=useRef(0)
  const drag=useRef<{x:number,start:number}|null>(null), moved=useRef(0)
@@ -101,9 +125,9 @@ export default function Home(){
   el.addEventListener('wheel',wheel,{passive:false});el.addEventListener('pointerdown',down);window.addEventListener('pointermove',move);window.addEventListener('pointerup',up)
   return()=>{cancelAnimationFrame(raf);el.removeEventListener('wheel',wheel);el.removeEventListener('pointerdown',down);window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up)}
  },[mode,count])
- useEffect(()=>{const fn=(e:KeyboardEvent)=>{if(e.key==='Escape')setZoom(null);if(zoom!==null||mode!=='gallery')return;if(e.key==='ArrowRight')go(Math.round(target.current)+1);if(e.key==='ArrowLeft')go(Math.round(target.current)-1)};window.addEventListener('keydown',fn);return()=>window.removeEventListener('keydown',fn)},[zoom,mode])
+ useEffect(()=>{const fn=(e:KeyboardEvent)=>{if(e.key==='Escape'){setZoom(null);setScreening(null)}if(screening!==null||zoom!==null||mode!=='gallery')return;if(e.key==='ArrowRight')go(Math.round(target.current)+1);if(e.key==='ArrowLeft')go(Math.round(target.current)-1)};window.addEventListener('keydown',fn);return()=>window.removeEventListener('keydown',fn)},[zoom,mode,screening])
  const open=(i:number)=>{if(moved.current>8)return;const w=WORKS[i];if(w.href){location.href=w.href;return}setZoom(i)}
- return <main className="homeGallery" data-home="white-gallery-v2">
+ return <main className="homeGallery" data-home="screening-room-v3">
  <style>{CSS}</style><div className="galleryArchitecture" aria-hidden="true"><div className="ceiling"/><div className="leftWall"/><div className="rightWall"/><div className="floor"/><div className="track"><i/><i/><i/><i/></div><div className="bench"/></div>
  <header className="hgTop"><a className="hgMark" href="/">shwcase<sup>®</sup></a><span className="tag">recollections from around the world</span><div className="hgToggle"><button className={mode==='gallery'?'on':''} onClick={()=>setMode('gallery')}>GALLERY</button><button className={mode==='list'?'on':''} onClick={()=>setMode('list')}>LIST</button></div></header>
  {mode==='gallery'?<>
@@ -115,7 +139,17 @@ export default function Home(){
  </div>
  <div className="hgControls"><div className="hgPosition" aria-live="polite">{active===0?'the entrance':`${String(active).padStart(2,'0')} / ${WORKS[active-1].title}`}<br/>{active===0?'scroll or drag to walk round':'tap the frame to step closer'}</div><div className="hgArrows"><button disabled={active===0} onClick={()=>go(Math.round(target.current)-1)} aria-label="Walk back">←</button><button disabled={active===count-1} onClick={()=>go(Math.round(target.current)+1)} aria-label="Walk on">→</button></div></div>
  </>:<div className="hgList"><h1>the collection.</h1>{WORKS.map((w,i)=><article className="hgRow" key={w.title}><button onClick={()=>{moved.current=0;open(i)}} aria-label={`Open ${w.title}`}><img src={w.image} alt={w.title}/></button><div><h2>{w.title}</h2><p>{String(i+1).padStart(2,'0')} / {w.by}<br/>{w.meta}</p><button className="view" style={{width:'auto'}} onClick={()=>{moved.current=0;open(i)}}>{w.href?'enter the room ↗':'look closer ↗'}</button></div></article>)}</div>}
+ {mode==='gallery'&&<button className="hgSeatLink" onClick={()=>setScreening(0)}>take a seat<small>the quiet screening room ↗</small></button>}
  <footer className="hgBottom"><span>shwcase / selected recollections</span><span className="about">a growing collection, kept quietly.</span><a href="/ask">leave a recollection ↗</a></footer>
- {zoom!==null&&<section className="hgCloseup" role="dialog" aria-modal="true" aria-label={WORKS[zoom].title}><button className="close" onClick={()=>setZoom(null)} autoFocus>close ×</button>{WORKS[zoom].video?<video src={WORKS[zoom].video} autoPlay muted loop playsInline poster={WORKS[zoom].image}/>:<img src={WORKS[zoom].image} alt={WORKS[zoom].title}/>}<h2>{WORKS[zoom].title}</h2><p>{WORKS[zoom].meta}</p></section>}
+ {zoom!==null&&<section className="hgCloseup" role="dialog" aria-modal="true" aria-label={WORKS[zoom].title}><button className="close" onClick={()=>setZoom(null)} autoFocus>close ×</button>{WORKS[zoom].video?<video src={WORKS[zoom].video} autoPlay muted loop playsInline poster={WORKS[zoom].image}/>:<img src={WORKS[zoom].image} alt={WORKS[zoom].title}/>}<h2>{WORKS[zoom].title}</h2><p>{WORKS[zoom].meta}</p>{WORKS[zoom].video&&<button className="hgSit" onClick={()=>{setScreening(zoom);setZoom(null)}}>sit with this moment ↗</button>}</section>}
+ {screening!==null&&<section className="screenRoom" role="dialog" aria-modal="true" aria-label="The quiet screening room">
+ <video className="screenGlow" key={'glow'+screening} src={WORKS[screening].video} autoPlay muted loop playsInline aria-hidden="true"/>
+ <div className="roomShell"/><div className="screenFloor"/>
+ <header className="screenTop"><div className="roomLabel"><strong>shwcase / room 02</strong><br/>the quiet screening room</div><button autoFocus className="back" onClick={()=>setScreening(null)}>← back to the gallery</button></header>
+ <div className="projection"><video key={screening} src={WORKS[screening].video} poster={WORKS[screening].image} autoPlay muted loop playsInline aria-label={WORKS[screening].title}/></div>
+ <div className="seat" aria-hidden="true"/>
+ <footer className="screenCaption"><div><h2>{WORKS[screening].title}</h2><p className="quietNote">a moving image, a place to pause.<br/>no sound. no hurry.</p></div><div className="filmChoices">{[0,2].map(i=><button key={i} className={screening===i?'selected':''} onClick={()=>setScreening(i)}>{WORKS[i].title}</button>)}</div></footer>
+ </section>}
+
  </main>
    }
