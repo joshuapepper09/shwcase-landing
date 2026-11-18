@@ -90,7 +90,102 @@ const CSS = `
 @media(max-width:640px){.hgSeatLink{bottom:145px;font-size:20px}.hgSeatLink small{font-size:6px}.screenRoom .screenTop{left:22px;right:22px;top:22px}.screenRoom .roomLabel{font-size:6px;letter-spacing:.1em}.screenRoom .back{padding:10px 12px;font-size:7px}.screenRoom .projection{left:5%;right:5%;top:25%;bottom:32%}.screenRoom .projection:after{box-shadow:inset 0 0 18px 3px #0e1114}.screenRoom .seat{width:45%;left:27.5%;bottom:22%;height:12px}.screenRoom .screenFloor{top:68%}.screenRoom .screenCaption{left:22px;right:22px;bottom:30px;display:block}.screenRoom h2{font-size:32px}.screenRoom .filmChoices{margin-top:25px;gap:25px}.screenRoom .filmChoices button{font-size:20px}.screenRoom .quietNote{font-size:6px}}
 @media(prefers-reduced-motion:reduce){.screenRoom,.screenRoom .projection video{animation:none}}
 
+
+.spatialCanvas{position:absolute;inset:0;touch-action:none;cursor:grab;background:#f0f2f3}
+.spatialCanvas:active{cursor:grabbing}.spatialCanvas canvas{display:block;width:100%;height:100%}
+.spatialStatus{position:absolute;left:25px;top:45%;right:25px;text-align:center;font:10px 'IBM Plex Mono',monospace;letter-spacing:.15em;text-transform:uppercase;color:#75818a}
+.hgTop{background:linear-gradient(rgba(255,255,255,.95),rgba(255,255,255,.5),transparent)}
+.hgControls{pointer-events:none}.hgControls button,.hgControls .hgPosition{pointer-events:auto}
+.roomWayfinding{position:absolute;left:50%;bottom:150px;transform:translateX(-50%);display:flex;z-index:12;gap:0;border-top:1px solid #b8c1c5;background:rgba(255,255,255,.7);backdrop-filter:blur(6px)}
+.roomWayfinding button{border:0;background:none;width:62px;position:relative;padding:11px 5px!important;color:#7c868c;font:10px 'IBM Plex Mono',monospace}
+.roomWayfinding button.selected{color:#151d23}.roomWayfinding button.selected:before{content:'';position:absolute;width:5px;height:5px;border-radius:50%;top:-3px;left:calc(50% - 2px);background:#26343c}
+.roomWayfinding small{display:block;font:italic 12px 'Cormorant Garamond',Georgia,serif;margin-top:5px}
+.hgSeatLink{bottom:84px;background:rgba(255,255,255,.75)}
+@media(max-width:640px){.roomWayfinding{bottom:182px}.roomWayfinding button{width:51px;font-size:9px}.roomWayfinding small{font-size:11px}.hgSeatLink{bottom:118px;font-size:20px}.hgControls{bottom:67px}.hgPosition{max-width:64%;font-size:6px}.hgBottom{bottom:20px;font-size:6px}.hgArrows button{width:38px;height:38px}.hgTop .hgMark{font-size:23px}}
+
 `
+
+
+function SpatialGallery({target,onActive,onOpen}:{target:{current:number};onActive:(n:number)=>void;onOpen:(n:number)=>void}){
+ const mount=useRef<HTMLDivElement>(null)
+ const [status,setStatus]=useState('preparing the rooms')
+ const callbacks=useRef({onActive,onOpen});callbacks.current={onActive,onOpen}
+ useEffect(()=>{
+  let dead=false,dispose=()=>{}
+  const boot=async()=>{
+   try{
+    const moduleUrl='https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js'
+    const T=await import(/* webpackIgnore: true */ moduleUrl)
+    if(dead||!mount.current)return
+    const el=mount.current
+    const scene=new T.Scene();scene.background=new T.Color('#f0f2f3');scene.fog=new T.Fog('#f1f3f4',28,65)
+    const renderer=new T.WebGLRenderer({antialias:true,alpha:false,powerPreference:'low-power'})
+    renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.setSize(el.clientWidth,el.clientHeight)
+    renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05
+    renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap
+    el.appendChild(renderer.domElement)
+    const camera=new T.PerspectiveCamera(innerWidth<640?64:55,el.clientWidth/el.clientHeight,.1,100)
+    const materials:any[]=[],geometries:any[]=[],textures:any[]=[],videos:HTMLVideoElement[]=[]
+    const mat=(color:string,extra:any={})=>{const m=new T.MeshStandardMaterial({color,roughness:.78,...extra});materials.push(m);return m}
+    const white=mat('#ffffff'),side=mat('#edf0f2'),floor=mat('#d4dadd',{roughness:.28,metalness:.12}),metal=mat('#343b40',{metalness:.6,roughness:.3}),wood=mat('#aca69a')
+    const box=(w:number,h:number,d:number,x:number,y:number,z:number,m:any)=>{const g=new T.BoxGeometry(w,h,d);geometries.push(g);const o=new T.Mesh(g,m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;scene.add(o);return o}
+    box(17,.2,40,0,-.1,-8,floor)
+    box(.25,5.6,40,-8.5,2.8,-8,side);box(.25,5.6,40,8.5,2.8,-8,white)
+    box(17,5.6,.3,0,2.8,-28,white)
+    // Two roof bands leave a long open skylight above the whole exhibition.
+    box(5.3,.16,40,-5.85,5.5,-8,white);box(5.3,.16,40,5.85,5.5,-8,white)
+    for(let z=8;z>=-26;z-=4){box(.08,.16,17,0,5.54,z,side).rotation.y=Math.PI/2}
+    // Real floor joints recede with the camera, rather than a painted perspective.
+    const seam=mat('#bac3c8')
+    for(let z=10;z>=-27;z-=3.5)box(17,.003,.009,0,.006,z,seam)
+    for(let x=-7;x<=7;x+=3.5)box(.009,.003,40,x,.006,-8,seam)
+    const hemi=new T.HemisphereLight('#f7fbff','#b6a997',3);scene.add(hemi)
+    const sun=new T.DirectionalLight('#fff9ee',3.2);sun.position.set(-3,12,6);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-17;sun.shadow.camera.right=17;sun.shadow.camera.top=24;sun.shadow.camera.bottom=-24;sun.shadow.camera.far=55;sun.shadow.bias=-.0008;scene.add(sun);sun.target.position.set(1,0,-9);scene.add(sun.target)
+    // Slim gallery benches and an arrival plinth give the walk a human scale.
+    for(const z of [-4,-16]){box(2.8,.13,.72,0,.62,z,wood);for(const x of [-1.15,1.15])box(.055,.59,.5,x,.3,z,metal)}
+    const label=(lines:{text:string,size:number,italic?:boolean,color?:string}[],w:number,h:number)=>{
+     const c=document.createElement('canvas');c.width=1024;c.height=512;const ctx=c.getContext('2d')!;ctx.fillStyle='#ffffff';ctx.fillRect(0,0,1024,512)
+     let y=70;for(const l of lines){ctx.fillStyle=l.color||'#22282b';ctx.font=`${l.italic?'italic ':''}${l.size}px ${l.italic?'Georgia':'monospace'}`;ctx.textAlign='center';ctx.fillText(l.text,512,y);y+=l.size*1.5+15}
+     const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;textures.push(tex);const m=new T.MeshBasicMaterial({map:tex});materials.push(m);const g=new T.PlaneGeometry(w,h);geometries.push(g);return new T.Mesh(g,m)
+    }
+    // A freestanding dedication wall, not a website headline pinned to the screen.
+    box(4.2,3.2,.2,0,1.6,-7,white)
+    const dedication=label([{text:'SHWCASE / THE RECOLLECTION ROOMS',size:23,color:'#747d83'},{text:'some places',size:78,italic:true},{text:'stay with you.',size:78,italic:true},{text:'WALK THROUGH. STAY A WHILE.',size:20,color:'#7e878d'}],3.8,1.9);dedication.position.set(0,2,-6.88);scene.add(dedication)
+    const exhibits:any[]=[];const loader=new T.TextureLoader()
+    const placements=[{x:-8.31,z:0,angle:Math.PI/2,w:4.4,h:2.7},{x:8.31,z:-7.5,angle:-Math.PI/2,w:2.25,h:3.05},{x:-8.31,z:-14.5,angle:Math.PI/2,w:4.4,h:2.7},{x:8.31,z:-21,angle:-Math.PI/2,w:3.6,h:2.4}]
+    for(let i=0;i<WORKS.length;i++){
+     const w=WORKS[i],p=placements[i],group=new T.Group();group.position.set(p.x,2.45,p.z);group.rotation.y=p.angle;scene.add(group)
+     const frame=new T.Mesh(new T.BoxGeometry(p.w+.25,p.h+.25,.12),white);frame.castShadow=true;group.add(frame);geometries.push(frame.geometry)
+     let tex
+     if(w.video){const v=document.createElement('video');v.src=w.video;v.crossOrigin='anonymous';v.muted=true;v.loop=true;v.playsInline=true;v.preload='auto';v.play().catch(()=>{});videos.push(v);tex=new T.VideoTexture(v)}
+     else tex=loader.load(w.image)
+     tex.colorSpace=T.SRGBColorSpace;textures.push(tex)
+     const image=new T.Mesh(new T.PlaneGeometry(p.w,p.h),new T.MeshBasicMaterial({map:tex}));image.position.z=.067;image.userData.work=i;group.add(image);exhibits.push(image);geometries.push(image.geometry);materials.push(image.material)
+     const plate=label([{text:`0${i+1} / ${w.by.toUpperCase()}`,size:27,color:'#6b757c'},{text:w.title,size:62,italic:true}],1.45,.72);plate.position.set(0,-p.h/2-.64,.025);group.add(plate)
+     const lamp=new T.SpotLight('#ffffff',24,10,Math.PI/5,.7,1);lamp.position.set(p.x*.75,5.1,p.z+1.4);lamp.target.position.set(p.x,2.5,p.z);scene.add(lamp);scene.add(lamp.target)
+    }
+    // Far wall becomes a living window: an installation, not another framed thumbnail.
+    const endVideo=document.createElement('video');endVideo.src='/shwcase-coastal-dusk-loop.mp4';endVideo.muted=true;endVideo.loop=true;endVideo.playsInline=true;endVideo.play().catch(()=>{});videos.push(endVideo)
+    const endTex=new T.VideoTexture(endVideo);endTex.colorSpace=T.SRGBColorSpace;textures.push(endTex)
+    const vista=new T.Mesh(new T.PlaneGeometry(9,4.7),new T.MeshBasicMaterial({map:endTex}));vista.position.set(0,2.6,-27.8);scene.add(vista);materials.push(vista.material);geometries.push(vista.geometry)
+    const stops=[{p:[0,1.65,9],l:[0,2,-7]},{p:[-3,1.65,3],l:[-8.3,2.4,0]},{p:[3.6,1.65,-5],l:[8.3,2.4,-7.5]},{p:[-3,1.65,-10],l:[-8.3,2.4,-14.5]},{p:[2.8,1.65,-18],l:[7.7,2.35,-21]}]
+    let progress=target.current,raf=0,drag:null|{x:number;y:number;start:number}=null,travel=0,lastActive=-1
+    const cp=new T.Vector3(),look=new T.Vector3(),raycaster=new T.Raycaster(),pointer=new T.Vector2()
+    const resize=()=>{if(!el)return;camera.aspect=el.clientWidth/el.clientHeight;camera.fov=innerWidth<640?68:55;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight)}
+    const animate=()=>{if(dead)return;progress+=(target.current-progress)*.035;const a=Math.min(3,Math.floor(progress)),f=Math.max(0,Math.min(1,progress-a));const t=f*f*(3-2*f);cp.fromArray(stops[a].p).lerp(new T.Vector3().fromArray(stops[a+1].p),t);look.fromArray(stops[a].l).lerp(new T.Vector3().fromArray(stops[a+1].l),t);camera.position.copy(cp);camera.lookAt(look);renderer.render(scene,camera);raf=requestAnimationFrame(animate)}
+    const update=(v:number)=>{target.current=Math.max(0,Math.min(4,v));const a=Math.round(target.current);if(a!==lastActive){lastActive=a;callbacks.current.onActive(a)}}
+    const wheel=(e:WheelEvent)=>{e.preventDefault();update(target.current+e.deltaY*.0016)}
+    const down=(e:PointerEvent)=>{drag={x:e.clientX,y:e.clientY,start:target.current};travel=0}
+    const move=(e:PointerEvent)=>{if(!drag)return;const dy=drag.y-e.clientY,dx=drag.x-e.clientX;travel=Math.hypot(dx,dy);update(drag.start+(Math.abs(dy)>Math.abs(dx)?dy:dx)/400)}
+    const up=(e:PointerEvent)=>{if(!drag)return;drag=null;if(travel>10){update(Math.round(target.current));return}const r=el.getBoundingClientRect();pointer.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);raycaster.setFromCamera(pointer,camera);const hit=raycaster.intersectObjects(exhibits)[0];if(hit){const i=hit.object.userData.work;if(Math.abs(progress-i-1)<.2)callbacks.current.onOpen(i);else update(i+1)}}
+    el.addEventListener('wheel',wheel,{passive:false});el.addEventListener('pointerdown',down);window.addEventListener('pointermove',move);window.addEventListener('pointerup',up);window.addEventListener('resize',resize)
+    animate();setStatus('')
+    dispose=()=>{cancelAnimationFrame(raf);el.removeEventListener('wheel',wheel);el.removeEventListener('pointerdown',down);window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);window.removeEventListener('resize',resize);videos.forEach(v=>{v.pause();v.removeAttribute('src');v.load()});textures.forEach(t=>t.dispose());materials.forEach(m=>m.dispose());geometries.forEach(g=>g.dispose());renderer.dispose();renderer.domElement.remove()}
+   }catch(e){setStatus('The spatial room could not load. LIST is always available.');console.error(e)}
+  };boot();return()=>{dead=true;dispose()}
+ },[target])
+ return <div className="spatialCanvas" ref={mount}>{status&&<p className="spatialStatus">{status}</p>}</div>
+}
 
 export default function Home(){
  const [mode,setMode]=useState<'gallery'|'list'>('gallery')
@@ -127,16 +222,12 @@ export default function Home(){
  },[mode,count])
  useEffect(()=>{const fn=(e:KeyboardEvent)=>{if(e.key==='Escape'){setZoom(null);setScreening(null)}if(screening!==null||zoom!==null||mode!=='gallery')return;if(e.key==='ArrowRight')go(Math.round(target.current)+1);if(e.key==='ArrowLeft')go(Math.round(target.current)-1)};window.addEventListener('keydown',fn);return()=>window.removeEventListener('keydown',fn)},[zoom,mode,screening])
  const open=(i:number)=>{if(moved.current>8)return;const w=WORKS[i];if(w.href){location.href=w.href;return}setZoom(i)}
- return <main className="homeGallery" data-home="screening-room-v3">
- <style>{CSS}</style><div className="galleryArchitecture" aria-hidden="true"><div className="ceiling"/><div className="leftWall"/><div className="rightWall"/><div className="floor"/><div className="track"><i/><i/><i/><i/></div><div className="bench"/></div>
+ return <main className="homeGallery" data-home="spatial-rooms-v4">
+ <style>{CSS}</style>
  <header className="hgTop"><a className="hgMark" href="/">shwcase<sup>®</sup></a><span className="tag">recollections from around the world</span><div className="hgToggle"><button className={mode==='gallery'?'on':''} onClick={()=>setMode('gallery')}>GALLERY</button><button className={mode==='list'?'on':''} onClick={()=>setMode('list')}>LIST</button></div></header>
  {mode==='gallery'?<>
- <div className="hgRoom" ref={root} aria-label="Gallery. Scroll, drag, or use arrow buttons to walk.">
- <section className="hgPiece hgIntro"><div className="kicker">the shwcase gallery</div><h1>recollections<br/>from around<br/>the world.</h1><div className="rule"/><p className="introNote">places, people, moments kept.<br/>walk through. stay a while.</p></section>
- {WORKS.map((w,i)=><figure key={w.title} className={`hgPiece ${w.shape}`}><div className="spot"/><button className="hgFrame" onClick={()=>open(i)} aria-label={w.href?`Enter ${w.title}`:`Look closer at ${w.title}`}>
- {w.video?<><video autoPlay muted loop playsInline preload="metadata" poster={w.image} aria-hidden="true" src={w.video}/><img className="stillFallback" style={{display:'none'}} src={w.image} alt=""/></>:<img src={w.image} alt={w.title} draggable="false"/>}
- </button><figcaption className="hgCaption">{w.title}<small>{String(i+1).padStart(2,'0')} / {w.by}</small></figcaption></figure>)}
- </div>
+ <SpatialGallery target={target} onActive={setActive} onOpen={open}/>
+ <nav className="roomWayfinding" aria-label="Exhibition route">{['arrival','last light','andy','coast','rooftop'].map((name,i)=><button key={name} onClick={()=>go(i)} className={active===i?'selected':''} aria-label={`Walk to ${name}`}><span>{String(i).padStart(2,'0')}</span><small>{name}</small></button>)}</nav>
  <div className="hgControls"><div className="hgPosition" aria-live="polite">{active===0?'the entrance':`${String(active).padStart(2,'0')} / ${WORKS[active-1].title}`}<br/>{active===0?'scroll or drag to walk round':'tap the frame to step closer'}</div><div className="hgArrows"><button disabled={active===0} onClick={()=>go(Math.round(target.current)-1)} aria-label="Walk back">←</button><button disabled={active===count-1} onClick={()=>go(Math.round(target.current)+1)} aria-label="Walk on">→</button></div></div>
  </>:<div className="hgList"><h1>the collection.</h1>{WORKS.map((w,i)=><article className="hgRow" key={w.title}><button onClick={()=>{moved.current=0;open(i)}} aria-label={`Open ${w.title}`}><img src={w.image} alt={w.title}/></button><div><h2>{w.title}</h2><p>{String(i+1).padStart(2,'0')} / {w.by}<br/>{w.meta}</p><button className="view" style={{width:'auto'}} onClick={()=>{moved.current=0;open(i)}}>{w.href?'enter the room ↗':'look closer ↗'}</button></div></article>)}</div>}
  {mode==='gallery'&&<button className="hgSeatLink" onClick={()=>setScreening(0)}>take a seat<small>the quiet screening room ↗</small></button>}
@@ -152,4 +243,4 @@ export default function Home(){
  </section>}
 
  </main>
-   }
+        }
