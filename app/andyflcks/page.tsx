@@ -42,7 +42,7 @@ const CSS = `
   .cp .frames .sub{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim);margin-top:18px;line-height:2}
   .cp .grid{margin-top:60px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
   @media (max-width:760px){.cp .grid{grid-template-columns:1fr;max-width:340px}}
-  .cp .slot{position:relative;aspect-ratio:9/16;border:1px solid rgba(211,36,44,.35);border-radius:2px;display:flex;flex-direction:column;justify-content:space-between;padding:16px;overflow:hidden;background:var(--night)}
+  .cp .slot{position:relative;aspect-ratio:9/16;background-size:cover;background-position:center;border:1px solid rgba(211,36,44,.35);border-radius:2px;display:flex;flex-direction:column;justify-content:space-between;padding:16px;overflow:hidden;background:var(--night)}
   .cp .slot::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--red);opacity:.7}
   .cp .slot::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.08;pointer-events:none}
   .cp .slot .no{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--red-soft)}
@@ -118,17 +118,35 @@ export default function AndyPage() {
           <div className="q">where do you go when you need to think?</div>
           <div className="sub">or any of the four open questions · he picks the one that's his</div>
           <div className="grid">
-            <div className="slot">
+            <div
+              className="slot"
+              style={{
+                backgroundImage:
+                  "linear-gradient(rgba(11,11,13,.28), rgba(11,11,13,.62)), url('/andy/clip-01.jpg')",
+              }}
+            >
               <span className="no">clip 01</span>
               <span className="wait">his place, filmed his way.</span>
               <span className="idea">could be: the mustang at blue hour, windows down</span>
             </div>
-            <div className="slot">
+            <div
+              className="slot"
+              style={{
+                backgroundImage:
+                  "linear-gradient(rgba(11,11,13,.28), rgba(11,11,13,.62)), url('/andy/clip-02.jpg')",
+              }}
+            >
               <span className="no">clip 02</span>
               <span className="wait">20 to 60 seconds. no talking needed.</span>
               <span className="idea">could be: a rooftop or parking structure, engine cooling</span>
             </div>
-            <div className="slot">
+            <div
+              className="slot"
+              style={{
+                backgroundImage:
+                  "linear-gradient(rgba(11,11,13,.28), rgba(11,11,13,.62)), url('/andy/clip-03.jpg')",
+              }}
+            >
               <span className="no">clip 03</span>
               <span className="wait">natural sound. barely cut.</span>
               <span className="idea">could be: the gym before anyone else is there</span>
