@@ -58,7 +58,7 @@ const CSS = `
 
 .hgRoom:before,.hgRoom:after{display:none}
 .hgFrame{padding:18px;border:1px solid #c6c9ca;box-shadow:2px 3px 2px #bfc1c2,8px 14px 20px rgba(28,32,35,.14);background:white}
-.hgPiece .spot{top:-110px;height:130%;left:-60px;right:-60px;background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,1),rgba(255,255,255,.4) 40%,transparent 70%)}
+.hgPiece .spot{top:-110px;height:110px;left:-60px;right:-60px;background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,1),rgba(255,255,255,.4) 40%,transparent 70%)}
 .hgCaption{font-size:22px}.hgCaption small{color:#666d72;letter-spacing:.18em}
 .hgIntro h1{font-size:57px;letter-spacing:-.045em}.hgIntro .rule{width:25px}
 .hgIntro{width:350px}.hgTop{padding-top:25px}.hgMark{font-size:25px}
@@ -118,4 +118,4 @@ export default function Home(){
  <footer className="hgBottom"><span>shwcase / selected recollections</span><span className="about">a growing collection, kept quietly.</span><a href="/ask">leave a recollection ↗</a></footer>
  {zoom!==null&&<section className="hgCloseup" role="dialog" aria-modal="true" aria-label={WORKS[zoom].title}><button className="close" onClick={()=>setZoom(null)} autoFocus>close ×</button>{WORKS[zoom].video?<video src={WORKS[zoom].video} autoPlay muted loop playsInline poster={WORKS[zoom].image}/>:<img src={WORKS[zoom].image} alt={WORKS[zoom].title}/>}<h2>{WORKS[zoom].title}</h2><p>{WORKS[zoom].meta}</p></section>}
  </main>
-}
+   }
