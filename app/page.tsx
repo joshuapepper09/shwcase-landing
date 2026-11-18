@@ -1,381 +1,97 @@
-import Link from 'next/link'
-import TimeTheme from './TimeTheme'
+'use client'
 
+import { useEffect, useRef, useState } from 'react'
+
+const WORKS = [
+  { title: 'last light.', by: 'from the shwcase archive', meta: 'a quiet loop · no sound', image: '/shwcase-pier-poster.jpg', video: '/shwcase-pier.mp4', shape: 'wide' },
+  { title: "andy's mustang.", by: 'andyflcks', meta: '3 frames · enter the collection', image: 'https://drive.google.com/thumbnail?id=1xQgcSK5w__0BQERRlp9-Ycl0OhtYya58&sz=w1080', href: '/andyflcks', shape: 'portrait' },
+  { title: 'coastal dusk.', by: 'from the shwcase archive', meta: 'a quiet loop · no sound', image: '/shwcase-still-01.jpg', video: '/shwcase-coastal-dusk-loop.mp4', shape: 'wide' },
+  { title: 'watching the light.', by: 'josh', meta: 'from the archive · a still', image: '/q-light-rooftop.jpg', shape: 'portrait' },
+]
 const CSS = `
-  .v2{--cream:#F2EAD9;--cream-soft:#FAF6EC;--espresso:#2E2118;--mocha:#6F5138;--caramel:#B4895E;--ink-soft:rgba(46,33,24,.58);--hairline:rgba(46,33,24,.16);--hero-tint:rgba(24,16,11,.10)}
-  html[data-shw-time='morning'] .v2{--cream:#F7EFE3;--espresso:#2E2118;--mocha:#77573D;--caramel:#C08E68;--ink-soft:rgba(46,33,24,.58);--hairline:rgba(46,33,24,.16);--hero-tint:rgba(70,42,30,.14)}
-  html[data-shw-time='dusk'] .v2{--cream:#F4E3CB;--espresso:#2B1B11;--mocha:#6E4527;--caramel:#C97F4B;--ink-soft:rgba(43,27,17,.58);--hairline:rgba(43,27,17,.18);--hero-tint:rgba(64,28,8,.22)}
-  html[data-shw-time='night'] .v2{--cream:#131926;--cream-soft:#F4EEE0;--espresso:#E9E2D2;--mocha:#9AA6BE;--caramel:#C99A6C;--ink-soft:rgba(233,226,210,.55);--hairline:rgba(233,226,210,.18);--hero-tint:rgba(6,10,22,.35)}
-  .v2{background:var(--cream);color:var(--espresso);font-family:"Cormorant Garamond",Georgia,serif;font-weight:400;-webkit-font-smoothing:antialiased;transition:background .9s ease,color .9s ease}
-  .v2 *{margin:0;padding:0;box-sizing:border-box}
-  .v2 .mono{font-family:"IBM Plex Mono",monospace;font-weight:400}
-  .v2 .grain{position:fixed;inset:-50%;z-index:60;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.055}
-  .v2 .mono-label{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--mocha)}
-
-  .v2 .hero{position:relative;min-height:100vh;background:url("/shwcase-pier-poster.jpg") center/cover no-repeat;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
-  .v2 .hero .hero-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
-  @media (prefers-reduced-motion:reduce){.v2 .hero .hero-media{display:none}}
-  .v2 .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom, rgba(24,16,11,.42) 0%, rgba(24,16,11,0) 30%, rgba(24,16,11,0) 60%, rgba(24,16,11,.55) 100%)}
-  .v2 .hero::after{content:"";position:absolute;inset:0;z-index:1;background:var(--hero-tint);transition:background .9s ease;pointer-events:none}
-  .v2 nav{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:baseline;padding:26px 28px}
-  .v2 .wordmark{font-size:22px;font-weight:500;color:var(--cream-soft);text-decoration:none;letter-spacing:.01em}
-  .v2 .wordmark sup{font-size:9px;vertical-align:8px;letter-spacing:0}
-  .v2 nav .links{display:flex;gap:20px}
-  .v2 nav .links a{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(250,246,236,.82);text-decoration:none}
-  .v2 nav .links a.soon{opacity:.4}
-  @media (max-width:560px){.v2 nav .links{gap:13px}}
-
-  .v2 .hero-type{position:relative;z-index:3;padding:30px 28px 0}
-  .v2 .hero-type .q{color:var(--cream-soft);font-size:clamp(44px,12.5vw,124px);line-height:.94;font-weight:400;letter-spacing:-.01em}
-  .v2 .hero-type .q em{font-style:italic;font-weight:300}
-  .v2 .hero-type .q .l1{display:block}
-  .v2 .hero-type .q .l2{display:block;margin-left:9%}
-  .v2 .hero-type .q .l3{display:block;margin-left:2.5%}
-  .v2 .hero-type .q .l4{display:block;margin-left:13%}
-  .v2 .hero-cta{position:relative;z-index:3;padding:34px 28px 0;display:flex;align-items:center;gap:18px}
-  .v2 .btn-dark{display:inline-block;background:var(--espresso);color:var(--cream);font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;padding:13px 24px;border-radius:999px}
-  html[data-shw-time='night'] .v2 .btn-dark{background:var(--cream-soft);color:#131926}
-  .v2 .hero-cta .micro{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;color:rgba(250,246,236,.66);text-transform:uppercase}
-  .v2 .hero-bottom{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:flex-end;padding:40px 28px 30px;gap:20px}
-  .v2 .now-card{background:rgba(24,16,11,.55);backdrop-filter:blur(6px);border:1px solid rgba(250,246,236,.14);padding:16px 18px;max-width:230px;border-radius:2px}
-  .v2 .now-card .mono-label{color:var(--caramel);margin-bottom:8px;display:block}
-  .v2 .now-card .t{color:var(--cream-soft);font-style:italic;font-size:19px;line-height:1.25}
-  .v2 .now-card .m{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.12em;color:rgba(250,246,236,.6);margin-top:8px;text-transform:uppercase}
-  .v2 .coords{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.16em;color:rgba(250,246,236,.62);text-align:right;text-transform:uppercase;line-height:2;white-space:nowrap}
-  @media (max-width:560px){.v2 .coords{display:none}}
-
-  .v2 .statement{padding:170px 28px 130px;max-width:1080px;margin:0 auto}
-  .v2 .statement .mono-label{display:block;margin-bottom:40px}
-  .v2 .statement p{font-size:clamp(30px,6.4vw,58px);line-height:1.18;font-weight:300;max-width:20ch}
-  .v2 .statement p em{font-style:italic}
-  .v2 .statement p .inline-img{display:inline-block;width:1.9em;height:1.05em;border-radius:2px;background:url("/shwcase-c-sunpath.svg") center/cover;vertical-align:-0.14em;margin:0 .08em}
-  .v2 .statement .sig{margin-top:48px;display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
-  .v2 .statement .sig .mono-label{color:var(--ink-soft)}
-
-  .v2 .how{padding:0 28px 130px;max-width:1080px;margin:0 auto}
-  .v2 .how .head{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--hairline);padding-top:14px;margin-bottom:2px}
-  .v2 .how .head .mono-label{color:var(--ink-soft)}
-  .v2 .row{display:flex;align-items:baseline;gap:22px;padding:26px 0;border-bottom:1px solid var(--hairline)}
-  .v2 .row .n{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--caramel);letter-spacing:.1em}
-  .v2 .row .t{font-size:clamp(22px,4vw,32px);font-weight:400}
-  .v2 .row .t em{font-style:italic;font-weight:300}
-  .v2 .row .d{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);text-align:right;max-width:180px;line-height:1.9}
-  @media (max-width:640px){.v2 .row .d{display:none}}
-
-  .v2 .questions{padding:40px 0 90px;overflow:hidden}
-  .v2 .questions .head{max-width:1080px;margin:0 auto;padding:0 28px 60px;display:flex;justify-content:space-between;align-items:baseline;gap:6px 18px;flex-wrap:wrap}
-  .v2 .field{display:flex;flex-direction:column;gap:26px;padding:0 28px}
-  .v2 .field .fig{width:84%}
-  .v2 .field .fig:nth-of-type(odd){align-self:flex-end}
-  .v2 .field .fig img{display:block;width:100%;border-radius:2px}
-  .v2 .field .fig .cap{display:block;margin-top:7px;font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);line-height:1.8}
-  .v2 .field .qentry .qn{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.2em;color:var(--caramel);text-transform:uppercase;display:block;margin-bottom:6px}
-  .v2 .field .qentry .qq{display:block;font-size:clamp(21px,5.4vw,30px);font-style:italic;font-weight:400;line-height:1.15;max-width:15ch}
-  .v2 .field .qentry .qm{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-top:8px}
-  .v2 .field .qentry .qa{display:inline-block;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mocha);text-decoration:none;border-bottom:1px solid var(--hairline);padding-bottom:3px}
-  @media (min-width:761px){
-    .v2 .field{display:block;position:relative;height:1240px;padding:0}
-    .v2 .field .fig{position:absolute}
-    .v2 .field .qentry{position:absolute;max-width:220px}
-    .v2 .field .f1{left:0;top:0;width:24%}
-    .v2 .field .q1{left:29%;top:30px}
-    .v2 .field .f2{left:auto;right:0;top:15px;width:22%}
-    .v2 .field .f7{left:2%;top:350px;width:18%}
-    .v2 .field .q2{left:25%;top:390px}
-    .v2 .field .f3{left:52%;top:350px;width:19%}
-    .v2 .field .f4{left:auto;right:3%;top:400px;width:22%}
-    .v2 .field .f8{left:26%;top:640px;width:17%}
-    .v2 .field .q3{left:50%;top:660px}
-    .v2 .field .f5{left:2%;top:700px;width:19%}
-    .v2 .field .f6{left:auto;right:5%;top:760px;width:23%}
-    .v2 .field .q4{left:auto;right:8%;top:1030px}
-  }
-
-  .v2 .films{padding:90px 0 110px;max-width:1080px;margin:0 auto}
-  .v2 .films .head{padding:0 28px 46px;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px 18px}
-  .v2 .film-a{position:relative;width:92%;aspect-ratio:16/9;background:url("/shwcase-still-05.jpg") center/cover;border-radius:2px;overflow:hidden}
-  .v2 .film-a .veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(24,16,11,.66),rgba(24,16,11,0) 55%)}
-  .v2 .film-a .cap{position:absolute;left:22px;bottom:18px;right:22px;max-width:62%;color:var(--cream-soft)}
-  .v2 .film-a .cap .t{font-style:italic;font-size:clamp(21px,4.4vw,32px);line-height:1.15}
-  .v2 .film-a .cap .m{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;opacity:.7;margin-top:6px}
-  .v2 .film-a .no{position:absolute;top:16px;left:22px;font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.2em;color:rgba(250,246,236,.8);text-transform:uppercase}
-  .v2 .film-b{position:relative;width:58%;margin-left:38%;margin-top:-4%;aspect-ratio:4/3;background:url("/shwcase-still-07.jpg") center/cover;border-radius:2px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(46,33,24,.45)}
-  .v2 .film-b .veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(24,16,11,.6),rgba(24,16,11,0) 60%)}
-  .v2 .film-b .cap{position:absolute;left:16px;bottom:14px;color:var(--cream-soft)}
-  .v2 .film-b .cap .t{font-style:italic;font-size:19px}
-  .v2 .film-b .cap .m{font-family:"IBM Plex Mono",monospace;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.7;margin-top:4px}
-  @media (min-width:761px){.v2 .film-a{width:78%}.v2 .film-b{width:34%;margin-left:60%;margin-top:-6%}}
-
-  .v2 .quiet-motion{max-width:680px;margin:90px auto 0;padding:0 28px}
-  .v2 .quiet-motion video{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:2px}
-  .v2 .quiet-motion figcaption{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:10px;line-height:1.8}
-  @media(prefers-reduced-motion:reduce){.v2 .quiet-motion video{display:none}.v2 .quiet-motion{aspect-ratio:16/9;background:url("/shwcase-still-01.jpg") center/cover}.v2 .quiet-motion figcaption{display:none}}
-  .v2 .shop{background:#2E2118;color:#FAF6EC;padding:120px 28px;margin-top:50px}
-  .v2 .shop .inner{max-width:1080px;margin:0 auto}
-  .v2 .shop .mono-label{color:#B4895E;display:block;margin-bottom:34px}
-  .v2 .shop .big{font-size:clamp(46px,11vw,104px);line-height:.98;font-weight:300}
-  .v2 .shop .big em{font-style:italic}
-  .v2 .shop-teaser{margin:44px 0 0;max-width:780px}
-  .v2 .shop-teaser img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:2px}
-  .v2 .shop-teaser figcaption{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(250,246,236,.62);margin-top:10px;line-height:1.8}
-  .v2 .shop .row2{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-top:44px}
-  .v2 .shop .d{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(250,246,236,.62);line-height:2.1;max-width:300px}
-  .v2 .btn-light{display:inline-block;background:#FAF6EC;color:#2E2118;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;padding:13px 24px;border-radius:999px}
-
-  .v2 footer{padding:100px 28px 70px;max-width:1080px;margin:0 auto}
-  .v2 footer .mark{font-size:clamp(40px,9vw,84px);font-style:italic;font-weight:300;line-height:1}
-  .v2 footer .under{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;border-top:1px solid var(--hairline);margin-top:40px;padding-top:18px}
-  .v2 footer .under .mono-label{color:var(--ink-soft)}
-  .v2 footer .socials{display:flex;gap:18px}
-  .v2 footer .socials a{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mocha);text-decoration:none}
+.homeGallery{--wall:#F2EDE3;--ink:#28251F;--dim:#777267;--hair:rgba(40,37,31,.2);height:100svh;min-height:580px;overflow:hidden;position:relative;background:var(--wall);color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;-webkit-font-smoothing:antialiased}
+.homeGallery *{box-sizing:border-box;margin:0;padding:0}
+.homeGallery button,.homeGallery a{-webkit-tap-highlight-color:transparent}
+.homeGallery button{color:inherit;cursor:pointer}
+.homeGallery button:focus-visible,.homeGallery a:focus-visible{outline:2px solid var(--ink);outline-offset:5px}
+.hgTop{position:absolute;z-index:10;top:0;left:0;right:0;padding:24px 30px;display:flex;justify-content:space-between;align-items:center}
+.hgMark{font-size:27px;text-decoration:none;color:inherit;font-weight:500;letter-spacing:-.03em}.hgMark sup{font-size:8px;vertical-align:11px;margin-left:2px}
+.hgTop .tag{font:8px 'IBM Plex Mono',monospace;letter-spacing:.19em;text-transform:uppercase;color:var(--dim)}
+.hgToggle{display:flex;border:1px solid var(--hair);border-radius:30px;overflow:hidden}.hgToggle button{border:0;background:transparent;font:8px 'IBM Plex Mono',monospace;letter-spacing:.15em;padding:10px 17px}.hgToggle button.on{background:var(--ink);color:var(--wall)}
+.hgRoom{position:absolute;inset:0;perspective:1000px;touch-action:none;cursor:grab;user-select:none;overflow:hidden}
+.hgRoom:active{cursor:grabbing}
+.hgRoom:before{content:'';position:absolute;left:0;right:0;top:68%;height:32%;background:linear-gradient(#E0D8C8,#D8CDB7);border-top:1px solid rgba(75,66,48,.08)}
+.hgRoom:after{content:'';position:absolute;left:0;right:0;top:64%;height:5%;background:linear-gradient(transparent,rgba(80,65,40,.055));pointer-events:none}
+.hgPiece{position:absolute;left:50%;top:44%;width:min(52vw,430px);transform-style:preserve-3d;will-change:transform,opacity}
+.hgPiece .spot{position:absolute;top:-135px;left:-50px;right:-50px;height:180px;background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.9),transparent 68%);pointer-events:none}
+.hgFrame{display:block;width:100%;border:1px solid rgba(45,37,25,.32);background:#FCF9F2;padding:12px;box-shadow:0 21px 32px rgba(70,55,30,.18),0 3px 5px rgba(70,55,30,.12);text-align:left}
+.hgFrame img,.hgFrame video{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;background:#D9D2C5;pointer-events:none}
+.hgPiece.portrait{width:min(35vw,280px)}.hgPiece.portrait .hgFrame img{aspect-ratio:3/4}
+.hgCaption{margin:18px auto 0;width:max-content;max-width:100%;text-align:center;font-size:23px;font-style:italic}.hgCaption small{display:block;font:7px 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.15em;color:var(--dim);margin-top:6px}
+.hgIntro{width:420px;text-align:center}.hgIntro .kicker{font:8px 'IBM Plex Mono',monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}.hgIntro h1{font-size:66px;font-weight:300;font-style:italic;line-height:.94;margin:22px auto;letter-spacing:-.035em}.hgIntro .introNote{font:8px 'IBM Plex Mono',monospace;line-height:2;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}.hgIntro .rule{margin:26px auto;width:45px;border-top:1px solid var(--hair)}
+.hgBottom{position:absolute;bottom:25px;left:30px;right:30px;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:20px;font:8px 'IBM Plex Mono',monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--dim)}
+.hgBottom a{color:inherit;text-decoration:none;border-bottom:1px solid var(--hair);padding-bottom:3px}
+.hgControls{position:absolute;bottom:82px;left:30px;right:30px;z-index:10;display:flex;justify-content:space-between;align-items:center}
+.hgPosition{font:8px 'IBM Plex Mono',monospace;letter-spacing:.17em;text-transform:uppercase;color:var(--dim);line-height:1.9}
+.hgArrows{display:flex;gap:10px}.hgArrows button{background:transparent;border:1px solid var(--hair);border-radius:50%;width:44px;height:44px;font:18px Georgia,serif}.hgArrows button:disabled{opacity:.22;cursor:default}.hgArrows button:hover:not(:disabled){background:var(--ink);color:var(--wall)}
+.hgList{position:absolute;inset:90px 0 65px;overflow-y:auto;padding:15px max(30px,calc((100vw - 1000px)/2)) 80px}.hgList h1{font-weight:300;font-style:italic;font-size:56px;line-height:.98;margin:30px 0 50px}.hgRow{padding:40px 0;border-top:1px solid var(--hair);display:grid;grid-template-columns:1.25fr 1fr;gap:50px;align-items:center}.hgRow button{width:100%;border:0;background:none}.hgRow img{display:block;width:100%;max-height:400px;object-fit:cover}.hgRow h2{font-weight:300;font-style:italic;font-size:38px}.hgRow p{font:8px 'IBM Plex Mono',monospace;letter-spacing:.15em;line-height:2;text-transform:uppercase;margin-top:14px;color:var(--dim)}.hgRow .view{display:inline-block;margin-top:24px;border-bottom:1px solid var(--hair);padding-bottom:4px;font-style:italic;font-size:21px;text-decoration:none;color:inherit}
+.hgCloseup{position:fixed;inset:0;z-index:30;background:rgba(242,237,227,.99);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:85px 25px 35px}.hgCloseup .close{position:absolute;top:25px;right:30px;border:1px solid var(--hair);background:none;border-radius:30px;padding:10px 20px;font:9px 'IBM Plex Mono',monospace}.hgCloseup img,.hgCloseup video{max-width:85vw;max-height:60svh;object-fit:contain;background:#FCF9F2;border:12px solid #FCF9F2;box-shadow:0 20px 45px rgba(70,55,30,.14)}.hgCloseup h2{font-style:italic;font-size:35px;font-weight:300;margin-top:25px}.hgCloseup p{font:8px 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:9px}
+@media(max-width:640px){
+.hgTop{padding:22px}.hgTop .tag{display:none}.hgMark{font-size:25px}.hgToggle button{padding:9px 12px;font-size:7px}
+.hgPiece{width:76vw;top:43%}.hgPiece.portrait{width:60vw}.hgFrame{padding:9px}.hgCaption{font-size:25px}.hgCaption small{font-size:7px;letter-spacing:.1em}.hgIntro{width:79vw}.hgIntro h1{font-size:54px}.hgIntro .introNote{font-size:7px}.hgRoom:before{top:65%;height:35%}.hgRoom:after{top:61%}
+.hgBottom{left:22px;right:22px;bottom:24px;font-size:7px;letter-spacing:.08em}.hgBottom .about{display:none}.hgControls{left:22px;right:22px;bottom:85px}.hgPosition{font-size:7px;letter-spacing:.1em;max-width:60%;line-height:2}
+.hgList{padding:10px 22px 60px}.hgList h1{font-size:44px}.hgRow{grid-template-columns:1fr;gap:22px}.hgRow h2{font-size:34px}.hgCloseup img,.hgCloseup video{max-width:90vw;border-width:8px}
+}
+@media(prefers-reduced-motion:reduce){.hgPiece video{display:none}.hgPiece .stillFallback{display:block!important}}
 `
 
-export default function Home() {
-  return (
-    <main className="v2">
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap"
-        rel="stylesheet"
-      />
-      <style>{CSS}</style>
-      <TimeTheme />
-
-      <div className="grain"></div>
-
-      <header className="hero">
-        <video className="hero-media" autoPlay muted loop playsInline poster="/shwcase-pier-poster.jpg" aria-hidden="true">
-          <source src="/shwcase-pier.mp4" type="video/mp4" />
-        </video>
-        <nav>
-          <a className="wordmark" href="/">
-            shwcase<sup>®</sup>
-          </a>
-          <div className="links">
-            <a href="#questions">questions</a>
-            <a href="#films">films</a>
-            <Link href="/ask">ask</Link>
-            <a href="#shop" className="soon">
-              shop
-            </a>
-          </div>
-        </nav>
-
-        <div className="hero-type">
-          <h1 className="q">
-            <span className="l1">
-              <em>where do</em>
-            </span>
-            <span className="l2">you go</span>
-            <span className="l3">
-              <em>when you</em>
-            </span>
-            <span className="l4">need to think?</span>
-          </h1>
-        </div>
-
-        <div>
-          <div className="hero-cta">
-            <Link className="btn-dark" href="/ask">
-              answer a question
-            </Link>
-            <span className="micro">four open · a minute each</span>
-          </div>
-          <div className="hero-bottom">
-            <div className="now-card">
-              <span className="mono-label">now asking</span>
-              <div className="t">four questions, all open at once. answer whichever one is yours.</div>
-              <div className="m">n°1–4 · answers open</div>
-            </div>
-            <div className="coords">
-              from the archive
-              <br />
-              last light by the water
-              <br />
-              <span id="time-note">viewing in daylight</span>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <section className="statement">
-        <span className="mono-label">shwcase is</span>
-        <p>
-          calm, quiet <em>footage</em> <span className="inline-img"></span> from the places people
-          send me. a few questions, open all at once, each one <em>answered</em> the way it felt.
-        </p>
-        <div className="sig">
-          <span className="mono-label">recollections from around the world</span>
-          <span className="mono-label">los angeles, ca</span>
-        </div>
-      </section>
-
-      <section className="how">
-        <div className="head">
-          <span className="mono-label">how it works</span>
-          <span className="mono-label">03 steps</span>
-        </div>
-        <div className="row">
-          <span className="n">01</span>
-          <span className="t">
-            pick the question <em>that's yours.</em>
-          </span>
-          <span className="d">four open · no right answer</span>
-        </div>
-        <div className="row">
-          <span className="n">02</span>
-          <span className="t">
-            answer it with <em>a place.</em>
-          </span>
-          <span className="d">online in a minute · or 20 seconds of footage</span>
-        </div>
-        <div className="row">
-          <span className="n">03</span>
-          <span className="t">
-            it joins the archive <em>with your name on it.</em>
-          </span>
-          <span className="d">full credit · your own page</span>
-        </div>
-      </section>
-
-      <section className="questions" id="questions">
-        <div className="head">
-          <span className="mono-label">the questions</span>
-          <span className="mono-label">all open · answered in images</span>
-        </div>
-        <div className="field">
-          <div className="qentry q1">
-            <span className="qn">n°1 · open</span>
-            <span className="qq">where do you go when you need to think?</span>
-            <span className="qm">answered in images · yours could be here</span>
-            <Link className="qa" href="/ask?src=q1">
-              answer n°1
-            </Link>
-          </div>
-          <div className="fig f1">
-            <img src="/q-think-water.jpg" alt="sitting on the rocks, watching the sun path over the ocean" />
-            <span className="cap">answered by josh · los angeles</span>
-          </div>
-          <div className="fig f7">
-            <img src="/q-think-trail.jpg" alt="boots on a quiet trail" />
-            <span className="cap">answered by josh · los angeles</span>
-          </div>
-          <div className="qentry q2">
-            <span className="qn">n°2 · open</span>
-            <span className="qq">where were you the last time you felt completely calm?</span>
-            <span className="qm">answered in images · yours could be here</span>
-            <Link className="qa" href="/ask?src=q2">
-              answer n°2
-            </Link>
-          </div>
-          <div className="fig f3">
-            <img src="/q-calm-blossom.jpg" alt="a camellia in spring" />
-            <span className="cap">answered by josh · los angeles</span>
-          </div>
-          <div className="fig f8">
-            <img src="/q-calm-canopy.jpg" alt="blossom canopy against the sky" />
-            <span className="cap">answered by josh · los angeles</span>
-          </div>
-          <div className="qentry q3">
-            <span className="qn">n°3 · open</span>
-            <span className="qq">what does home sound like?</span>
-            <span className="qm">answered in images · yours could be here</span>
-            <Link className="qa" href="/ask?src=q3">
-              answer n°3
-            </Link>
-          </div>
-          <div className="fig f4">
-            <img src="/q-home-vinyl.jpg" alt="a record playing at home" />
-            <span className="cap">answered by josh · los angeles</span>
-          </div>
-          <div className="fig f5">
-            <img src="/q-home-candle.jpg" alt="a candle burning in the dark" />
-            <span className="cap">answered by josh · los angeles</span>
-          </div>
-          <div className="qentry q4">
-            <span className="qn">n°4 · open</span>
-            <span className="qq">when did you last stop to watch the light change?</span>
-            <span className="qm">answered in images · yours could be here</span>
-            <Link className="qa" href="/ask?src=q4">
-              answer n°4
-            </Link>
-          </div>
-          <div className="fig f2">
-            <img src="/q-light-rooftop.jpg" alt="rooftop sunset over the city" />
-            <span className="cap">answered by josh · los angeles</span>
-          </div>
-          <div className="fig f6">
-            <img src="/q-light-watch.jpg" alt="watching the light change from the rooftop" />
-            <span className="cap">answered by josh · los angeles</span>
-          </div>
-        </div>
-      </section>
-
-      <section className="films" id="films">
-        <div className="head">
-          <span className="mono-label">films</span>
-          <span className="mono-label">3–8 min · natural sound · barely cut</span>
-        </div>
-        <div className="film-a">
-          <div className="veil"></div>
-          <span className="no">film n°1 · in production</span>
-          <div className="cap">
-            <div className="t">where do you go when you need to think</div>
-            <div className="m">a moment at dusk · selected still</div>
-          </div>
-        </div>
-        <div className="film-b">
-          <div className="veil"></div>
-          <div className="cap">
-            <div className="t">a walk at last light</div>
-            <div className="m">from the archive · selected still</div>
-          </div>
-        </div>
-      </section>
-
-      <figure className="quiet-motion">
-        <video autoPlay muted loop playsInline preload="metadata" poster="/shwcase-still-01.jpg" aria-label="Coastal dusk, a quiet silent loop">
-          <source src="/shwcase-coastal-dusk-loop.mp4" type="video/mp4" />
-        </video>
-        <figcaption>coastal dusk · a quiet loop · no sound</figcaption>
-      </figure>
-
-      <section className="shop" id="shop">
-        <div className="inner">
-          <span className="mono-label">the shop · opens with pack n°1</span>
-          <div className="big">
-            a little
-            <br />
-            <em>stillness.</em>
-          </div>
-          <figure className="shop-teaser">
-            <img src="/shwcase-still-11.jpg" alt="Hazy golden light over the ocean" loading="lazy" />
-            <figcaption>an editorial glimpse · not a preview of pack contents</figcaption>
-          </figure>
-          <div className="row2">
-            <div className="d">
-              a collection of calm, coming soon · details and licensing to follow
-            </div>
-            <a className="btn-light" href="https://tally.so/r/OQXD58" target="_blank" rel="noopener noreferrer">
-              notify me
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <footer>
-        <div className="mark">shwcase</div>
-        <div className="under">
-          <span className="mono-label">recollections from around the world</span>
-          <div className="socials">
-            <a href="https://instagram.com">instagram</a>
-            <a href="https://tiktok.com">tiktok</a>
-            <a href="https://youtube.com">youtube</a>
-          </div>
-          <span className="mono-label">made quietly in los angeles</span>
-        </div>
-      </footer>
-    </main>
-  )
-}
+export default function Home(){
+ const [mode,setMode]=useState<'gallery'|'list'>('gallery')
+ const [active,setActive]=useState(0)
+ const [zoom,setZoom]=useState<number|null>(null)
+ const root=useRef<HTMLDivElement>(null)
+ const current=useRef(0),target=useRef(0)
+ const drag=useRef<{x:number,start:number}|null>(null), moved=useRef(0)
+ const count=WORKS.length+1
+ const go=(n:number)=>{target.current=Math.max(0,Math.min(count-1,n));setActive(Math.round(target.current))}
+ useEffect(()=>{
+  if(mode!=='gallery')return
+  const el=root.current;if(!el)return
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches
+  let raf=0
+  const draw=()=>{
+   current.current+=(target.current-current.current)*(reduced?1:.085)
+   const spacing=innerWidth<640?innerWidth*.91:520
+   el.querySelectorAll<HTMLElement>('.hgPiece').forEach((p,i)=>{
+    const d=i-current.current
+    p.style.transform=`translate(-50%,-50%) translate3d(${d*spacing}px,${Math.min(Math.abs(d),3)*10}px,${-Math.min(Math.abs(d),3)*115}px) rotateY(${-Math.max(-2,Math.min(2,d))*18}deg)`
+    p.style.opacity=Math.abs(d)>2.5?'0':'1'
+    p.style.pointerEvents=Math.abs(d)<.65?'auto':'none'
+   })
+   raf=requestAnimationFrame(draw)
+  };draw()
+  const wheel=(e:WheelEvent)=>{e.preventDefault();target.current=Math.max(0,Math.min(count-1,target.current+(Math.abs(e.deltaY)>Math.abs(e.deltaX)?e.deltaY:e.deltaX)*.0025));setActive(Math.round(target.current))}
+  const down=(e:PointerEvent)=>{drag.current={x:e.clientX,start:target.current};moved.current=0}
+  const move=(e:PointerEvent)=>{if(!drag.current)return;const dx=e.clientX-drag.current.x;moved.current=Math.abs(dx);target.current=Math.max(0,Math.min(count-1,drag.current.start-dx/(innerWidth<640?280:500)));setActive(Math.round(target.current))}
+  const up=()=>{if(!drag.current)return;drag.current=null;target.current=Math.round(target.current);setActive(target.current)}
+  el.addEventListener('wheel',wheel,{passive:false});el.addEventListener('pointerdown',down);window.addEventListener('pointermove',move);window.addEventListener('pointerup',up)
+  return()=>{cancelAnimationFrame(raf);el.removeEventListener('wheel',wheel);el.removeEventListener('pointerdown',down);window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up)}
+ },[mode,count])
+ useEffect(()=>{const fn=(e:KeyboardEvent)=>{if(e.key==='Escape')setZoom(null);if(zoom!==null||mode!=='gallery')return;if(e.key==='ArrowRight')go(Math.round(target.current)+1);if(e.key==='ArrowLeft')go(Math.round(target.current)-1)};window.addEventListener('keydown',fn);return()=>window.removeEventListener('keydown',fn)},[zoom,mode])
+ const open=(i:number)=>{if(moved.current>8)return;const w=WORKS[i];if(w.href){location.href=w.href;return}setZoom(i)}
+ return <main className="homeGallery" data-home="gallery-v1">
+ <style>{CSS}</style>
+ <header className="hgTop"><a className="hgMark" href="/">shwcase<sup>®</sup></a><span className="tag">recollections from around the world</span><div className="hgToggle"><button className={mode==='gallery'?'on':''} onClick={()=>setMode('gallery')}>GALLERY</button><button className={mode==='list'?'on':''} onClick={()=>setMode('list')}>LIST</button></div></header>
+ {mode==='gallery'?<>
+ <div className="hgRoom" ref={root} aria-label="Gallery. Scroll, drag, or use arrow buttons to walk.">
+ <section className="hgPiece hgIntro"><div className="kicker">the shwcase gallery</div><h1>recollections<br/>from around<br/>the world.</h1><div className="rule"/><p className="introNote">places, people, moments kept.<br/>walk through. stay a while.</p></section>
+ {WORKS.map((w,i)=><figure key={w.title} className={`hgPiece ${w.shape}`}><div className="spot"/><button className="hgFrame" onClick={()=>open(i)} aria-label={w.href?`Enter ${w.title}`:`Look closer at ${w.title}`}>
+ {w.video?<><video autoPlay muted loop playsInline preload="metadata" poster={w.image} aria-hidden="true" src={w.video}/><img className="stillFallback" style={{display:'none'}} src={w.image} alt=""/></>:<img src={w.image} alt={w.title} draggable="false"/>}
+ </button><figcaption className="hgCaption">{w.title}<small>{String(i+1).padStart(2,'0')} / {w.by}</small></figcaption></figure>)}
+ </div>
+ <div className="hgControls"><div className="hgPosition" aria-live="polite">{active===0?'the entrance':`${String(active).padStart(2,'0')} / ${WORKS[active-1].title}`}<br/>{active===0?'scroll or drag to walk round':'tap the frame to step closer'}</div><div className="hgArrows"><button disabled={active===0} onClick={()=>go(Math.round(target.current)-1)} aria-label="Walk back">←</button><button disabled={active===count-1} onClick={()=>go(Math.round(target.current)+1)} aria-label="Walk on">→</button></div></div>
+ </>:<div className="hgList"><h1>the collection.</h1>{WORKS.map((w,i)=><article className="hgRow" key={w.title}><button onClick={()=>{moved.current=0;open(i)}} aria-label={`Open ${w.title}`}><img src={w.image} alt={w.title}/></button><div><h2>{w.title}</h2><p>{String(i+1).padStart(2,'0')} / {w.by}<br/>{w.meta}</p><button className="view" style={{width:'auto'}} onClick={()=>{moved.current=0;open(i)}}>{w.href?'enter the room ↗':'look closer ↗'}</button></div></article>)}</div>}
+ <footer className="hgBottom"><span>shwcase / selected recollections</span><span className="about">a growing collection, kept quietly.</span><a href="/ask">leave a recollection ↗</a></footer>
+ {zoom!==null&&<section className="hgCloseup" role="dialog" aria-modal="true" aria-label={WORKS[zoom].title}><button className="close" onClick={()=>setZoom(null)} autoFocus>close ×</button>{WORKS[zoom].video?<video src={WORKS[zoom].video} autoPlay muted loop playsInline controls poster={WORKS[zoom].image}/>:<img src={WORKS[zoom].image} alt={WORKS[zoom].title}/>}<h2>{WORKS[zoom].title}</h2><p>{WORKS[zoom].meta}</p></section>}
+ </main>
+   }
