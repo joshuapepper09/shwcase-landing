@@ -103,6 +103,23 @@ const CSS = `
 .hgSeatLink{bottom:84px;background:rgba(255,255,255,.75)}
 @media(max-width:640px){.roomWayfinding{bottom:182px}.roomWayfinding button{width:51px;font-size:9px}.roomWayfinding small{font-size:11px}.hgSeatLink{bottom:118px;font-size:20px}.hgControls{bottom:67px}.hgPosition{max-width:64%;font-size:6px}.hgBottom{bottom:20px;font-size:6px}.hgArrows button{width:38px;height:38px}.hgTop .hgMark{font-size:23px}}
 
+
+.spatialMount{position:absolute;inset:0}
+.screenRoom.journal .screenGlow,.screenRoom.journal .screenFloor,.screenRoom.journal .seat,.screenRoom.journal .roomShell{display:none}
+.screenRoom.journal .projection{inset:0}
+.screenRoom.journal .projection video{width:100%;height:100%;object-fit:cover;box-shadow:none;filter:none;animation:journalReveal 1.3s cubic-bezier(.2,.7,.2,1) both}
+@keyframes journalReveal{from{clip-path:inset(8% 10%);transform:scale(1.06)}to{clip-path:inset(0);transform:scale(1)}}
+.screenRoom.journal .projection:after{box-shadow:none;background:linear-gradient(rgba(2,8,14,.3),transparent 30%,transparent 45%,rgba(2,8,14,.7))}
+.screenRoom .screenView{position:absolute;right:30px;bottom:135px;z-index:2;border:0;border-bottom:1px solid rgba(255,255,255,.4);background:none;color:#e6edf3;font:italic 19px 'Cormorant Garamond',Georgia,serif;padding:6px 0}
+.screenRoom .chapterNo{display:block;font:8px 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#c7d1d8;margin-bottom:14px}
+.screenRoom.journal .screenCaption{bottom:35px;align-items:flex-end}
+.screenRoom.journal h2{font-size:clamp(65px,12vw,170px);line-height:.8;letter-spacing:-.05em;margin:0 0 28px}
+.screenRoom.journal .quietNote{color:#d0d9df;font-size:7px}
+.screenRoom.journal .filmChoices button{color:#c6d0d9;font-size:24px}.screenRoom.journal .filmChoices button.selected{color:white;border-color:white}
+.screenRoom.journal .roomLabel,.screenRoom.journal .roomLabel strong{color:white}.screenRoom.journal .back{border-color:rgba(255,255,255,.65);color:white;background:rgba(5,15,25,.1)}
+@media(max-width:640px){.hgToggle button{padding:9px 9px;font-size:7px}.screenRoom.journal h2{font-size:80px}.screenRoom.journal .screenCaption{bottom:30px}.screenRoom .screenView{right:22px;bottom:245px;font-size:17px}.screenRoom .chapterNo{font-size:7px}.screenRoom.journal .filmChoices{margin-top:28px}.screenRoom.journal .filmChoices button{font-size:23px}.screenRoom.journal .roomLabel{max-width:140px}.screenRoom.journal .back{font-size:6px;letter-spacing:.02em}}
+@media(prefers-reduced-motion:reduce){.screenRoom.journal .projection video{animation:none}}
+
 `
 
 
@@ -184,7 +201,7 @@ function SpatialGallery({target,onActive,onOpen}:{target:{current:number};onActi
    }catch(e){setStatus('The spatial room could not load. LIST is always available.');console.error(e)}
   };boot();return()=>{dead=true;dispose()}
  },[target])
- return <div className="spatialCanvas" ref={mount}>{status&&<p className="spatialStatus">{status}</p>}</div>
+ return <div className="spatialCanvas"><div className="spatialMount" ref={mount}/>{status?<p className="spatialStatus">{status}</p>:null}</div>
 }
 
 export default function Home(){
@@ -192,6 +209,7 @@ export default function Home(){
  const [active,setActive]=useState(0)
  const [zoom,setZoom]=useState<number|null>(null)
  const [screening,setScreening]=useState<number|null>(null)
+ const [journal,setJournal]=useState(true)
  const root=useRef<HTMLDivElement>(null)
  const current=useRef(0),target=useRef(0)
  const drag=useRef<{x:number,start:number}|null>(null), moved=useRef(0)
@@ -222,25 +240,25 @@ export default function Home(){
  },[mode,count])
  useEffect(()=>{const fn=(e:KeyboardEvent)=>{if(e.key==='Escape'){setZoom(null);setScreening(null)}if(screening!==null||zoom!==null||mode!=='gallery')return;if(e.key==='ArrowRight')go(Math.round(target.current)+1);if(e.key==='ArrowLeft')go(Math.round(target.current)-1)};window.addEventListener('keydown',fn);return()=>window.removeEventListener('keydown',fn)},[zoom,mode,screening])
  const open=(i:number)=>{if(moved.current>8)return;const w=WORKS[i];if(w.href){location.href=w.href;return}setZoom(i)}
- return <main className="homeGallery" data-home="spatial-rooms-v4">
+ return <main className="homeGallery" data-home="spatial-journal-v5">
  <style>{CSS}</style>
- <header className="hgTop"><a className="hgMark" href="/">shwcase<sup>®</sup></a><span className="tag">recollections from around the world</span><div className="hgToggle"><button className={mode==='gallery'?'on':''} onClick={()=>setMode('gallery')}>GALLERY</button><button className={mode==='list'?'on':''} onClick={()=>setMode('list')}>LIST</button></div></header>
+ <header className="hgTop"><a className="hgMark" href="/">shwcase<sup>®</sup></a><span className="tag">recollections from around the world</span><div className="hgToggle"><button className={mode==='gallery'?'on':''} onClick={()=>setMode('gallery')}>GALLERY</button><button onClick={()=>{setJournal(true);setScreening(0)}}>JOURNAL</button><button className={mode==='list'?'on':''} onClick={()=>setMode('list')}>LIST</button></div></header>
  {mode==='gallery'?<>
  <SpatialGallery target={target} onActive={setActive} onOpen={open}/>
  <nav className="roomWayfinding" aria-label="Exhibition route">{['arrival','last light','andy','coast','rooftop'].map((name,i)=><button key={name} onClick={()=>go(i)} className={active===i?'selected':''} aria-label={`Walk to ${name}`}><span>{String(i).padStart(2,'0')}</span><small>{name}</small></button>)}</nav>
  <div className="hgControls"><div className="hgPosition" aria-live="polite">{active===0?'the entrance':`${String(active).padStart(2,'0')} / ${WORKS[active-1].title}`}<br/>{active===0?'scroll or drag to walk round':'tap the frame to step closer'}</div><div className="hgArrows"><button disabled={active===0} onClick={()=>go(Math.round(target.current)-1)} aria-label="Walk back">←</button><button disabled={active===count-1} onClick={()=>go(Math.round(target.current)+1)} aria-label="Walk on">→</button></div></div>
  </>:<div className="hgList"><h1>the collection.</h1>{WORKS.map((w,i)=><article className="hgRow" key={w.title}><button onClick={()=>{moved.current=0;open(i)}} aria-label={`Open ${w.title}`}><img src={w.image} alt={w.title}/></button><div><h2>{w.title}</h2><p>{String(i+1).padStart(2,'0')} / {w.by}<br/>{w.meta}</p><button className="view" style={{width:'auto'}} onClick={()=>{moved.current=0;open(i)}}>{w.href?'enter the room ↗':'look closer ↗'}</button></div></article>)}</div>}
- {mode==='gallery'&&<button className="hgSeatLink" onClick={()=>setScreening(0)}>take a seat<small>the quiet screening room ↗</small></button>}
+ {mode==='gallery'&&<button className="hgSeatLink" onClick={()=>setScreening(0)}>enter the moment<small>the moving journal ↗</small></button>}
  <footer className="hgBottom"><span>shwcase / selected recollections</span><span className="about">a growing collection, kept quietly.</span><a href="/ask">leave a recollection ↗</a></footer>
  {zoom!==null&&<section className="hgCloseup" role="dialog" aria-modal="true" aria-label={WORKS[zoom].title}><button className="close" onClick={()=>setZoom(null)} autoFocus>close ×</button>{WORKS[zoom].video?<video src={WORKS[zoom].video} autoPlay muted loop playsInline poster={WORKS[zoom].image}/>:<img src={WORKS[zoom].image} alt={WORKS[zoom].title}/>}<h2>{WORKS[zoom].title}</h2><p>{WORKS[zoom].meta}</p>{WORKS[zoom].video&&<button className="hgSit" onClick={()=>{setScreening(zoom);setZoom(null)}}>sit with this moment ↗</button>}</section>}
- {screening!==null&&<section className="screenRoom" role="dialog" aria-modal="true" aria-label="The quiet screening room">
+ {screening!==null&&<section className={`screenRoom ${journal?'journal':''}`} role="dialog" aria-modal="true" aria-label="The moving journal">
  <video className="screenGlow" key={'glow'+screening} src={WORKS[screening].video} autoPlay muted loop playsInline aria-hidden="true"/>
  <div className="roomShell"/><div className="screenFloor"/>
- <header className="screenTop"><div className="roomLabel"><strong>shwcase / room 02</strong><br/>the quiet screening room</div><button autoFocus className="back" onClick={()=>setScreening(null)}>← back to the gallery</button></header>
+ <header className="screenTop"><div className="roomLabel"><strong>shwcase / moving journal</strong><br/>recollections from around the world</div><button autoFocus className="back" onClick={()=>setScreening(null)}>← back to the gallery</button></header>
  <div className="projection"><video key={screening} src={WORKS[screening].video} poster={WORKS[screening].image} autoPlay muted loop playsInline aria-label={WORKS[screening].title}/></div>
- <div className="seat" aria-hidden="true"/>
- <footer className="screenCaption"><div><h2>{WORKS[screening].title}</h2><p className="quietNote">a moving image, a place to pause.<br/>no sound. no hurry.</p></div><div className="filmChoices">{[0,2].map(i=><button key={i} className={screening===i?'selected':''} onClick={()=>setScreening(i)}>{WORKS[i].title}</button>)}</div></footer>
+ <div className="seat" aria-hidden="true"/><button className="screenView" onClick={()=>setJournal(!journal)}>{journal?'take a seat in the screening room ↗':'let the film fill the room ↗'}</button>
+ <footer className="screenCaption"><div><span className="chapterNo">{screening===0?'01':'02'} / FIELD NOTES</span><h2>{WORKS[screening].title}</h2><p className="quietNote">a moving image, a place to pause.<br/>no sound. no hurry.</p></div><div className="filmChoices">{[0,2].map(i=><button key={i} className={screening===i?'selected':''} onClick={()=>setScreening(i)}>{WORKS[i].title}</button>)}</div></footer>
  </section>}
 
  </main>
-        }
+   }
