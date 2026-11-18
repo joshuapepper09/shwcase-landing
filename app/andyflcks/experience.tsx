@@ -15,51 +15,73 @@ const CSS = `
 html.cp-lock,html.cp-lock body{overflow:hidden;height:100%}
 
 /* ---------- entrance overlay ---------- */
-.gate{position:fixed;inset:0;z-index:80;background:#000;overflow:hidden;touch-action:manipulation;transition:opacity 1s ease}
+.gate{position:fixed;inset:0;z-index:80;background:#000;overflow:hidden;touch-action:manipulation;transition:opacity 1.15s cubic-bezier(.4,0,.2,1);will-change:opacity}
 .gate.done{opacity:0;pointer-events:none}
 .gate .stage{position:absolute;inset:0}
 
 /* the car, parked */
-.gate .car{position:absolute;inset:0;background-image:url("${IMG_CAR}");background-size:cover;background-position:32% 60%;transform-origin:34% 46%;transition:transform 1.15s cubic-bezier(.55,.06,.35,1),filter 1.15s ease,opacity 1.05s ease .2s}
-.gate.s1 .car{transform:scale(2.4);filter:brightness(.78) saturate(1.15)}
-.gate.s2 .car,.gate.s3 .car{transform:scale(2.9);filter:brightness(.5) blur(3px);opacity:0}
-.gate .carTint{position:absolute;inset:0;background:radial-gradient(120% 90% at 30% 55%,transparent 40%,rgba(0,0,0,.55) 100%);transition:opacity .8s ease .3s}
-.gate.s2 .carTint,.gate.s3 .carTint{opacity:0}
+.gate .car{position:absolute;inset:0;background-image:url("${IMG_CAR}");background-size:cover;background-position:32% 60%;transform-origin:34% 46%;will-change:transform,opacity}
+.gate.open .car{animation:carPush 2.7s forwards}
+@keyframes carPush{
+  0%{transform:scale(1);filter:brightness(1);opacity:1;animation-timing-function:cubic-bezier(.45,.05,.3,1)}
+  38%{transform:scale(2.3);filter:brightness(.82) saturate(1.12);opacity:1;animation-timing-function:cubic-bezier(.55,.05,.35,1)}
+  72%{transform:scale(2.7);filter:brightness(.6);opacity:.5;animation-timing-function:cubic-bezier(.4,0,.2,1)}
+  100%{transform:scale(2.9);filter:brightness(.5);opacity:0}
+}
+.gate .carTint{position:absolute;inset:0;background:radial-gradient(120% 90% at 30% 55%,transparent 40%,rgba(0,0,0,.55) 100%)}
+.gate.open .carTint{animation:tintOut 1s ease 1.15s forwards}
+@keyframes tintOut{to{opacity:0}}
 
 /* interior revealed behind the door */
-.gate .cab{position:absolute;inset:0;background-image:url("${IMG_INTERIOR}");background-size:cover;background-position:center 30%;opacity:0;transform:scale(1.08);transition:opacity 1.1s ease,transform 1.6s ease}
-.gate.s2 .cab,.gate.s3 .cab{opacity:1;transform:scale(1)}
+.gate .cab{position:absolute;inset:0;background-image:url("${IMG_INTERIOR}");background-size:cover;background-position:center 30%;opacity:0;transform:scale(1.09);will-change:transform,opacity}
+.gate.open .cab{animation:cabIn 1.9s cubic-bezier(.25,.6,.25,1) 1.05s forwards}
+@keyframes cabIn{
+  0%{opacity:0;transform:scale(1.09)}
+  32%{opacity:1}
+  100%{opacity:1;transform:scale(1)}
+}
 .gate .cabTint{position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.15) 45%,rgba(11,11,13,.85))}
 
 /* the door itself */
 .gate .doorWrap{position:absolute;inset:0;perspective:1200px;perspective-origin:20% 50%;pointer-events:none}
-.gate .door{position:absolute;top:0;bottom:0;left:-2%;width:78%;transform-origin:left center;transform:rotateY(0deg);transition:transform 1.25s cubic-bezier(.6,.02,.28,1),opacity .35s ease;opacity:0;
+.gate .door{position:absolute;top:0;bottom:0;left:-2%;width:78%;transform-origin:left center;transform:rotateY(0deg);opacity:0;will-change:transform,opacity;
   background:linear-gradient(155deg,#26282e 0%,#16171b 48%,#0b0c0f 100%);
   border-right:2px solid rgba(237,233,226,.28);
   box-shadow:inset -70px 0 110px -50px rgba(211,36,44,.45), inset 0 0 0 1px rgba(237,233,226,.05), 40px 0 90px rgba(0,0,0,.9)}
 .gate .door::before{content:"";position:absolute;left:8%;right:12%;top:11%;height:36%;border:1.5px solid rgba(237,233,226,.32);border-bottom:none;border-radius:46% 54% 0 0/70% 70% 0 0;background:linear-gradient(rgba(237,233,226,.05),transparent)}
 .gate .door::after{content:"";position:absolute;right:14%;top:57%;width:10%;height:6px;border-radius:3px;background:linear-gradient(90deg,rgba(237,233,226,.6),rgba(237,233,226,.15));box-shadow:0 0 8px rgba(237,233,226,.2)}
-.gate.s2 .door,.gate.s3 .door{opacity:1;transform:rotateY(-112deg)}
+.gate.open .door{animation:doorSwing 1.55s 1.05s forwards}
+@keyframes doorSwing{
+  0%{transform:rotateY(0deg);opacity:0;animation-timing-function:cubic-bezier(.5,.08,.65,.45)}
+  7%{opacity:1}
+  46%{transform:rotateY(-88deg);animation-timing-function:cubic-bezier(.3,.65,.35,1)}
+  68%{transform:rotateY(-116deg);animation-timing-function:cubic-bezier(.35,.7,.4,1)}
+  84%{transform:rotateY(-108deg);animation-timing-function:cubic-bezier(.4,0,.3,1)}
+  100%{transform:rotateY(-111deg);opacity:1}
+}
 
 /* red taillight bleed as you approach */
-.gate .glow{position:absolute;left:-10%;top:35%;width:60%;height:40%;background:radial-gradient(closest-side,rgba(211,36,44,.35),transparent 70%);opacity:0;transition:opacity 1s ease}
-.gate.s1 .glow{opacity:.9}
-.gate.s2 .glow,.gate.s3 .glow{opacity:.35}
-.gate .spill{position:absolute;top:0;bottom:0;left:0;width:70%;background:linear-gradient(100deg,rgba(237,233,226,.14),rgba(237,233,226,.03) 60%,transparent);opacity:0;transition:opacity .9s ease .3s}
-.gate.s2 .spill,.gate.s3 .spill{opacity:1}
+.gate .glow{position:absolute;left:-10%;top:35%;width:60%;height:40%;background:radial-gradient(closest-side,rgba(211,36,44,.35),transparent 70%);opacity:0}
+.gate.open .glow{animation:glowArc 2.7s ease forwards}
+@keyframes glowArc{0%{opacity:0}30%{opacity:.9}100%{opacity:.35}}
+.gate .spill{position:absolute;top:0;bottom:0;left:0;width:70%;background:linear-gradient(100deg,rgba(237,233,226,.14),rgba(237,233,226,.03) 60%,transparent);opacity:0}
+.gate.open .spill{animation:spillIn 1.1s ease 1.2s forwards}
+@keyframes spillIn{to{opacity:1}}
 
 /* entrance copy */
 .gate .mark{position:absolute;top:26px;left:28px;font-size:20px;font-weight:500;letter-spacing:.01em;color:var(--bone)}
 .gate .mark sup{font-size:8px;vertical-align:8px}
-.gate .invite{position:absolute;left:0;right:0;bottom:9%;display:flex;flex-direction:column;align-items:center;gap:14px;transition:opacity .5s ease}
-.gate.s1 .invite,.gate.s2 .invite,.gate.s3 .invite,.gate.s4 .invite{opacity:0}
+.gate .invite{position:absolute;left:0;right:0;bottom:9%;display:flex;flex-direction:column;align-items:center;gap:14px;transition:opacity .5s ease,transform .5s ease}
+.gate.open .invite{opacity:0;transform:scale(.96)}
 .gate .invite .l1{font-size:30px;font-style:italic;font-weight:300;color:var(--bone)}
 .gate .invite .l2{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--bone-dim)}
-.gate .dot{width:44px;height:44px;border-radius:50%;border:1px solid rgba(229,72,77,.7);position:relative;animation:pulse 2.2s ease-out infinite}
+.gate .dot{width:44px;height:44px;border-radius:50%;border:1px solid rgba(229,72,77,.7);position:relative}
+.gate .dot::before{content:"";position:absolute;inset:-1px;border-radius:50%;border:1px solid rgba(229,72,77,.55);animation:ringPulse 2.2s ease-out infinite;will-change:transform,opacity}
 .gate .dot::after{content:"";position:absolute;inset:16px;border-radius:50%;background:var(--red-soft)}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(229,72,77,.45)}70%{box-shadow:0 0 0 18px rgba(229,72,77,0)}100%{box-shadow:0 0 0 0 rgba(229,72,77,0)}}
-.gate .inCopy{position:absolute;left:0;right:0;bottom:9%;text-align:center;opacity:0;transition:opacity .9s ease .35s}
-.gate.s3 .inCopy{opacity:1}
+@keyframes ringPulse{0%{transform:scale(.7);opacity:.9}70%{transform:scale(1.7);opacity:0}100%{transform:scale(1.7);opacity:0}}
+.gate .inCopy{position:absolute;left:0;right:0;bottom:9%;text-align:center;opacity:0;transform:translateY(10px)}
+.gate.open .inCopy{animation:copyIn 1s cubic-bezier(.25,.6,.25,1) 2.5s forwards}
+@keyframes copyIn{to{opacity:1;transform:translateY(0)}}
 .gate .inCopy .l1{font-size:34px;font-style:italic;font-weight:300}
 .gate .inCopy .l2{margin-top:10px;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--bone-dim)}
 
@@ -132,8 +154,8 @@ html.cp-lock,html.cp-lock body{overflow:hidden;height:100%}
 .listFoot{max-width:980px;margin:44px auto 0;display:flex;justify-content:space-between;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim)}
 
 @media (prefers-reduced-motion:reduce){
-  .gate .car,.gate .door,.gate .cab,.gate .glow{transition-duration:.01s !important}
-  .gate .dot{animation:none}
+  .gate.open .car,.gate.open .carTint,.gate.open .cab,.gate.open .door,.gate.open .glow,.gate.open .spill,.gate.open .inCopy{animation-duration:.6s !important;animation-delay:0s !important}
+  .gate .dot::before{animation:none}
   .closer{animation:none}
 }
 `
@@ -167,7 +189,7 @@ const ROT_MAX = ANGLES[ANGLES.length - 1]
 const clamp = (v: number) => Math.min(ROT_MAX, Math.max(ROT_MIN, v))
 
 export default function Experience() {
-  const [stage, setStage] = useState(0) // 0 parked, 1 approach, 2 door open, 3 inside, 4 revealed
+  const [stage, setStage] = useState(0) // 0 parked, 1 opening (single css keyframe timeline), 4 revealed
   const [mode, setMode] = useState<'gallery' | 'list'>('gallery')
   const [zoom, setZoom] = useState<number | null>(null)
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
@@ -257,13 +279,11 @@ export default function Experience() {
   const enter = () => {
     if (stage !== 0) return
     setStage(1)
-    timers.current.push(setTimeout(() => setStage(2), 1150))
-    timers.current.push(setTimeout(() => setStage(3), 2550))
     timers.current.push(
       setTimeout(() => {
         setStage(4)
         document.documentElement.classList.remove('cp-lock')
-      }, 3900),
+      }, 3850),
     )
   }
 
@@ -285,7 +305,7 @@ export default function Experience() {
       <style>{CSS}</style>
 
       <div
-        className={`gate s${stage} ${stage >= 4 ? 'done' : ''}`}
+        className={`gate ${stage >= 1 ? 'open' : ''} ${stage >= 4 ? 'done' : ''}`}
         onClick={stage === 0 ? enter : undefined}
         role={stage === 0 ? 'button' : undefined}
         aria-label="open the door"
