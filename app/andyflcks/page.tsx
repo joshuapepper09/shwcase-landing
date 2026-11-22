@@ -156,9 +156,9 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
     if(dead||!mount.current)return
     const el=mount.current
     const scene=new T.Scene();scene.background=new T.Color(garage?'#202a31':'#f0f2f3');scene.fog=new T.Fog(garage?'#202a31':'#f1f3f4',28,65)
-    const renderer=new T.WebGLRenderer({antialias:true,alpha:false,powerPreference:'low-power'})
+    const renderer=new T.WebGLRenderer({antialias:true,alpha:false,powerPreference:'high-performance'})
     renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(el.clientWidth,el.clientHeight)
-    renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05
+    renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12
     renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap
     el.appendChild(renderer.domElement)
     const camera=new T.PerspectiveCamera(innerWidth<640?(garage?92:64):55,el.clientWidth/el.clientHeight,.1,100)
@@ -176,8 +176,8 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
     const seam=mat('#bac3c8')
     for(let z=10;z>=-27;z-=3.5)box(17,.003,.009,0,.006,z,seam)
     for(let x=-7;x<=7;x+=3.5)box(.009,.003,40,x,.006,-8,seam)
-    const hemi=new T.HemisphereLight('#f7fbff',garage?'#24313c':'#e4e8eb',garage?1.1:3);scene.add(hemi)
-    const sun=new T.DirectionalLight('#ffffff',garage ? .6 : 3.2);sun.position.set(-3,12,6);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-17;sun.shadow.camera.right=17;sun.shadow.camera.top=24;sun.shadow.camera.bottom=-24;sun.shadow.camera.far=55;sun.shadow.bias=-.0008;scene.add(sun);sun.target.position.set(1,0,-9);scene.add(sun.target)
+    const hemi=new T.HemisphereLight('#f7fbff',garage?'#24313c':'#e4e8eb',garage?1.3:3);scene.add(hemi)
+    const sun=new T.DirectionalLight('#ffffff',garage ? .6 : 3.2);sun.position.set(-3,12,6);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-17;sun.shadow.camera.right=17;sun.shadow.camera.top=24;sun.shadow.camera.bottom=-24;sun.shadow.camera.far=55;sun.shadow.bias=-.0008;sun.shadow.normalBias=.03;scene.add(sun);sun.target.position.set(1,0,-9);scene.add(sun.target)
     // Slim gallery benches and an arrival plinth give the walk a human scale.
     for(const z of (garage?[]:[-4,-16])){box(2.8,.13,.72,0,.62,z,wood);for(const x of [-1.15,1.15])box(.055,.59,.5,x,.3,z,metal)}
     const label=(lines:{text:string,size:number,italic?:boolean,color?:string}[],w:number,h:number)=>{
@@ -197,7 +197,7 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
      let tex
      if(w.video){const v=document.createElement('video');v.src=w.video;v.crossOrigin='anonymous';v.muted=true;v.loop=true;v.playsInline=true;v.preload='auto';v.play().catch(()=>{});videos.push(v);tex=new T.VideoTexture(v)}
      else tex=loader.load(w.image)
-     tex.colorSpace=T.SRGBColorSpace;if(garage&&w.r){const tR=p.w/p.h,s=tR/w.r;if(s<1){tex.repeat.x=s;tex.offset.x=(1-s)/2}else{tex.repeat.y=1/s;tex.offset.y=(1-1/s)/2}}textures.push(tex)
+     tex.colorSpace=T.SRGBColorSpace;tex.anisotropy=renderer.capabilities.getMaxAnisotropy();if(garage&&w.r){const tR=p.w/p.h,s=tR/w.r;if(s<1){tex.repeat.x=s;tex.offset.x=(1-s)/2}else{tex.repeat.y=1/s;tex.offset.y=(1-1/s)/2}}textures.push(tex)
      const image=new T.Mesh(new T.PlaneGeometry(p.w,p.h),new T.MeshBasicMaterial({map:tex,toneMapped:false}));image.position.z=.067;image.userData.work=i;group.add(image);exhibits.push(image);geometries.push(image.geometry);materials.push(image.material)
      const plate=label([{text:`0${i+1} / ${w.by.toUpperCase()}`,size:27,color:'#6b757c'},{text:w.title,size:62,italic:true}],1.45,.72);plate.position.set(0,-p.h/2-.64,.025);group.add(plate)
      const lamp=new T.SpotLight('#ffffff',24,10,Math.PI/5,.7,1);lamp.position.set(p.x*.75,5.1,p.z+1.4);lamp.target.position.set(p.x,2.5,p.z);scene.add(lamp);scene.add(lamp.target)
@@ -234,7 +234,7 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
      const well=mat('#050607',{roughness:1,side:T.DoubleSide})
      const cb=(w:number,h:number,d:number,x:number,y:number,z:number,m:any,parent:any=car)=>{const g=new T.BoxGeometry(w,h,d);geometries.push(g);const mesh=new T.Mesh(g,m);mesh.position.set(x,y,z);mesh.castShadow=true;parent.add(mesh);return mesh}
      // Lofts a ring of half-outlines (bottom center, up the left side, to top center) along z; mirrored, smooth-shaded.
-     const loft=(stations:{z:number;pts:number[][]}[],material:any)=>{const per=stations[0].pts.length*2-2,pos:number[]=[]
+     const loft=(stations:{z:number;pts:number[][]}[],material:any)=>{const cr=(a:number,b:number,c:number,d:number,t:number)=>{const v=.5*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t*t+(-a+3*b-3*c+d)*t*t*t);return Math.min(Math.max(v,Math.min(b,c)),Math.max(b,c))};const dense=[stations[0]];for(let s=0;s<stations.length-1;s++){const a=stations[Math.max(0,s-1)],b=stations[s],c=stations[s+1],d=stations[Math.min(stations.length-1,s+2)];dense.push({z:cr(a.z,b.z,c.z,d.z,.5),pts:b.pts.map((p,i)=>[cr(a.pts[i][0],b.pts[i][0],c.pts[i][0],d.pts[i][0],.5),cr(a.pts[i][1],b.pts[i][1],c.pts[i][1],d.pts[i][1],.5)])});dense.push(c)}stations=dense;const per=stations[0].pts.length*2-2,pos:number[]=[]
       for(const s of stations){const ring:number[][]=[...s.pts];for(let i=s.pts.length-2;i>=1;i--)ring.push([-s.pts[i][0],s.pts[i][1]]);for(const p of ring)pos.push(p[0],p[1],s.z)}
       const idx:number[]=[];for(let s=0;s<stations.length-1;s++)for(let i=0;i<per;i++){const a=s*per+i,b=s*per+(i+1)%per,c=(s+1)*per+i,d=(s+1)*per+(i+1)%per;idx.push(a,c,b,b,c,d)}
       const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(pos,3));g.setIndex(idx);g.computeVertexNormals();geometries.push(g)
@@ -337,16 +337,16 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
      cb(1.3,.024,.17,0,.962,2.31,paint).rotation.x=.2 // spoiler lip
      cb(1.5,.2,.12,0,.22,2.36,satin) // diffuser
      for(let j=-2;j<=2;j++)cb(.025,.15,.1,j*.16,.155,2.38,well)
-     const exG=new T.CylinderGeometry(.042,.042,.12,14);geometries.push(exG)
+     const exG=new T.CylinderGeometry(.042,.042,.12,20);geometries.push(exG)
      for(const x of [-.62,-.48,.48,.62]){const tip=new T.Mesh(exG,chrome);tip.rotation.x=Math.PI/2;tip.position.set(x,.235,2.415);car.add(tip)}
      for(const s of [-1,1])cb(.03,.14,.03,s*.885,.40,2.365,amberLens)
      // Wheels: black split-5-spokes, red calipers (his car has them), arch rings.
-     const tireG=new T.TorusGeometry(.299,.054,16,44);geometries.push(tireG)
-     const rimG=new T.CylinderGeometry(.245,.245,.2,28);geometries.push(rimG)
-     const faceG=new T.CylinderGeometry(.235,.235,.02,28);geometries.push(faceG)
-     const discG=new T.CylinderGeometry(.19,.19,.03,24);geometries.push(discG)
-     const archG=new T.TorusGeometry(.41,.045,10,28);geometries.push(archG)
-     const wellG=new T.CylinderGeometry(.42,.42,.26,24,1,true);geometries.push(wellG)
+     const tireG=new T.TorusGeometry(.299,.054,20,64);geometries.push(tireG)
+     const rimG=new T.CylinderGeometry(.245,.245,.2,40);geometries.push(rimG)
+     const faceG=new T.CylinderGeometry(.235,.235,.02,40);geometries.push(faceG)
+     const discG=new T.CylinderGeometry(.19,.19,.03,32);geometries.push(discG)
+     const archG=new T.TorusGeometry(.41,.045,12,48);geometries.push(archG)
+     const wellG=new T.CylinderGeometry(.42,.42,.26,32,1,true);geometries.push(wellG)
      const wheelAt=(x:number,z:number)=>{
       const side=x>0?1:-1
       const wl=new T.Group();wl.position.set(x,.352,z);car.add(wl)
@@ -367,7 +367,7 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
      const shM=new T.MeshBasicMaterial({map:shTex,transparent:true,depthWrite:false});materials.push(shM)
      const shG=new T.PlaneGeometry(6.2,3.4);geometries.push(shG)
      const sh=new T.Mesh(shG,shM);sh.rotation.x=-Math.PI/2;sh.rotation.z=Math.PI/2;sh.position.set(0,.012,-3);scene.add(sh)
-     const carLight=new T.SpotLight('#eef4ff',130,20,Math.PI/4,.65,1);carLight.position.set(3.5,5.2,0);carLight.target.position.set(0,.7,-3);carLight.castShadow=true;scene.add(carLight);scene.add(carLight.target)
+     const carLight=new T.SpotLight('#eef4ff',130,20,Math.PI/4,.65,1);carLight.position.set(3.5,5.2,0);carLight.target.position.set(0,.7,-3);carLight.castShadow=true;carLight.shadow.mapSize.set(2048,2048);carLight.shadow.bias=-.0004;carLight.shadow.normalBias=.02;scene.add(carLight);scene.add(carLight.target);const rimL=new T.DirectionalLight('#bcd2e8',.55);rimL.position.set(6,4,-9);scene.add(rimL)
      const fill=new T.PointLight('#dce9f4',18,9,2);fill.position.set(-2,3,-2);scene.add(fill)
     }
 
@@ -397,7 +397,7 @@ function MuseumExterior({onSelect}:{onSelect:(room:'lobby'|'josh'|'garage'|'scre
  useEffect(()=>{let dead=false,clean=()=>{};const boot=async()=>{try{
  const url='https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js',T=await import(/* webpackIgnore: true */ url);if(dead||!mount.current)return
  const el=mount.current,scene=new T.Scene();scene.background=new T.Color('#e4eaec');scene.fog=new T.Fog('#e4eaec',170,300)
- const renderer=new T.WebGLRenderer({antialias:true,powerPreference:'low-power'});renderer.setSize(el.clientWidth,el.clientHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;el.appendChild(renderer.domElement)
+ const renderer=new T.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setSize(el.clientWidth,el.clientHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;el.appendChild(renderer.domElement)
  const camera=new T.PerspectiveCamera(innerWidth<640?45:36,el.clientWidth/el.clientHeight,.1,220),world=new T.Group();scene.add(world)
  const mats:any[]=[],geos:any[]=[],targets:any[]=[],trees:any[]=[]
  const mat=(c:string,e:any={})=>{const m=new T.MeshStandardMaterial({color:c,roughness:.72,...e});mats.push(m);return m}
