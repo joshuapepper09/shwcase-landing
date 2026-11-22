@@ -212,7 +212,7 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
      for(let z=7;z>=-26;z-=5){box(17,.4,.35,0,5.1,z,concrete);box(4,.035,.17,0,4.86,z,glow);const light=new T.PointLight('#e0ecff',22,12,2);light.position.set(0,4.5,z);scene.add(light)}
      for(const x of [-5.5,5.5])for(let z=7;z>=-24;z-=5){box(3.1,.004,.065,x,.015,z,stripe);box(.065,.004,3.2,x+1.5,.015,z-1.6,stripe)}
      for(let y=.25;y<4.8;y+=.22)box(7.5,.035,.08,0,y,-27.65,concrete);
-     const sign=label([{text:'B1 / THE GARAGE',size:56},{text:"andy\'s mustang.",size:80,italic:true},{text:'A STUDY IN MOTION.',size:24}],5.2,2.6);sign.position.set(0,3.1,-27.5);scene.add(sign);
+     
 
     }
     if(garage){
