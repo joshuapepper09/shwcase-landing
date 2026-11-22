@@ -241,8 +241,8 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
       const m=new T.Mesh(g,material);m.castShadow=true;m.receiveShadow=true;car.add(m);return m}
      // Main body: nose low and wide, long hood, shoulders over the axles, Kamm tail.
      loft([
-      {z:-2.44,pts:[[0,.30],[.55,.30],[.80,.34],[.86,.48],[.84,.60],[.60,.64],[0,.65]]},
-      {z:-2.34,pts:[[0,.15],[.72,.16],[.90,.24],[.945,.45],[.925,.66],[.78,.735],[0,.75]]},
+      {z:-2.44,pts:[[0,.30],[.58,.30],[.84,.35],[.90,.50],[.88,.63],[.62,.68],[0,.69]]},
+      {z:-2.34,pts:[[0,.15],[.74,.16],[.92,.25],[.95,.46],[.93,.68],[.78,.75],[0,.76]]},
       {z:-2.05,pts:[[0,.13],[.78,.14],[.945,.26],[.97,.50],[.945,.72],[.78,.80],[0,.81]]},
       {z:-1.70,pts:[[0,.13],[.80,.14],[.955,.28],[.972,.55],[.948,.80],[.76,.875],[0,.885]]},
       {z:-1.36,pts:[[0,.52],[.62,.50],[.90,.50],[.972,.58],[.945,.83],[.75,.90],[0,.91]]},
@@ -279,7 +279,7 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
       bar(s*.70,.99,-.97,s*.655,1.33,-.32,.05,paint) // A-pillar
       bar(s*.66,1.0,.42,s*.645,1.36,.42,.045,glass) // B-pillar (black, reads as glass)
       // C-pillar sail: fastback's body-color sweep over the rear glass
-      const sail=new T.Shape();sail.moveTo(.62,1.06);sail.lineTo(.68,1.34);sail.lineTo(.70,1.28);sail.lineTo(.74,1.0);sail.lineTo(.72,.98);sail.closePath()
+      const sail=new T.Shape();sail.moveTo(.62,1.06);sail.lineTo(.67,1.295);sail.lineTo(.69,1.25);sail.lineTo(.74,1.0);sail.lineTo(.72,.98);sail.closePath()
       const sailG=new T.ExtrudeGeometry(sail,{depth:.06,bevelEnabled:false});geometries.push(sailG)
       const sailM=new T.Mesh(sailG,paint);sailM.rotation.y=-Math.PI/2*s;sailM.position.set(s*(s>0?.70:-.64),0,1.12);sailM.castShadow=true;car.add(sailM)
       // Mirrors on stalks
@@ -302,7 +302,7 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
      for(let r=0;r<12;r++)for(let c=0;c<12;c++){const cx=c*24+(r%2?12:0),cy=r*21;hx.beginPath();for(let k=0;k<6;k++){const a=Math.PI/3*k+Math.PI/6;const px=cx+11*Math.cos(a),py=cy+11*Math.sin(a);k?hx.lineTo(px,py):hx.moveTo(px,py)}hx.closePath();hx.stroke()}
      const hexTex=new T.CanvasTexture(hexC);hexTex.colorSpace=T.SRGBColorSpace;hexTex.wrapS=hexTex.wrapT=T.RepeatWrapping;hexTex.repeat.set(3,2);textures.push(hexTex)
      const grilleM=new T.MeshStandardMaterial({map:hexTex,roughness:.5,metalness:.35});materials.push(grilleM)
-     const grilleSh=new T.Shape();grilleSh.moveTo(-.60,.50);grilleSh.lineTo(-.70,.60);grilleSh.lineTo(-.64,.815);grilleSh.lineTo(.64,.815);grilleSh.lineTo(.70,.60);grilleSh.lineTo(.60,.50);grilleSh.closePath()
+     const grilleSh=new T.Shape();grilleSh.moveTo(-.60,.48);grilleSh.lineTo(-.70,.60);grilleSh.lineTo(-.64,.79);grilleSh.lineTo(.64,.79);grilleSh.lineTo(.70,.60);grilleSh.lineTo(.60,.48);grilleSh.closePath()
      const grilleG=new T.ShapeGeometry(grilleSh);geometries.push(grilleG)
      const grille=new T.Mesh(grilleG,grilleM);grille.position.set(0,0,-2.435);grille.rotation.y=Math.PI;grille.rotation.x=.1;car.add(grille)
      const surrG=new T.ShapeGeometry(grilleSh);geometries.push(surrG)
@@ -317,15 +317,15 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
      const pony2=new T.Mesh(ponyG,ponyM);pony2.scale.set(.8,.8,1);pony2.position.set(0,.815,2.428);car.add(pony2)
      for(const s of [-1,1]){
       // Headlight housing: slim wedge sweeping back
-      const hl=new T.Shape();hl.moveTo(.40,.72);hl.lineTo(.88,.77);hl.lineTo(.93,.85);hl.lineTo(.52,.875);hl.closePath()
+      const hl=new T.Shape();hl.moveTo(.42,.70);hl.lineTo(.84,.745);hl.lineTo(.88,.83);hl.lineTo(.52,.85);hl.closePath()
       const hlG=new T.ExtrudeGeometry(hl,{depth:.14,bevelEnabled:false});geometries.push(hlG)
       const hm=new T.Mesh(hlG,satin);hm.scale.x=s;hm.position.set(0,0,-2.42);car.add(hm)
       // DRL blade under the projectors
-      const drl=cb(.42,.022,.03,0,0,0,whiteLens);drl.position.set(s*.655,.755,-2.415);drl.rotation.z=s*.06
-      for(let j=0;j<3;j++){const proj=cb(.05,.045,.02,s*(.56+j*.11),.815,-2.405,well);const dot=cb(.02,.02,.022,s*(.56+j*.11),.815,-2.407,whiteLens)}
-      cb(.04,.03,.02,s*.895,.795,-2.385,amberLens)
+      const drl=cb(.42,.022,.03,0,0,0,whiteLens);drl.position.set(s*.655,.74,-2.415);drl.rotation.z=s*.06
+      for(let j=0;j<3;j++){const proj=cb(.05,.045,.02,s*(.54+j*.11),.795,-2.405,well);const dot=cb(.02,.02,.022,s*(.54+j*.11),.795,-2.407,whiteLens)}
+      cb(.04,.03,.02,s*.88,.765,-2.385,amberLens)
       // Vertical corner blade
-      const blade=cb(.025,.16,.03,s*.95,.45,-2.33,whiteLens);blade.rotation.z=s*-.1;blade.rotation.y=s*.25
+      const blade=cb(.025,.16,.03,s*.90,.50,-2.33,whiteLens);blade.rotation.z=s*-.1;blade.rotation.y=s*.25
       // Lower intake
       cb(1.15,.16,.04,0,.28,-2.42,well)
      }
