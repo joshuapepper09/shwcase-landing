@@ -164,7 +164,7 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
     const camera=new T.PerspectiveCamera(innerWidth<640?(garage?92:64):55,el.clientWidth/el.clientHeight,.1,100)
     const materials:any[]=[],geometries:any[]=[],textures:any[]=[],videos:HTMLVideoElement[]=[]
     const mat=(color:string,extra:any={})=>{const m=new T.MeshStandardMaterial({color,roughness:.78,...extra});materials.push(m);return m}
-    const white=mat(garage?'#a6aeb2':'#ffffff'),side=mat(garage?'#8c989f':'#edf0f2'),floor=mat(garage?'#4f5b63':'#d4dadd',{roughness:.28,metalness:.12}),metal=mat('#343b40',{metalness:.6,roughness:.3}),wood=mat('#aca69a')
+    const white=mat(garage?'#a6aeb2':'#ffffff'),side=mat(garage?'#8c989f':'#edf0f2'),floor=garage?new T.MeshPhysicalMaterial({color:'#21272c',roughness:.15,metalness:.08,clearcoat:.85,clearcoatRoughness:.1,envMapIntensity:1.35}):mat('#d4dadd',{roughness:.28,metalness:.12}),metal=mat('#343b40',{metalness:.6,roughness:.3}),wood=mat('#aca69a');if(garage)materials.push(floor)
     const box=(w:number,h:number,d:number,x:number,y:number,z:number,m:any)=>{const g=new T.BoxGeometry(w,h,d);geometries.push(g);const o=new T.Mesh(g,m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;scene.add(o);return o}
     box(17,.2,40,0,-.1,-8,floor)
     box(.25,5.6,40,-8.5,2.8,-8,side);box(.25,5.6,40,8.5,2.8,-8,white)
@@ -173,7 +173,7 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
     box(5.3,.16,40,-5.85,5.5,-8,white);box(5.3,.16,40,5.85,5.5,-8,white)
     for(let z=8;z>=-26;z-=4){box(.08,.16,17,0,5.54,z,side).rotation.y=Math.PI/2}
     // Real floor joints recede with the camera, rather than a painted perspective.
-    const seam=mat('#bac3c8')
+    const seam=mat(garage?'#39444c':'#bac3c8')
     for(let z=10;z>=-27;z-=3.5)box(17,.003,.009,0,.006,z,seam)
     for(let x=-7;x<=7;x+=3.5)box(.009,.003,40,x,.006,-8,seam)
     const hemi=new T.HemisphereLight('#f7fbff',garage?'#24313c':'#e4e8eb',garage?1.3:3);scene.add(hemi)
@@ -207,10 +207,9 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
     const endTex=new T.VideoTexture(endVideo);endTex.colorSpace=T.SRGBColorSpace;textures.push(endTex)
     const vista=new T.Mesh(new T.PlaneGeometry(9,4.7),new T.MeshBasicMaterial({map:endTex,toneMapped:false}));vista.position.set(0,2.6,-27.8);scene.add(vista);materials.push(vista.material);geometries.push(vista.geometry)}
     if(garage){
-     const concrete=mat('#424d56'),stripe=mat('#b4a071'),glow=mat('#ecf4ff',{emissive:'#dbeeff',emissiveIntensity:2});
+     const concrete=mat('#424d56'),glow=mat('#ecf4ff',{emissive:'#dbeeff',emissiveIntensity:2});
      box(17,.25,40,0,5.6,-8,concrete);
      for(let z=7;z>=-26;z-=5){box(17,.4,.35,0,5.1,z,concrete);box(4,.035,.17,0,4.86,z,glow);const light=new T.PointLight('#e0ecff',22,12,2);light.position.set(0,4.5,z);scene.add(light)}
-     for(const x of [-5.5,5.5])for(let z=7;z>=-24;z-=5){box(3.1,.004,.065,x,.015,z,stripe);box(.065,.004,3.2,x+1.5,.015,z-1.6,stripe)}
      for(let y=.25;y<4.8;y+=.22)box(7.5,.035,.08,0,y,-27.65,concrete);
      
 
@@ -375,11 +374,11 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
     let orbitElevation=.3,orbitRadius=innerWidth<640?7.4:6.5,previous=performance.now(),progress=target.current,raf=0,drag:null|{x:number;y:number;start:number}=null,travel=0,lastActive=-1,inertia=0,lastInteract=performance.now()
     const cp=new T.Vector3(),look=new T.Vector3(),raycaster=new T.Raycaster(),pointer=new T.Vector2()
     const resize=()=>{if(!el)return;camera.aspect=el.clientWidth/el.clientHeight;camera.fov=innerWidth<640?(garage?92:68):55;if(garage)orbitRadius=innerWidth<640?7.4:6.5;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight)}
-    const animate=()=>{if(dead)return;const now=performance.now(),dt=Math.min((now-previous)/1000,.5);previous=now;progress+=(target.current-progress)*(1-Math.exp(-dt*3));if(garage){if(!drag){if(Math.abs(inertia)>.02){update(target.current+inertia*dt);inertia*=Math.exp(-dt*2.6)}else if(now-lastInteract>5000)update(target.current+dt*.055)}camera.position.set(Math.sin(progress+.6)*orbitRadius,.7+Math.sin(orbitElevation)*orbitRadius,-3+Math.cos(progress+.6)*orbitRadius);camera.lookAt(0,.72,-3);renderer.render(scene,camera);raf=requestAnimationFrame(animate);return}const a=Math.min(roomWorks.length-1,Math.floor(progress)),f=Math.max(0,Math.min(1,progress-a));const t=f*f*(3-2*f);cp.fromArray(stops[a].p).lerp(new T.Vector3().fromArray(stops[a+1].p),t);look.fromArray(stops[a].l).lerp(new T.Vector3().fromArray(stops[a+1].l),t);camera.position.copy(cp);camera.lookAt(look);renderer.render(scene,camera);raf=requestAnimationFrame(animate)}
+    const animate=()=>{if(dead)return;const now=performance.now(),dt=Math.min((now-previous)/1000,.5);previous=now;progress+=(target.current-progress)*(1-Math.exp(-dt*3));if(garage){if(!drag){if(Math.abs(inertia)>.02){update(target.current+inertia*dt);inertia*=Math.exp(-dt*2.6)}else if(now-lastInteract>5000)update(target.current+dt*.055)}camera.position.set(Math.sin(progress+.6)*orbitRadius,Math.min(.7+Math.sin(orbitElevation)*orbitRadius,4.1),-3+Math.cos(progress+.6)*orbitRadius);camera.lookAt(0,.72,-3);renderer.render(scene,camera);raf=requestAnimationFrame(animate);return}const a=Math.min(roomWorks.length-1,Math.floor(progress)),f=Math.max(0,Math.min(1,progress-a));const t=f*f*(3-2*f);cp.fromArray(stops[a].p).lerp(new T.Vector3().fromArray(stops[a+1].p),t);look.fromArray(stops[a].l).lerp(new T.Vector3().fromArray(stops[a+1].l),t);camera.position.copy(cp);camera.lookAt(look);renderer.render(scene,camera);raf=requestAnimationFrame(animate)}
     const update=(v:number)=>{target.current=garage?v:Math.max(0,Math.min(roomWorks.length,v));const a=Math.round(target.current);if(a!==lastActive){lastActive=a;callbacks.current.onActive(a)}}
     const wheel=(e:WheelEvent)=>{e.preventDefault();if(garage){orbitRadius=Math.max(4.4,Math.min(7.7,orbitRadius+e.deltaY*.005));return}update(target.current+e.deltaY*.0016)}
     const down=(e:PointerEvent)=>{drag={x:e.clientX,y:e.clientY,start:target.current};travel=0;inertia=0;lastInteract=performance.now()}
-    const move=(e:PointerEvent)=>{if(!drag)return;const dy=drag.y-e.clientY,dx=drag.x-e.clientX;travel=Math.hypot(dx,dy);if(garage){const now2=performance.now(),nt=drag.start+dx*.009;inertia=(nt-target.current)/Math.max((now2-lastInteract)/1000,.016)*.35;lastInteract=now2;update(nt);orbitElevation=Math.max(.06,Math.min(.8,orbitElevation+dy*.0022));return}update(drag.start+(Math.abs(dy)>Math.abs(dx)?dy:dx)/400)}
+    const move=(e:PointerEvent)=>{if(!drag)return;const dy=drag.y-e.clientY,dx=drag.x-e.clientX;travel=Math.hypot(dx,dy);if(garage){const now2=performance.now(),nt=drag.start+dx*.009;inertia=(nt-target.current)/Math.max((now2-lastInteract)/1000,.016)*.35;lastInteract=now2;update(nt);orbitElevation=Math.max(.06,Math.min(.38,orbitElevation+dy*.0022));return}update(drag.start+(Math.abs(dy)>Math.abs(dx)?dy:dx)/400)}
     const up=(e:PointerEvent)=>{if(!drag)return;drag=null;lastInteract=performance.now();if(garage){if(travel<=10){const r=el.getBoundingClientRect();pointer.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);raycaster.setFromCamera(pointer,camera);const hit=raycaster.intersectObjects(exhibits)[0];if(hit)callbacks.current.onOpen(hit.object.userData.work)}return}if(travel>10){update(Math.round(target.current));return}const r=el.getBoundingClientRect();pointer.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);raycaster.setFromCamera(pointer,camera);const hit=raycaster.intersectObjects(exhibits)[0];if(hit){const i=hit.object.userData.work;if(Math.abs(progress-i-1)<.2)callbacks.current.onOpen(i);else update(i+1)}}
     el.addEventListener('wheel',wheel,{passive:false});el.addEventListener('pointerdown',down);window.addEventListener('pointermove',move);window.addEventListener('pointerup',up);window.addEventListener('resize',resize)
     animate();setStatus('')
