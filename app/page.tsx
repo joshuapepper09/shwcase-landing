@@ -10,12 +10,12 @@ const WORKS = [
 ]
 
 const GARAGE_WORKS = [
- {title:'the rear, at night.',by:'andyflcks',meta:'01 / parking structure · night',image:'https://lh3.googleusercontent.com/d/1LhUYKoxb11xwop_BCKvGboZC5-RhiEem=w1600',shape:'portrait',r:.5625},
- {title:'the cockpit.',by:'andyflcks',meta:'02 / inside the car',image:'https://lh3.googleusercontent.com/d/1kenJPDZV9Lj3aY7bvhgsyLjl_G6TyU_7=w1600',shape:'portrait',r:.5625},
- {title:'daylight.',by:'andyflcks',meta:'03 / front three-quarter · day',image:'https://lh3.googleusercontent.com/d/11PjQVy-X5Rh4j0ooT4TauMVTlLaYvvBW=w1600',shape:'portrait',r:.5625},
- {title:'in the structure.',by:'andyflcks',meta:'04 / rear three-quarter · night',image:'https://lh3.googleusercontent.com/d/1CMZ0O5fEY_N7L_0qHBhJHkQrqhzueB1w=w1600',shape:'portrait',r:.75},
- {title:'dusk profile.',by:'andyflcks',meta:'05 / side · golden hour',image:'https://lh3.googleusercontent.com/d/1XPO9vUfAmtWyYVxw7rjOK7qBvMNsVJ5Q=w1600',shape:'portrait',r:.5625},
- {title:'low light.',by:'andyflcks',meta:'06 / front three-quarter · shade',image:'https://lh3.googleusercontent.com/d/13HSD0umqXN3i6SB9V_ylU8MZG4glzePT=w1600',shape:'portrait',r:.5625},
+ {title:'the rear, at night.',by:'andyflcks',meta:'01 / parking structure · night',image:'https://lh3.googleusercontent.com/d/1LhUYKoxb11xwop_BCKvGboZC5-RhiEem=w2048',shape:'portrait',r:.5625},
+ {title:'the cockpit.',by:'andyflcks',meta:'02 / inside the car',image:'https://lh3.googleusercontent.com/d/1kenJPDZV9Lj3aY7bvhgsyLjl_G6TyU_7=w2048',shape:'portrait',r:.5625},
+ {title:'daylight.',by:'andyflcks',meta:'03 / front three-quarter · day',image:'https://lh3.googleusercontent.com/d/11PjQVy-X5Rh4j0ooT4TauMVTlLaYvvBW=w2048',shape:'portrait',r:.5625},
+ {title:'in the structure.',by:'andyflcks',meta:'04 / rear three-quarter · night',image:'https://lh3.googleusercontent.com/d/1CMZ0O5fEY_N7L_0qHBhJHkQrqhzueB1w=w2048',shape:'portrait',r:.75},
+ {title:'dusk profile.',by:'andyflcks',meta:'05 / side · golden hour',image:'https://lh3.googleusercontent.com/d/1XPO9vUfAmtWyYVxw7rjOK7qBvMNsVJ5Q=w2048',shape:'portrait',r:.5625},
+ {title:'low light.',by:'andyflcks',meta:'06 / front three-quarter · shade',image:'https://lh3.googleusercontent.com/d/13HSD0umqXN3i6SB9V_ylU8MZG4glzePT=w2048',shape:'portrait',r:.5625},
 ]
 
 const CSS = `
@@ -157,11 +157,11 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
     const el=mount.current
     const scene=new T.Scene();scene.background=new T.Color(garage?'#202a31':'#f0f2f3');scene.fog=new T.Fog(garage?'#202a31':'#f1f3f4',28,65)
     const renderer=new T.WebGLRenderer({antialias:true,alpha:false,powerPreference:'high-performance'})
-    renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(el.clientWidth,el.clientHeight)
+    renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<640?1.6:2));renderer.setSize(el.clientWidth,el.clientHeight)
     renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12
     renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap
     el.appendChild(renderer.domElement)
-    const camera=new T.PerspectiveCamera(innerWidth<640?(garage?92:64):55,el.clientWidth/el.clientHeight,.1,100)
+    const camera=new T.PerspectiveCamera(innerWidth<640?(garage?80:64):55,el.clientWidth/el.clientHeight,.1,100)
     const materials:any[]=[],geometries:any[]=[],textures:any[]=[],videos:HTMLVideoElement[]=[]
     const mat=(color:string,extra:any={})=>{const m=new T.MeshStandardMaterial({color,roughness:.78,...extra});materials.push(m);return m}
     const white=mat(garage?'#a6aeb2':'#ffffff'),side=mat(garage?'#8c989f':'#edf0f2'),floor=garage?new T.MeshPhysicalMaterial({color:'#21272c',roughness:.15,metalness:.08,clearcoat:.85,clearcoatRoughness:.1,envMapIntensity:1.35}):mat('#d4dadd',{roughness:.28,metalness:.12}),metal=mat('#343b40',{metalness:.6,roughness:.3}),wood=mat('#aca69a');if(garage)materials.push(floor)
@@ -180,8 +180,8 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
     const sun=new T.DirectionalLight('#ffffff',garage ? .6 : 3.2);sun.position.set(-3,12,6);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-17;sun.shadow.camera.right=17;sun.shadow.camera.top=24;sun.shadow.camera.bottom=-24;sun.shadow.camera.far=55;sun.shadow.bias=-.0008;sun.shadow.normalBias=.03;scene.add(sun);sun.target.position.set(1,0,-9);scene.add(sun.target)
     // Slim gallery benches and an arrival plinth give the walk a human scale.
     for(const z of (garage?[]:[-4,-16])){box(2.8,.13,.72,0,.62,z,wood);for(const x of [-1.15,1.15])box(.055,.59,.5,x,.3,z,metal)}
-    const label=(lines:{text:string,size:number,italic?:boolean,color?:string}[],w:number,h:number)=>{
-     const c=document.createElement('canvas');c.width=1024;c.height=512;const ctx=c.getContext('2d')!;ctx.fillStyle='#ffffff';ctx.fillRect(0,0,1024,512)
+    const label=(lines:{text:string,size:number,italic?:boolean,color?:string}[],w:number,h:number,bg:string='#ffffff')=>{
+     const c=document.createElement('canvas');c.width=1024;c.height=512;const ctx=c.getContext('2d')!;ctx.fillStyle=bg;ctx.fillRect(0,0,1024,512)
      let y=70;for(const l of lines){ctx.fillStyle=l.color||'#22282b';ctx.font=`${l.italic?'italic ':''}${l.size}px ${l.italic?'Georgia':'monospace'}`;ctx.textAlign='center';ctx.fillText(l.text,512,y);y+=l.size*1.5+15}
      const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;textures.push(tex);const m=new T.MeshBasicMaterial({map:tex,toneMapped:false});materials.push(m);const g=new T.PlaneGeometry(w,h);geometries.push(g);return new T.Mesh(g,m)
     }
@@ -199,7 +199,7 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
      else tex=loader.load(w.image)
      tex.colorSpace=T.SRGBColorSpace;tex.anisotropy=renderer.capabilities.getMaxAnisotropy();if(garage&&w.r){const tR=p.w/p.h,s=tR/w.r;if(s<1){tex.repeat.x=s;tex.offset.x=(1-s)/2}else{tex.repeat.y=1/s;tex.offset.y=(1-1/s)/2}}textures.push(tex)
      const image=new T.Mesh(new T.PlaneGeometry(p.w,p.h),new T.MeshBasicMaterial({map:tex,toneMapped:false}));image.position.z=.067;image.userData.work=i;group.add(image);exhibits.push(image);geometries.push(image.geometry);materials.push(image.material)
-     const plate=label([{text:`0${i+1} / ${w.by.toUpperCase()}`,size:27,color:'#6b757c'},{text:w.title,size:62,italic:true}],1.45,.72);plate.position.set(0,-p.h/2-.64,.025);group.add(plate)
+     const plate=label([{text:`0${i+1} / ${w.by.toUpperCase()}`,size:27,color:garage?'#8b97a0':'#6b757c'},{text:w.title,size:62,italic:true,color:garage?'#e6ecef':'#22282b'}],1.45,.72,garage?'#141a1f':'#ffffff');plate.position.set(0,-p.h/2-.64,.025);group.add(plate)
      const lamp=new T.SpotLight('#ffffff',24,10,Math.PI/5,.7,1);lamp.position.set(p.x*.75,5.1,p.z+1.4);lamp.target.position.set(p.x,2.5,p.z);scene.add(lamp);scene.add(lamp.target)
     }
     // Far wall becomes a living window: an installation, not another framed thumbnail.
@@ -209,7 +209,7 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
     if(garage){
      const concrete=mat('#424d56'),glow=mat('#ecf4ff',{emissive:'#dbeeff',emissiveIntensity:2});
      box(17,.25,40,0,5.6,-8,concrete);
-     for(let z=7;z>=-26;z-=5){box(17,.4,.35,0,5.1,z,concrete);box(4,.035,.17,0,4.86,z,glow);const light=new T.PointLight('#e0ecff',22,12,2);light.position.set(0,4.5,z);scene.add(light)}
+     for(let z=7;z>=-26;z-=5){box(17,.4,.35,0,5.1,z,concrete);box(4,.035,.17,0,4.86,z,glow)}for(let z=7;z>=-26;z-=10){const light=new T.PointLight('#e0ecff',26,13,2);light.position.set(0,4.5,z);scene.add(light)}
      for(let y=.25;y<4.8;y+=.22)box(7.5,.035,.08,0,y,-27.65,concrete);
      
 
@@ -366,14 +366,14 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
      const shM=new T.MeshBasicMaterial({map:shTex,transparent:true,depthWrite:false});materials.push(shM)
      const shG=new T.PlaneGeometry(6.2,3.4);geometries.push(shG)
      const sh=new T.Mesh(shG,shM);sh.rotation.x=-Math.PI/2;sh.rotation.z=Math.PI/2;sh.position.set(0,.012,-3);scene.add(sh)
-     const carLight=new T.SpotLight('#eef4ff',130,20,Math.PI/4,.65,1);carLight.position.set(3.5,5.2,0);carLight.target.position.set(0,.7,-3);carLight.castShadow=true;carLight.shadow.mapSize.set(2048,2048);carLight.shadow.bias=-.0004;carLight.shadow.normalBias=.02;scene.add(carLight);scene.add(carLight.target);const rimL=new T.DirectionalLight('#bcd2e8',.55);rimL.position.set(6,4,-9);scene.add(rimL)
+     const carLight=new T.SpotLight('#eef4ff',130,20,Math.PI/4,.65,1);carLight.position.set(3.5,5.2,0);carLight.target.position.set(0,.7,-3);carLight.castShadow=false;scene.add(carLight);scene.add(carLight.target);const rimL=new T.DirectionalLight('#bcd2e8',.55);rimL.position.set(6,4,-9);scene.add(rimL)
      const fill=new T.PointLight('#dce9f4',18,9,2);fill.position.set(-2,3,-2);scene.add(fill)
     }
 
     const stops=[{p:garage?[5.8,3.1,6.8]:[0,1.65,9],l:garage?[0,1,-3]:[0,2,-7]},{p:[-3,1.65,3],l:[-8.3,2.4,0]},{p:[3.6,1.65,-5],l:[8.3,2.4,-7.5]},{p:[-3,1.65,-10],l:[-8.3,2.4,-14.5]},{p:[2.8,1.65,-18],l:[7.7,2.35,-21]}]
     let orbitElevation=.3,orbitRadius=innerWidth<640?7.4:6.5,previous=performance.now(),progress=target.current,raf=0,drag:null|{x:number;y:number;start:number}=null,travel=0,lastActive=-1,inertia=0,lastInteract=performance.now()
     const cp=new T.Vector3(),look=new T.Vector3(),raycaster=new T.Raycaster(),pointer=new T.Vector2()
-    const resize=()=>{if(!el)return;camera.aspect=el.clientWidth/el.clientHeight;camera.fov=innerWidth<640?(garage?92:68):55;if(garage)orbitRadius=innerWidth<640?7.4:6.5;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight)}
+    const resize=()=>{if(!el)return;camera.aspect=el.clientWidth/el.clientHeight;camera.fov=innerWidth<640?(garage?80:68):55;if(garage)orbitRadius=innerWidth<640?7.4:6.5;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight)}
     const animate=()=>{if(dead)return;const now=performance.now(),dt=Math.min((now-previous)/1000,.5);previous=now;progress+=(target.current-progress)*(1-Math.exp(-dt*3));if(garage){if(!drag){if(Math.abs(inertia)>.02){update(target.current+inertia*dt);inertia*=Math.exp(-dt*2.6)}else if(now-lastInteract>5000)update(target.current+dt*.055)}camera.position.set(Math.sin(progress+.6)*orbitRadius,Math.min(.7+Math.sin(orbitElevation)*orbitRadius,4.1),-3+Math.cos(progress+.6)*orbitRadius);camera.lookAt(0,.72,-3);renderer.render(scene,camera);raf=requestAnimationFrame(animate);return}const a=Math.min(roomWorks.length-1,Math.floor(progress)),f=Math.max(0,Math.min(1,progress-a));const t=f*f*(3-2*f);cp.fromArray(stops[a].p).lerp(new T.Vector3().fromArray(stops[a+1].p),t);look.fromArray(stops[a].l).lerp(new T.Vector3().fromArray(stops[a+1].l),t);camera.position.copy(cp);camera.lookAt(look);renderer.render(scene,camera);raf=requestAnimationFrame(animate)}
     const update=(v:number)=>{target.current=garage?v:Math.max(0,Math.min(roomWorks.length,v));const a=Math.round(target.current);if(a!==lastActive){lastActive=a;callbacks.current.onActive(a)}}
     const wheel=(e:WheelEvent)=>{e.preventDefault();if(garage){orbitRadius=Math.max(4.4,Math.min(7.7,orbitRadius+e.deltaY*.005));return}update(target.current+e.deltaY*.0016)}
@@ -396,7 +396,7 @@ function MuseumExterior({onSelect}:{onSelect:(room:'lobby'|'josh'|'garage'|'scre
  useEffect(()=>{let dead=false,clean=()=>{};const boot=async()=>{try{
  const url='https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js',T=await import(/* webpackIgnore: true */ url);if(dead||!mount.current)return
  const el=mount.current,scene=new T.Scene();scene.background=new T.Color('#e4eaec');scene.fog=new T.Fog('#e4eaec',170,300)
- const renderer=new T.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setSize(el.clientWidth,el.clientHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;el.appendChild(renderer.domElement)
+ const renderer=new T.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setSize(el.clientWidth,el.clientHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<640?1.6:2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;el.appendChild(renderer.domElement)
  const camera=new T.PerspectiveCamera(innerWidth<640?45:36,el.clientWidth/el.clientHeight,.1,220),world=new T.Group();scene.add(world)
  const mats:any[]=[],geos:any[]=[],targets:any[]=[],trees:any[]=[]
  const mat=(c:string,e:any={})=>{const m=new T.MeshStandardMaterial({color:c,roughness:.72,...e});mats.push(m);return m}
