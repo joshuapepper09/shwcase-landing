@@ -231,7 +231,7 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
      const redLens=new T.MeshStandardMaterial({color:'#2a0504',emissive:'#ff2d12',emissiveIntensity:2.8});materials.push(redLens)
      const whiteLens=new T.MeshStandardMaterial({color:'#1d232a',emissive:'#e8f2ff',emissiveIntensity:3.4});materials.push(whiteLens)
      const amberLens=new T.MeshStandardMaterial({color:'#241503',emissive:'#ff9a1f',emissiveIntensity:1.7});materials.push(amberLens)
-     const well=mat('#050607',{roughness:1})
+     const well=mat('#050607',{roughness:1,side:T.DoubleSide})
      const cb=(w:number,h:number,d:number,x:number,y:number,z:number,m:any,parent:any=car)=>{const g=new T.BoxGeometry(w,h,d);geometries.push(g);const mesh=new T.Mesh(g,m);mesh.position.set(x,y,z);mesh.castShadow=true;parent.add(mesh);return mesh}
      // Lofts a ring of half-outlines (bottom center, up the left side, to top center) along z; mirrored, smooth-shaded.
      const loft=(stations:{z:number;pts:number[][]}[],material:any)=>{const per=stations[0].pts.length*2-2,pos:number[]=[]
@@ -245,12 +245,12 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
       {z:-2.34,pts:[[0,.15],[.72,.16],[.90,.24],[.945,.45],[.925,.66],[.78,.735],[0,.75]]},
       {z:-2.05,pts:[[0,.13],[.78,.14],[.945,.26],[.97,.50],[.945,.72],[.78,.80],[0,.81]]},
       {z:-1.70,pts:[[0,.13],[.80,.14],[.955,.28],[.972,.55],[.948,.80],[.76,.875],[0,.885]]},
-      {z:-1.36,pts:[[0,.14],[.80,.15],[.958,.30],[.972,.58],[.945,.83],[.75,.90],[0,.91]]},
+      {z:-1.36,pts:[[0,.52],[.62,.50],[.90,.50],[.972,.58],[.945,.83],[.75,.90],[0,.91]]},
       {z:-0.95,pts:[[0,.15],[.80,.16],[.95,.32],[.955,.60],[.925,.88],[.72,.955],[0,.965]]},
       {z:-0.45,pts:[[0,.16],[.80,.17],[.945,.33],[.95,.62],[.92,.90],[.70,.975],[0,.985]]},
       {z: 0.10,pts:[[0,.16],[.80,.17],[.945,.33],[.95,.62],[.92,.905],[.70,.98],[0,.99]]},
       {z: 0.65,pts:[[0,.16],[.80,.17],[.948,.33],[.955,.62],[.925,.905],[.705,.985],[0,.995]]},
-      {z: 1.36,pts:[[0,.16],[.80,.17],[.958,.33],[.968,.60],[.945,.90],[.72,.985],[0,.995]]},
+      {z: 1.36,pts:[[0,.54],[.62,.52],[.90,.52],[.968,.60],[.945,.90],[.72,.985],[0,.995]]},
       {z: 1.75,pts:[[0,.17],[.79,.18],[.95,.34],[.96,.60],[.935,.90],[.715,.985],[0,.99]]},
       {z: 2.10,pts:[[0,.19],[.76,.20],[.92,.36],[.935,.62],[.91,.905],[.70,.97],[0,.975]]},
       {z: 2.32,pts:[[0,.24],[.68,.26],[.86,.40],[.885,.64],[.865,.885],[.66,.945],[0,.95]]},
@@ -319,13 +319,13 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
       // Headlight housing: slim wedge sweeping back
       const hl=new T.Shape();hl.moveTo(.40,.72);hl.lineTo(.88,.77);hl.lineTo(.93,.85);hl.lineTo(.52,.875);hl.closePath()
       const hlG=new T.ExtrudeGeometry(hl,{depth:.14,bevelEnabled:false});geometries.push(hlG)
-      const hm=new T.Mesh(hlG,satin);hm.position.set(0,0,-2.42);car.add(hm)
+      const hm=new T.Mesh(hlG,satin);hm.scale.x=s;hm.position.set(0,0,-2.42);car.add(hm)
       // DRL blade under the projectors
       const drl=cb(.42,.022,.03,0,0,0,whiteLens);drl.position.set(s*.655,.755,-2.415);drl.rotation.z=s*.06
       for(let j=0;j<3;j++){const proj=cb(.05,.045,.02,s*(.56+j*.11),.815,-2.405,well);const dot=cb(.02,.02,.022,s*(.56+j*.11),.815,-2.407,whiteLens)}
       cb(.04,.03,.02,s*.895,.795,-2.385,amberLens)
       // Vertical corner blade
-      const blade=cb(.025,.16,.03,s*.87,.45,-2.33,whiteLens);blade.rotation.z=s*-.1;blade.rotation.y=s*.25
+      const blade=cb(.025,.16,.03,s*.95,.45,-2.33,whiteLens);blade.rotation.z=s*-.1;blade.rotation.y=s*.25
       // Lower intake
       cb(1.15,.16,.04,0,.28,-2.42,well)
      }
@@ -339,35 +339,34 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
      for(let j=-2;j<=2;j++)cb(.025,.15,.1,j*.16,.155,2.38,well)
      const exG=new T.CylinderGeometry(.042,.042,.12,14);geometries.push(exG)
      for(const x of [-.62,-.48,.48,.62]){const tip=new T.Mesh(exG,chrome);tip.rotation.x=Math.PI/2;tip.position.set(x,.235,2.415);car.add(tip)}
-     for(const s of [-1,1])cb(.03,.14,.03,s*.845,.40,2.365,amberLens)
+     for(const s of [-1,1])cb(.03,.14,.03,s*.885,.40,2.365,amberLens)
      // Wheels: black split-5-spokes, red calipers (his car has them), arch rings.
      const tireG=new T.TorusGeometry(.299,.054,16,44);geometries.push(tireG)
      const rimG=new T.CylinderGeometry(.245,.245,.2,28);geometries.push(rimG)
      const faceG=new T.CylinderGeometry(.235,.235,.02,28);geometries.push(faceG)
      const discG=new T.CylinderGeometry(.19,.19,.03,24);geometries.push(discG)
      const archG=new T.TorusGeometry(.41,.045,10,28);geometries.push(archG)
-     const wellG=new T.CylinderGeometry(.40,.40,.3,24);geometries.push(wellG)
+     const wellG=new T.CylinderGeometry(.42,.42,.26,24,1,true);geometries.push(wellG)
      const wheelAt=(x:number,z:number)=>{
       const side=x>0?1:-1
       const wl=new T.Group();wl.position.set(x,.352,z);car.add(wl)
-      const tire=new T.Mesh(tireG,rubber);tire.rotation.y=Math.PI/2;tire.scale.x=2.1;tire.castShadow=true;wl.add(tire)
+      const tire=new T.Mesh(tireG,rubber);tire.rotation.y=Math.PI/2;tire.scale.z=2.1;tire.castShadow=true;wl.add(tire)
       const rim=new T.Mesh(rimG,rimM);rim.rotation.z=Math.PI/2;wl.add(rim)
       const face=new T.Mesh(faceG,rimM);face.rotation.z=Math.PI/2;face.position.x=side*.09;wl.add(face)
       const disc=new T.Mesh(discG,steel);disc.rotation.z=Math.PI/2;disc.position.x=-side*.02;wl.add(disc)
       const cal=cb(.09,.15,.06,0,.14,0,caliperM,wl);cal.position.x=-side*.02
       for(let k=0;k<5;k++)for(const d of [-1,1]){const ang=k*Math.PI*2/5+d*.11;const sp=cb(.02,.21,.028,side*.1,Math.sin(ang)*.115,Math.cos(ang)*.115,rimM,wl);sp.rotation.x=-ang}
       cb(.05,.05,.03,side*.1,0,0,well,wl)
-      const arch=new T.Mesh(archG,paint);arch.rotation.y=Math.PI/2;arch.position.set(side*.94,.01,0);car.add(arch)
-      const wellM=new T.Mesh(wellG,well);wellM.rotation.z=Math.PI/2;wellM.position.set(side*.66,.352,z);car.add(wellM)
+      const arch=new T.Mesh(archG,paint);arch.rotation.y=Math.PI/2;arch.position.set(side*.955,.352,z);car.add(arch)
+      const wellM=new T.Mesh(wellG,well);wellM.rotation.z=Math.PI/2;wellM.position.set(side*.80,.352,z);car.add(wellM)
      }
-     wheelAt(-.80,-1.36);wheelAt(.80,-1.36);wheelAt(-.80,1.36);wheelAt(.80,1.36)
+     wheelAt(-.84,-1.36);wheelAt(.84,-1.36);wheelAt(-.84,1.36);wheelAt(.84,1.36)
      // Soft contact shadow grounds the car on the concrete.
      const shC=document.createElement('canvas');shC.width=shC.height=256;const shx=shC.getContext('2d')!;const grad=shx.createRadialGradient(128,128,30,128,128,124);grad.addColorStop(0,'rgba(0,0,0,.62)');grad.addColorStop(1,'rgba(0,0,0,0)');shx.fillStyle=grad;shx.fillRect(0,0,256,256)
      const shTex=new T.CanvasTexture(shC);textures.push(shTex)
      const shM=new T.MeshBasicMaterial({map:shTex,transparent:true,depthWrite:false});materials.push(shM)
      const shG=new T.PlaneGeometry(6.2,3.4);geometries.push(shG)
      const sh=new T.Mesh(shG,shM);sh.rotation.x=-Math.PI/2;sh.rotation.z=Math.PI/2;sh.position.set(0,.012,-3);scene.add(sh)
-     const glowLight=new T.PointLight('#ff3333',.7,3,2);glowLight.position.set(0,.85,.9);car.add(glowLight)
      const carLight=new T.SpotLight('#eef4ff',130,20,Math.PI/4,.65,1);carLight.position.set(3.5,5.2,0);carLight.target.position.set(0,.7,-3);carLight.castShadow=true;scene.add(carLight);scene.add(carLight.target)
      const fill=new T.PointLight('#dce9f4',18,9,2);fill.position.set(-2,3,-2);scene.add(fill)
     }
@@ -498,4 +497,4 @@ export default function Home(){
  {screening!==null&&<section className="screenRoom" role="dialog" aria-modal="true" aria-label="The screening room"><video className="screenGlow" src={WORKS[screening].video} autoPlay muted loop playsInline aria-hidden="true"/><div className="roomShell"/><div className="screenFloor"/><header className="screenTop"><div className="roomLabel"><strong>shwcase / screening room</strong><br/>moving images, kept quietly.</div><button autoFocus className="back" onClick={()=>setScreening(null)}><Arrow left/> back to the museum</button></header><div className="projection"><video key={screening} src={WORKS[screening].video} poster={WORKS[screening].image} autoPlay muted loop playsInline aria-label={WORKS[screening].title}/></div><div className="seat"/><footer className="screenCaption"><div><span className="chapterNo">G.02 / SCREENING</span><h2>{WORKS[screening].title}</h2><p className="quietNote">no sound. no hurry.</p></div><div className="filmChoices">{[0,2].map(i=><button key={i} className={screening===i?'selected':''} onClick={()=>setScreening(i)}>{WORKS[i].title}</button>)}</div></footer></section>}
 
  </main>
-}
+       }
