@@ -10,9 +10,12 @@ const WORKS = [
 ]
 
 const GARAGE_WORKS = [
- {title:'the rear.',by:'andyflcks',meta:'01 / night garage · Los Angeles',image:'https://lh3.googleusercontent.com/d/1xQgcSK5w__0BQERRlp9-Ycl0OhtYya58=w1080',shape:'portrait'},
- {title:'inside.',by:'andyflcks',meta:'02 / night garage · Los Angeles',image:'https://lh3.googleusercontent.com/d/1w0gGNkvcRGRAogoSyGaSlZK59bPZ62Wa=w1080',shape:'portrait'},
- {title:'the ledge.',by:'andyflcks',meta:'03 / night garage · Los Angeles',image:'https://lh3.googleusercontent.com/d/1aK_e1MBY6yEUlIU5A-UEawxdoKXs0JOB=w1080',shape:'portrait'},
+ {title:'the rear, at night.',by:'andyflcks',meta:'01 / parking structure · night',image:'https://lh3.googleusercontent.com/d/1LhUYKoxb11xwop_BCKvGboZC5-RhiEem=w1600',shape:'portrait',r:.5625},
+ {title:'the cockpit.',by:'andyflcks',meta:'02 / inside the car',image:'https://lh3.googleusercontent.com/d/1kenJPDZV9Lj3aY7bvhgsyLjl_G6TyU_7=w1600',shape:'portrait',r:.5625},
+ {title:'daylight.',by:'andyflcks',meta:'03 / front three-quarter · day',image:'https://lh3.googleusercontent.com/d/11PjQVy-X5Rh4j0ooT4TauMVTlLaYvvBW=w1600',shape:'portrait',r:.5625},
+ {title:'in the structure.',by:'andyflcks',meta:'04 / rear three-quarter · night',image:'https://lh3.googleusercontent.com/d/1CMZ0O5fEY_N7L_0qHBhJHkQrqhzueB1w=w1600',shape:'portrait',r:.75},
+ {title:'dusk profile.',by:'andyflcks',meta:'05 / side · golden hour',image:'https://lh3.googleusercontent.com/d/1XPO9vUfAmtWyYVxw7rjOK7qBvMNsVJ5Q=w1600',shape:'portrait',r:.5625},
+ {title:'low light.',by:'andyflcks',meta:'06 / front three-quarter · shade',image:'https://lh3.googleusercontent.com/d/13HSD0umqXN3i6SB9V_ylU8MZG4glzePT=w1600',shape:'portrait',r:.5625},
 ]
 
 const CSS = `
@@ -38,6 +41,7 @@ const CSS = `
 .hgIntro{width:420px;text-align:center}.hgIntro .kicker{font:8px 'IBM Plex Mono',monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}.hgIntro h1{font-size:66px;font-weight:300;font-style:italic;line-height:.94;margin:22px auto;letter-spacing:-.035em}.hgIntro .introNote{font:8px 'IBM Plex Mono',monospace;line-height:2;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}.hgIntro .rule{margin:26px auto;width:45px;border-top:1px solid var(--hair)}
 .hgBottom{position:absolute;bottom:25px;left:30px;right:30px;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:20px;font:8px 'IBM Plex Mono',monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--dim)}
 .hgBottom a{color:inherit;text-decoration:none;border-bottom:1px solid var(--hair);padding-bottom:3px}
+.garageMode .hgCloseup{background:#0b0e11;color:#e8eaec}.garageMode .hgCloseup img{background:#0b0e11;border-color:#14181c;box-shadow:0 20px 45px rgba(0,0,0,.5)}.garageMode .hgCloseup p{color:#8d979e}.garageMode .hgCloseup .close{border-color:#3a444c;color:#dfe5ea;background:transparent}
 .hgControls{position:absolute;bottom:82px;left:30px;right:30px;z-index:10;display:flex;justify-content:space-between;align-items:center}
 .hgPosition{font:8px 'IBM Plex Mono',monospace;letter-spacing:.17em;text-transform:uppercase;color:var(--dim);line-height:1.9}
 .hgArrows{display:flex;gap:10px}.hgArrows button{background:transparent;border:1px solid var(--hair);border-radius:50%;width:44px;height:44px;font:18px Georgia,serif}.hgArrows button:disabled{opacity:.22;cursor:default}.hgArrows button:hover:not(:disabled){background:var(--ink);color:var(--wall)}
@@ -139,7 +143,7 @@ const CSS = `
 
 
 function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target:{current:number};onActive:(n:number)=>void;onOpen:(n:number)=>void;garage?:boolean;josh?:boolean}){
- const roomWorks=garage?[]:josh?WORKS.filter((_,i)=>i!==1):WORKS
+ const roomWorks=garage?GARAGE_WORKS:josh?WORKS.filter((_,i)=>i!==1):WORKS
  const mount=useRef<HTMLDivElement>(null)
  const [status,setStatus]=useState('preparing the rooms')
  const callbacks=useRef({onActive,onOpen});callbacks.current={onActive,onOpen}
@@ -186,13 +190,14 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
     const dedication=label([{text:'SHWCASE / THE RECOLLECTION ROOMS',size:23,color:'#747d83'},{text:'some places',size:78,italic:true},{text:'stay with you.',size:78,italic:true},{text:'WALK THROUGH. STAY A WHILE.',size:20,color:'#7e878d'}],3.8,1.9);dedication.position.set(0,2,-6.88);if(!garage)scene.add(dedication)
     const exhibits:any[]=[];const loader=new T.TextureLoader()
     const placements=[{x:-8.31,z:0,angle:Math.PI/2,w:4.4,h:2.7},{x:8.31,z:-7.5,angle:-Math.PI/2,w:2.25,h:3.05},{x:-8.31,z:-14.5,angle:Math.PI/2,w:4.4,h:2.7},{x:8.31,z:-21,angle:-Math.PI/2,w:3.6,h:2.4}]
+    const garagePlacements=[{x:-8.31,z:3,angle:Math.PI/2,w:1.55,h:2.75},{x:-8.31,z:-3,angle:Math.PI/2,w:1.55,h:2.75},{x:-8.31,z:-9,angle:Math.PI/2,w:1.55,h:2.75},{x:8.31,z:1,angle:-Math.PI/2,w:1.55,h:2.75},{x:8.31,z:-5,angle:-Math.PI/2,w:1.55,h:2.75},{x:8.31,z:-11,angle:-Math.PI/2,w:1.55,h:2.75}]
     for(let i=0;i<roomWorks.length;i++){
-     const w:any=roomWorks[i],p=garage?{...placements[i],w:2.5,h:3.1}:josh&&w.video?{...placements[i],w:4.4,h:2.7}:placements[i],group=new T.Group();group.position.set(p.x,2.45,p.z);group.rotation.y=p.angle;scene.add(group)
+     const w:any=roomWorks[i],p=garage?garagePlacements[i]:josh&&w.video?{...placements[i],w:4.4,h:2.7}:placements[i],group=new T.Group();group.position.set(p.x,2.45,p.z);group.rotation.y=p.angle;scene.add(group)
      const frame=new T.Mesh(new T.BoxGeometry(p.w+.25,p.h+.25,.12),white);frame.castShadow=true;group.add(frame);geometries.push(frame.geometry)
      let tex
      if(w.video){const v=document.createElement('video');v.src=w.video;v.crossOrigin='anonymous';v.muted=true;v.loop=true;v.playsInline=true;v.preload='auto';v.play().catch(()=>{});videos.push(v);tex=new T.VideoTexture(v)}
      else tex=loader.load(w.image)
-     tex.colorSpace=T.SRGBColorSpace;textures.push(tex)
+     tex.colorSpace=T.SRGBColorSpace;if(garage&&w.r){const tR=p.w/p.h,s=tR/w.r;if(s<1){tex.repeat.x=s;tex.offset.x=(1-s)/2}else{tex.repeat.y=1/s;tex.offset.y=(1-1/s)/2}}textures.push(tex)
      const image=new T.Mesh(new T.PlaneGeometry(p.w,p.h),new T.MeshBasicMaterial({map:tex,toneMapped:false}));image.position.z=.067;image.userData.work=i;group.add(image);exhibits.push(image);geometries.push(image.geometry);materials.push(image.material)
      const plate=label([{text:`0${i+1} / ${w.by.toUpperCase()}`,size:27,color:'#6b757c'},{text:w.title,size:62,italic:true}],1.45,.72);plate.position.set(0,-p.h/2-.64,.025);group.add(plate)
      const lamp=new T.SpotLight('#ffffff',24,10,Math.PI/5,.7,1);lamp.position.set(p.x*.75,5.1,p.z+1.4);lamp.target.position.set(p.x,2.5,p.z);scene.add(lamp);scene.add(lamp.target)
@@ -211,38 +216,172 @@ function SpatialGallery({target,onActive,onOpen,garage=false,josh=false}:{target
 
     }
     if(garage){
-     // A sculptural black fastback study, based on the rear and cabin photographs.
+     // Reflection environment: dark garage with long fluorescent strips, so the black paint picks up the same streaks as in Andy's clips.
+     const envScene=new T.Scene();envScene.background=new T.Color('#07090b')
+     const envStrip=(w:number,x:number,z:number)=>{const s=new T.Mesh(new T.PlaneGeometry(w,.7),new T.MeshBasicMaterial({color:'#dcebf7'}));s.position.set(x,5,z);s.rotation.x=Math.PI/2;envScene.add(s)}
+     for(let i=0;i<5;i++)envStrip(7,-4+i*2,-6+i*3)
+     const envSide=new T.Mesh(new T.PlaneGeometry(9,2.4),new T.MeshBasicMaterial({color:'#23303a'}));envSide.position.set(-7,1.6,-3);envSide.rotation.y=Math.PI/2;envScene.add(envSide)
+     const pmrem=new T.PMREMGenerator(renderer);scene.environment=pmrem.fromScene(envScene,.05).texture;pmrem.dispose()
+
+     // Andy's actual car: a black S650 Mustang fastback, modeled panel by panel from his clips.
      const car=new T.Group();car.position.set(0,.03,-3);car.rotation.y=-.16;scene.add(car)
-     const black=mat('#242c33',{metalness:.55,roughness:.28}),rubber=mat('#101214',{roughness:.95}),rim=mat('#646e75',{metalness:.9,roughness:.22}),windowMat=mat('#1c303e',{metalness:.65,roughness:.12}),red=mat('#bc1920',{emissive:'#ff1722',emissiveIntensity:1.7}),chrome=mat('#b2bec8',{metalness:1,roughness:.2})
-     const cb=(w:number,h:number,d:number,x:number,y:number,z:number,m:any)=>{const g=new T.BoxGeometry(w,h,d);geometries.push(g);const mesh=new T.Mesh(g,m);mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;car.add(mesh);return mesh}
-     const roundedBody=(w:number,h:number,d:number,y:number)=>{const q=new T.Shape(),r=.19,x=-w/2,z=-d/2;q.moveTo(x+r,z);q.lineTo(x+w-r,z);q.quadraticCurveTo(x+w,z,x+w,z+r);q.lineTo(x+w,z+d-r);q.quadraticCurveTo(x+w,z+d,x+w-r,z+d);q.lineTo(x+r,z+d);q.quadraticCurveTo(x,z+d,x,z+d-r);q.lineTo(x,z+r);q.quadraticCurveTo(x,z,x+r,z);const g=new T.ExtrudeGeometry(q,{depth:h,bevelEnabled:true,bevelSize:.055,bevelThickness:.055,bevelSegments:3,steps:1});geometries.push(g);const m=new T.Mesh(g,black);m.rotation.x=-Math.PI/2;m.position.y=y;m.castShadow=true;car.add(m)}
-     roundedBody(2.05,.34,4.65,.49);roundedBody(2.08,.16,4.52,.34);cb(1.92,.18,1.55,0,.95,-1.4,black)
-     // Sloping fastback cabin, wide rear deck and long hood.
-     const profile=new T.Shape();profile.moveTo(-1.7,.86);profile.lineTo(-.74,1.46);profile.lineTo(.55,1.5);profile.lineTo(1.65,.88);profile.closePath();const bodyG=new T.ExtrudeGeometry(profile,{depth:1.73,bevelEnabled:true,bevelThickness:.035,bevelSize:.035,bevelSegments:2,steps:1});geometries.push(bodyG);const cabin=new T.Mesh(bodyG,black);cabin.rotation.y=Math.PI/2;cabin.position.set(-.865,0,0);cabin.castShadow=true;car.add(cabin)
-     const windshield=cb(1.65,.025,.94,0,1.22,-1.12,windowMat);windshield.rotation.x=-.56
-     const rearGlass=cb(1.68,.025,1.16,0,1.19,1.06,windowMat);rearGlass.rotation.x=.48
-     for(const x of [-.91,.91]){const sideWindow=cb(.018,.43,1.7,x,1.19,.03,windowMat);cb(.025,.08,1.8,x,1.41,.02,black);cb(.03,.51,.07,x,1.18,.2,black);cb(.15,.1,.3,x*1.15,1.05,-.72,black);cb(.035,.04,.24,x*1.11,.86,.3,chrome);cb(.03,.08,3.4,x*1.14,.48,0,black)}
-     cb(2.08,.24,.13,0,.78,2.42,black);cb(2.1,.09,.5,0,.98,2.16,black);cb(1.55,.15,.04,0,.42,2.49,black)
-     for(const side of [-1,1])for(let j=0;j<3;j++){const lamp=cb(.10,.24,.045,side*(.64+j*.145),.79,2.502,red);lamp.rotation.z=side*-.13}
-     cb(.4,.18,.02,0,.6,2.51,chrome);cb(.34,.13,.025,0,.6,2.525,mat('#d3d9d7'));cb(.13,.11,.03,0,.82,2.51,chrome)
-     cb(1.5,.23,.1,0,.64,-2.43,black);for(const x of [-.77,.77])cb(.38,.075,.025,x,.87,-2.457,mat('#b6d8ee',{emissive:'#c8e8ff',emissiveIntensity:.8}))
-     const wheelG=new T.CylinderGeometry(.44,.44,.28,32);geometries.push(wheelG);const hubG=new T.CylinderGeometry(.31,.31,.292,24);geometries.push(hubG)
-     for(const x of [-1.02,1.02])for(const z of [-1.51,1.48]){const tire=new T.Mesh(wheelG,rubber);tire.rotation.z=Math.PI/2;tire.position.set(x,.45,z);tire.castShadow=true;car.add(tire);const hub=new T.Mesh(hubG,rim);hub.rotation.z=Math.PI/2;hub.position.copy(tire.position);car.add(hub);for(let k=0;k<5;k++){const spoke=cb(.31,.035,.045,x*1.155,.45,z,chrome);spoke.rotation.x=k*Math.PI/2.5;spoke.position.y+=Math.sin(k*Math.PI/2.5)*.15;spoke.position.z+=Math.cos(k*Math.PI/2.5)*.15}}
-     const exhaustG=new T.CylinderGeometry(.09,.09,.22,16);geometries.push(exhaustG);for(const x of [-.78,.78]){const pipe=new T.Mesh(exhaustG,chrome);pipe.rotation.x=Math.PI/2;pipe.position.set(x,.35,2.41);car.add(pipe)}
-     const glowLight=new T.PointLight('#ff3333',.7,3,2);glowLight.position.set(0,.7,2.6);car.add(glowLight)
-     const carLight=new T.SpotLight('#eef4ff',110,18,Math.PI/4,.65,1);carLight.position.set(3.5,5.2,0);carLight.target.position.set(0,.7,-3);scene.add(carLight);scene.add(carLight.target);const fill=new T.PointLight('#dce9f4',18,9,2);fill.position.set(-2,3,-2);scene.add(fill)
+     const paint=new T.MeshPhysicalMaterial({color:'#0b0d10',metalness:.25,roughness:.34,clearcoat:1,clearcoatRoughness:.07,envMapIntensity:1.6,side:T.DoubleSide});materials.push(paint)
+     const glass=new T.MeshPhysicalMaterial({color:'#0e151b',metalness:.15,roughness:.05,clearcoat:1,clearcoatRoughness:.03,envMapIntensity:2.1,side:T.DoubleSide});materials.push(glass)
+     const satin=mat('#15181c',{roughness:.55,metalness:.3}),rubber=mat('#14161a',{roughness:.94}),rimM=mat('#171a1f',{metalness:.75,roughness:.32}),steel=mat('#6a7378',{metalness:.9,roughness:.35}),caliperM=mat('#9c1620',{roughness:.4,metalness:.2}),chrome=mat('#c8d2da',{metalness:1,roughness:.18})
+     const redLens=new T.MeshStandardMaterial({color:'#2a0504',emissive:'#ff2d12',emissiveIntensity:2.8});materials.push(redLens)
+     const whiteLens=new T.MeshStandardMaterial({color:'#1d232a',emissive:'#e8f2ff',emissiveIntensity:3.4});materials.push(whiteLens)
+     const amberLens=new T.MeshStandardMaterial({color:'#241503',emissive:'#ff9a1f',emissiveIntensity:1.7});materials.push(amberLens)
+     const well=mat('#050607',{roughness:1})
+     const cb=(w:number,h:number,d:number,x:number,y:number,z:number,m:any,parent:any=car)=>{const g=new T.BoxGeometry(w,h,d);geometries.push(g);const mesh=new T.Mesh(g,m);mesh.position.set(x,y,z);mesh.castShadow=true;parent.add(mesh);return mesh}
+     // Lofts a ring of half-outlines (bottom center, up the left side, to top center) along z; mirrored, smooth-shaded.
+     const loft=(stations:{z:number;pts:number[][]}[],material:any)=>{const per=stations[0].pts.length*2-2,pos:number[]=[]
+      for(const s of stations){const ring:number[][]=[...s.pts];for(let i=s.pts.length-2;i>=1;i--)ring.push([-s.pts[i][0],s.pts[i][1]]);for(const p of ring)pos.push(p[0],p[1],s.z)}
+      const idx:number[]=[];for(let s=0;s<stations.length-1;s++)for(let i=0;i<per;i++){const a=s*per+i,b=s*per+(i+1)%per,c=(s+1)*per+i,d=(s+1)*per+(i+1)%per;idx.push(a,c,b,b,c,d)}
+      const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(pos,3));g.setIndex(idx);g.computeVertexNormals();geometries.push(g)
+      const m=new T.Mesh(g,material);m.castShadow=true;m.receiveShadow=true;car.add(m);return m}
+     // Main body: nose low and wide, long hood, shoulders over the axles, Kamm tail.
+     loft([
+      {z:-2.44,pts:[[0,.30],[.55,.30],[.80,.34],[.86,.48],[.84,.60],[.60,.64],[0,.65]]},
+      {z:-2.34,pts:[[0,.15],[.72,.16],[.90,.24],[.945,.45],[.925,.66],[.78,.735],[0,.75]]},
+      {z:-2.05,pts:[[0,.13],[.78,.14],[.945,.26],[.97,.50],[.945,.72],[.78,.80],[0,.81]]},
+      {z:-1.70,pts:[[0,.13],[.80,.14],[.955,.28],[.972,.55],[.948,.80],[.76,.875],[0,.885]]},
+      {z:-1.36,pts:[[0,.14],[.80,.15],[.958,.30],[.972,.58],[.945,.83],[.75,.90],[0,.91]]},
+      {z:-0.95,pts:[[0,.15],[.80,.16],[.95,.32],[.955,.60],[.925,.88],[.72,.955],[0,.965]]},
+      {z:-0.45,pts:[[0,.16],[.80,.17],[.945,.33],[.95,.62],[.92,.90],[.70,.975],[0,.985]]},
+      {z: 0.10,pts:[[0,.16],[.80,.17],[.945,.33],[.95,.62],[.92,.905],[.70,.98],[0,.99]]},
+      {z: 0.65,pts:[[0,.16],[.80,.17],[.948,.33],[.955,.62],[.925,.905],[.705,.985],[0,.995]]},
+      {z: 1.36,pts:[[0,.16],[.80,.17],[.958,.33],[.968,.60],[.945,.90],[.72,.985],[0,.995]]},
+      {z: 1.75,pts:[[0,.17],[.79,.18],[.95,.34],[.96,.60],[.935,.90],[.715,.985],[0,.99]]},
+      {z: 2.10,pts:[[0,.19],[.76,.20],[.92,.36],[.935,.62],[.91,.905],[.70,.97],[0,.975]]},
+      {z: 2.32,pts:[[0,.24],[.68,.26],[.86,.40],[.885,.64],[.865,.885],[.66,.945],[0,.95]]},
+      {z: 2.41,pts:[[0,.32],[.50,.36],[.68,.48],[.72,.66],[.70,.85],[.52,.90],[0,.905]]},
+     ],paint)
+     // Glasshouse: fastback sweep from the windshield base to the decklid.
+     loft([
+      {z:-1.02,pts:[[0,.96],[.62,.962],[.73,.975],[.68,.99],[0,.995]]},
+      {z:-0.70,pts:[[0,.96],[.66,.965],[.775,1.07],[.70,1.16],[0,1.175]]},
+      {z:-0.30,pts:[[0,.96],[.68,.965],[.79,1.14],[.715,1.30],[0,1.345]]},
+      {z: 0.15,pts:[[0,.96],[.685,.965],[.79,1.15],[.705,1.335],[0,1.385]]},
+      {z: 0.60,pts:[[0,.96],[.68,.965],[.78,1.14],[.70,1.32],[0,1.37]]},
+      {z: 1.05,pts:[[0,.96],[.67,.965],[.76,1.11],[.685,1.245],[0,1.28]]},
+      {z: 1.50,pts:[[0,.96],[.65,.962],[.72,1.04],[.63,1.13],[0,1.15]]},
+      {z: 1.85,pts:[[0,.962],[.62,.962],[.67,.99],[.55,1.0],[0,1.005]]},
+     ],glass)
+     // Roof panel and pillars cap the glass in body color.
+     loft([
+      {z:-0.34,pts:[[0,1.352],[.60,1.345],[.63,1.33],[.30,1.325],[0,1.33]]},
+      {z: 0.15,pts:[[0,1.392],[.60,1.385],[.63,1.37],[.30,1.365],[0,1.37]]},
+      {z: 0.60,pts:[[0,1.377],[.59,1.37],[.62,1.355],[.30,1.35],[0,1.355]]},
+      {z: 0.95,pts:[[0,1.31],[.57,1.30],[.60,1.285],[.30,1.28],[0,1.285]]},
+     ],paint)
+     const bar=(x1:number,y1:number,z1:number,x2:number,y2:number,z2:number,w:number,m:any)=>{const a=new T.Vector3(x1,y1,z1),b=new T.Vector3(x2,y2,z2),len=a.distanceTo(b);const g=new T.BoxGeometry(w,w,len);geometries.push(g);const mesh=new T.Mesh(g,m);mesh.position.copy(a).lerp(b,.5);mesh.lookAt(b);mesh.castShadow=true;car.add(mesh);return mesh}
+     for(const s of [-1,1]){
+      bar(s*.70,.99,-.97,s*.655,1.33,-.32,.05,paint) // A-pillar
+      bar(s*.66,1.0,.42,s*.645,1.36,.42,.045,glass) // B-pillar (black, reads as glass)
+      // C-pillar sail: fastback's body-color sweep over the rear glass
+      const sail=new T.Shape();sail.moveTo(.62,1.06);sail.lineTo(.68,1.34);sail.lineTo(.70,1.28);sail.lineTo(.74,1.0);sail.lineTo(.72,.98);sail.closePath()
+      const sailG=new T.ExtrudeGeometry(sail,{depth:.06,bevelEnabled:false});geometries.push(sailG)
+      const sailM=new T.Mesh(sailG,paint);sailM.rotation.y=-Math.PI/2*s;sailM.position.set(s*(s>0?.70:-.64),0,1.12);sailM.castShadow=true;car.add(sailM)
+      // Mirrors on stalks
+      bar(s*.93,1.0,-.52,s*1.02,1.04,-.50,.035,paint)
+      const mir=cb(.10,.085,.16,s*1.045,1.06,-.48,paint);mir.rotation.y=s*.12
+      cb(.085,.06,.005,s*1.045,1.06,-.395,glass).rotation.y=s*.12
+      // Door handles, flush
+      cb(.13,.028,.02,s*.945,.90,.42,satin)
+      // Side skirt extensions
+      cb(.07,.075,1.9,s*.93,.155,.02,satin)
+      // "@andyflcks" on the quarter glass, like the real car
+      const dc=document.createElement('canvas');dc.width=512;dc.height=64;const dctx=dc.getContext('2d')!;dctx.clearRect(0,0,512,64);dctx.font='600 40px Georgia';dctx.fillStyle='#dfe5ea';dctx.textAlign='center';dctx.textBaseline='middle';dctx.fillText('@andyflcks',256,34)
+      const dtex=new T.CanvasTexture(dc);dtex.colorSpace=T.SRGBColorSpace;textures.push(dtex)
+      const dm=new T.MeshBasicMaterial({map:dtex,transparent:true,toneMapped:false});materials.push(dm)
+      const dg=new T.PlaneGeometry(.30,.0375);geometries.push(dg)
+      const dpl=new T.Mesh(dg,dm);dpl.position.set(s*.755,1.12,.93);dpl.rotation.y=s*Math.PI/2;dpl.rotation.z=s*-.06;car.add(dpl)
+     }
+     // Front fascia: hexagonal honeycomb grille, pony badge, slim tri-projector lamps, corner blades.
+     const hexC=document.createElement('canvas');hexC.width=hexC.height=256;const hx=hexC.getContext('2d')!;hx.fillStyle='#0a0c0e';hx.fillRect(0,0,256,256);hx.strokeStyle='#232a30';hx.lineWidth=2.5
+     for(let r=0;r<12;r++)for(let c=0;c<12;c++){const cx=c*24+(r%2?12:0),cy=r*21;hx.beginPath();for(let k=0;k<6;k++){const a=Math.PI/3*k+Math.PI/6;const px=cx+11*Math.cos(a),py=cy+11*Math.sin(a);k?hx.lineTo(px,py):hx.moveTo(px,py)}hx.closePath();hx.stroke()}
+     const hexTex=new T.CanvasTexture(hexC);hexTex.colorSpace=T.SRGBColorSpace;hexTex.wrapS=hexTex.wrapT=T.RepeatWrapping;hexTex.repeat.set(3,2);textures.push(hexTex)
+     const grilleM=new T.MeshStandardMaterial({map:hexTex,roughness:.5,metalness:.35});materials.push(grilleM)
+     const grilleSh=new T.Shape();grilleSh.moveTo(-.60,.50);grilleSh.lineTo(-.70,.60);grilleSh.lineTo(-.64,.815);grilleSh.lineTo(.64,.815);grilleSh.lineTo(.70,.60);grilleSh.lineTo(.60,.50);grilleSh.closePath()
+     const grilleG=new T.ShapeGeometry(grilleSh);geometries.push(grilleG)
+     const grille=new T.Mesh(grilleG,grilleM);grille.position.set(0,0,-2.435);grille.rotation.y=Math.PI;grille.rotation.x=.1;car.add(grille)
+     const surrG=new T.ShapeGeometry(grilleSh);geometries.push(surrG)
+     const surr=new T.Mesh(surrG,satin);surr.scale.set(1.06,1.08,1);surr.position.set(0,-.01,-2.428);surr.rotation.y=Math.PI;surr.rotation.x=.1;car.add(surr)
+     // Pony: simplified galloping silhouette on a dark roundel, like the grille badge.
+     const ponyC=document.createElement('canvas');ponyC.width=ponyC.height=256;const pc=ponyC.getContext('2d')!;pc.fillStyle='#101216';pc.beginPath();pc.arc(128,128,124,0,7);pc.fill()
+     pc.fillStyle='#cfd8df';pc.beginPath();const PP=[[38,132],[58,104],[74,96],[84,108],[96,92],[120,86],[150,88],[176,84],[196,74],[210,80],[204,92],[188,96],[196,110],[210,128],[204,138],[188,124],[170,120],[160,140],[170,166],[158,170],[146,146],[128,138],[112,152],[104,176],[94,172],[96,148],[84,140],[66,146],[52,142],[62,130]];pc.moveTo(PP[0][0],PP[0][1]);for(const p of PP.slice(1))pc.lineTo(p[0],p[1]);pc.closePath();pc.fill()
+     const ponyTex=new T.CanvasTexture(ponyC);ponyTex.colorSpace=T.SRGBColorSpace;textures.push(ponyTex)
+     const ponyM=new T.MeshBasicMaterial({map:ponyTex,transparent:true,toneMapped:false});materials.push(ponyM)
+     const ponyG=new T.PlaneGeometry(.13,.13);geometries.push(ponyG)
+     const pony=new T.Mesh(ponyG,ponyM);pony.position.set(0,.665,-2.448);pony.rotation.y=Math.PI;car.add(pony)
+     const pony2=new T.Mesh(ponyG,ponyM);pony2.scale.set(.8,.8,1);pony2.position.set(0,.815,2.428);car.add(pony2)
+     for(const s of [-1,1]){
+      // Headlight housing: slim wedge sweeping back
+      const hl=new T.Shape();hl.moveTo(.40,.72);hl.lineTo(.88,.77);hl.lineTo(.93,.85);hl.lineTo(.52,.875);hl.closePath()
+      const hlG=new T.ExtrudeGeometry(hl,{depth:.14,bevelEnabled:false});geometries.push(hlG)
+      const hm=new T.Mesh(hlG,satin);hm.position.set(0,0,-2.42);car.add(hm)
+      // DRL blade under the projectors
+      const drl=cb(.42,.022,.03,0,0,0,whiteLens);drl.position.set(s*.655,.755,-2.415);drl.rotation.z=s*.06
+      for(let j=0;j<3;j++){const proj=cb(.05,.045,.02,s*(.56+j*.11),.815,-2.405,well);const dot=cb(.02,.02,.022,s*(.56+j*.11),.815,-2.407,whiteLens)}
+      cb(.04,.03,.02,s*.895,.795,-2.385,amberLens)
+      // Vertical corner blade
+      const blade=cb(.025,.16,.03,s*.87,.45,-2.33,whiteLens);blade.rotation.z=s*-.1;blade.rotation.y=s*.25
+      // Lower intake
+      cb(1.15,.16,.04,0,.28,-2.42,well)
+     }
+     // Splitter lip
+     cb(1.66,.028,.2,0,.145,-2.42,satin)
+     // Rear: black decklid panel, chevron tri-bars, lip spoiler, diffuser, quad tips.
+     cb(1.5,.34,.03,0,.80,2.40,satin)
+     for(const s of [-1,1])for(let j=0;j<3;j++){const lamp=cb(.085,.27,.035,s*(.26+j*.155),.80,2.425,redLens);lamp.rotation.z=s*-.16}
+     cb(1.3,.024,.17,0,.962,2.31,paint).rotation.x=.2 // spoiler lip
+     cb(1.5,.2,.12,0,.22,2.36,satin) // diffuser
+     for(let j=-2;j<=2;j++)cb(.025,.15,.1,j*.16,.155,2.38,well)
+     const exG=new T.CylinderGeometry(.042,.042,.12,14);geometries.push(exG)
+     for(const x of [-.62,-.48,.48,.62]){const tip=new T.Mesh(exG,chrome);tip.rotation.x=Math.PI/2;tip.position.set(x,.235,2.415);car.add(tip)}
+     for(const s of [-1,1])cb(.03,.14,.03,s*.845,.40,2.365,amberLens)
+     // Wheels: black split-5-spokes, red calipers (his car has them), arch rings.
+     const tireG=new T.TorusGeometry(.299,.054,16,44);geometries.push(tireG)
+     const rimG=new T.CylinderGeometry(.245,.245,.2,28);geometries.push(rimG)
+     const faceG=new T.CylinderGeometry(.235,.235,.02,28);geometries.push(faceG)
+     const discG=new T.CylinderGeometry(.19,.19,.03,24);geometries.push(discG)
+     const archG=new T.TorusGeometry(.41,.045,10,28);geometries.push(archG)
+     const wellG=new T.CylinderGeometry(.40,.40,.3,24);geometries.push(wellG)
+     const wheelAt=(x:number,z:number)=>{
+      const side=x>0?1:-1
+      const wl=new T.Group();wl.position.set(x,.352,z);car.add(wl)
+      const tire=new T.Mesh(tireG,rubber);tire.rotation.y=Math.PI/2;tire.scale.x=2.1;tire.castShadow=true;wl.add(tire)
+      const rim=new T.Mesh(rimG,rimM);rim.rotation.z=Math.PI/2;wl.add(rim)
+      const face=new T.Mesh(faceG,rimM);face.rotation.z=Math.PI/2;face.position.x=side*.09;wl.add(face)
+      const disc=new T.Mesh(discG,steel);disc.rotation.z=Math.PI/2;disc.position.x=-side*.02;wl.add(disc)
+      const cal=cb(.09,.15,.06,0,.14,0,caliperM,wl);cal.position.x=-side*.02
+      for(let k=0;k<5;k++)for(const d of [-1,1]){const ang=k*Math.PI*2/5+d*.11;const sp=cb(.02,.21,.028,side*.1,Math.sin(ang)*.115,Math.cos(ang)*.115,rimM,wl);sp.rotation.x=-ang}
+      cb(.05,.05,.03,side*.1,0,0,well,wl)
+      const arch=new T.Mesh(archG,paint);arch.rotation.y=Math.PI/2;arch.position.set(side*.94,.01,0);car.add(arch)
+      const wellM=new T.Mesh(wellG,well);wellM.rotation.z=Math.PI/2;wellM.position.set(side*.66,.352,z);car.add(wellM)
+     }
+     wheelAt(-.80,-1.36);wheelAt(.80,-1.36);wheelAt(-.80,1.36);wheelAt(.80,1.36)
+     // Soft contact shadow grounds the car on the concrete.
+     const shC=document.createElement('canvas');shC.width=shC.height=256;const shx=shC.getContext('2d')!;const grad=shx.createRadialGradient(128,128,30,128,128,124);grad.addColorStop(0,'rgba(0,0,0,.62)');grad.addColorStop(1,'rgba(0,0,0,0)');shx.fillStyle=grad;shx.fillRect(0,0,256,256)
+     const shTex=new T.CanvasTexture(shC);textures.push(shTex)
+     const shM=new T.MeshBasicMaterial({map:shTex,transparent:true,depthWrite:false});materials.push(shM)
+     const shG=new T.PlaneGeometry(6.2,3.4);geometries.push(shG)
+     const sh=new T.Mesh(shG,shM);sh.rotation.x=-Math.PI/2;sh.rotation.z=Math.PI/2;sh.position.set(0,.012,-3);scene.add(sh)
+     const glowLight=new T.PointLight('#ff3333',.7,3,2);glowLight.position.set(0,.85,.9);car.add(glowLight)
+     const carLight=new T.SpotLight('#eef4ff',130,20,Math.PI/4,.65,1);carLight.position.set(3.5,5.2,0);carLight.target.position.set(0,.7,-3);carLight.castShadow=true;scene.add(carLight);scene.add(carLight.target)
+     const fill=new T.PointLight('#dce9f4',18,9,2);fill.position.set(-2,3,-2);scene.add(fill)
     }
 
     const stops=[{p:garage?[5.8,3.1,6.8]:[0,1.65,9],l:garage?[0,1,-3]:[0,2,-7]},{p:[-3,1.65,3],l:[-8.3,2.4,0]},{p:[3.6,1.65,-5],l:[8.3,2.4,-7.5]},{p:[-3,1.65,-10],l:[-8.3,2.4,-14.5]},{p:[2.8,1.65,-18],l:[7.7,2.35,-21]}]
-    let orbitElevation=.25,orbitRadius=innerWidth<640?7.4:6.5,previous=performance.now(),progress=target.current,raf=0,drag:null|{x:number;y:number;start:number}=null,travel=0,lastActive=-1
+    let orbitElevation=.3,orbitRadius=innerWidth<640?7.4:6.5,previous=performance.now(),progress=target.current,raf=0,drag:null|{x:number;y:number;start:number}=null,travel=0,lastActive=-1,inertia=0,lastInteract=performance.now()
     const cp=new T.Vector3(),look=new T.Vector3(),raycaster=new T.Raycaster(),pointer=new T.Vector2()
     const resize=()=>{if(!el)return;camera.aspect=el.clientWidth/el.clientHeight;camera.fov=innerWidth<640?(garage?92:68):55;if(garage)orbitRadius=innerWidth<640?7.4:6.5;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight)}
-    const animate=()=>{if(dead)return;const now=performance.now(),dt=Math.min((now-previous)/1000,.5);previous=now;progress+=(target.current-progress)*(1-Math.exp(-dt*3));if(garage){camera.position.set(Math.sin(progress+.6)*orbitRadius,1+Math.sin(orbitElevation)*orbitRadius,-3+Math.cos(progress+.6)*orbitRadius);camera.lookAt(0,.85,-3);renderer.render(scene,camera);raf=requestAnimationFrame(animate);return}const a=Math.min(roomWorks.length-1,Math.floor(progress)),f=Math.max(0,Math.min(1,progress-a));const t=f*f*(3-2*f);cp.fromArray(stops[a].p).lerp(new T.Vector3().fromArray(stops[a+1].p),t);look.fromArray(stops[a].l).lerp(new T.Vector3().fromArray(stops[a+1].l),t);camera.position.copy(cp);camera.lookAt(look);renderer.render(scene,camera);raf=requestAnimationFrame(animate)}
+    const animate=()=>{if(dead)return;const now=performance.now(),dt=Math.min((now-previous)/1000,.5);previous=now;progress+=(target.current-progress)*(1-Math.exp(-dt*3));if(garage){if(!drag){if(Math.abs(inertia)>.02){update(target.current+inertia*dt);inertia*=Math.exp(-dt*2.6)}else if(now-lastInteract>5000)update(target.current+dt*.055)}camera.position.set(Math.sin(progress+.6)*orbitRadius,.7+Math.sin(orbitElevation)*orbitRadius,-3+Math.cos(progress+.6)*orbitRadius);camera.lookAt(0,.72,-3);renderer.render(scene,camera);raf=requestAnimationFrame(animate);return}const a=Math.min(roomWorks.length-1,Math.floor(progress)),f=Math.max(0,Math.min(1,progress-a));const t=f*f*(3-2*f);cp.fromArray(stops[a].p).lerp(new T.Vector3().fromArray(stops[a+1].p),t);look.fromArray(stops[a].l).lerp(new T.Vector3().fromArray(stops[a+1].l),t);camera.position.copy(cp);camera.lookAt(look);renderer.render(scene,camera);raf=requestAnimationFrame(animate)}
     const update=(v:number)=>{target.current=garage?v:Math.max(0,Math.min(roomWorks.length,v));const a=Math.round(target.current);if(a!==lastActive){lastActive=a;callbacks.current.onActive(a)}}
     const wheel=(e:WheelEvent)=>{e.preventDefault();if(garage){orbitRadius=Math.max(4.4,Math.min(7.7,orbitRadius+e.deltaY*.005));return}update(target.current+e.deltaY*.0016)}
-    const down=(e:PointerEvent)=>{drag={x:e.clientX,y:e.clientY,start:target.current};travel=0}
-    const move=(e:PointerEvent)=>{if(!drag)return;const dy=drag.y-e.clientY,dx=drag.x-e.clientX;travel=Math.hypot(dx,dy);if(garage){update(drag.start+dx*.009);orbitElevation=Math.max(.12,Math.min(.46,orbitElevation+dy*.00006));return}update(drag.start+(Math.abs(dy)>Math.abs(dx)?dy:dx)/400)}
-    const up=(e:PointerEvent)=>{if(!drag)return;drag=null;if(garage)return;if(travel>10){update(Math.round(target.current));return}const r=el.getBoundingClientRect();pointer.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);raycaster.setFromCamera(pointer,camera);const hit=raycaster.intersectObjects(exhibits)[0];if(hit){const i=hit.object.userData.work;if(Math.abs(progress-i-1)<.2)callbacks.current.onOpen(i);else update(i+1)}}
+    const down=(e:PointerEvent)=>{drag={x:e.clientX,y:e.clientY,start:target.current};travel=0;inertia=0;lastInteract=performance.now()}
+    const move=(e:PointerEvent)=>{if(!drag)return;const dy=drag.y-e.clientY,dx=drag.x-e.clientX;travel=Math.hypot(dx,dy);if(garage){const now2=performance.now(),nt=drag.start+dx*.009;inertia=(nt-target.current)/Math.max((now2-lastInteract)/1000,.016)*.35;lastInteract=now2;update(nt);orbitElevation=Math.max(.06,Math.min(.8,orbitElevation+dy*.0022));return}update(drag.start+(Math.abs(dy)>Math.abs(dx)?dy:dx)/400)}
+    const up=(e:PointerEvent)=>{if(!drag)return;drag=null;lastInteract=performance.now();if(garage){if(travel<=10){const r=el.getBoundingClientRect();pointer.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);raycaster.setFromCamera(pointer,camera);const hit=raycaster.intersectObjects(exhibits)[0];if(hit)callbacks.current.onOpen(hit.object.userData.work)}return}if(travel>10){update(Math.round(target.current));return}const r=el.getBoundingClientRect();pointer.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);raycaster.setFromCamera(pointer,camera);const hit=raycaster.intersectObjects(exhibits)[0];if(hit){const i=hit.object.userData.work;if(Math.abs(progress-i-1)<.2)callbacks.current.onOpen(i);else update(i+1)}}
     el.addEventListener('wheel',wheel,{passive:false});el.addEventListener('pointerdown',down);window.addEventListener('pointermove',move);window.addEventListener('pointerup',up);window.addEventListener('resize',resize)
     animate();setStatus('')
     dispose=()=>{cancelAnimationFrame(raf);el.removeEventListener('wheel',wheel);el.removeEventListener('pointerdown',down);window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);window.removeEventListener('resize',resize);videos.forEach(v=>{v.pause();v.removeAttribute('src');v.load()});textures.forEach(t=>t.dispose());materials.forEach(m=>m.dispose());geometries.forEach(g=>g.dispose());renderer.dispose();renderer.domElement.remove()}
@@ -324,8 +463,8 @@ function MuseumExterior({onSelect}:{onSelect:(room:'lobby'|'josh'|'garage'|'scre
 
 
 export default function Home(){
- const [exterior,setExterior]=useState(false)
- const [garage,setGarage]=useState(true)
+ const [exterior,setExterior]=useState(true)
+ const [garage,setGarage]=useState(false)
  const [josh,setJosh]=useState(false)
  const [mapRoom,setMapRoom]=useState<'lobby'|'josh'|'garage'|'screen'>('josh')
  const [active,setActive]=useState(0)
@@ -335,11 +474,11 @@ export default function Home(){
  const works:any[]=garage?[]:josh?WORKS.filter((_,i)=>i!==1):WORKS
  const go=(n:number)=>{target.current=garage?n:Math.max(0,Math.min(works.length,n));setActive(Math.round(target.current))}
  const enterRoom=(room:string)=>{setZoom(null);setScreening(null);setExterior(false);if(room==='screen'){setScreening(0);return}setJosh(room==='josh');setGarage(room==='garage');target.current=0;setActive(0)}
- const open=(i:number)=>{if(works[i].href){enterRoom('garage');return}setZoom(i)}
+ const open=(i:number)=>{if(garage){setZoom(i);return}if(works[i].href){enterRoom('garage');return}setZoom(i)}
  const outside=()=>{setExterior(true);setScreening(null);setZoom(null)}
  useEffect(()=>{const key=(e:KeyboardEvent)=>{if(e.key==='Escape'){setZoom(null);setScreening(null)}if(exterior||zoom!==null||screening!==null)return;if(e.key==='ArrowRight')go(Math.round(target.current)+1);if(e.key==='ArrowLeft')go(Math.round(target.current)-1)};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key)},[exterior,zoom,screening,works.length])
  const roomName=mapRoom==='garage'?"andy's garage.":mapRoom==='josh'?"josh's gallery.":mapRoom==='screen'?'the screening room.':'the museum lobby.'
- return <main className={`homeGallery ${exterior?'campusMode':garage?'garageMode':''}`} data-home="museum-orbit-v3">
+ return <main className={`homeGallery ${exterior?'campusMode':garage?'garageMode':''}`} data-home="museum-orbit-v4">
  <style>{CSS}</style>
  <header className="hgTop"><a className="hgMark" href="/">shwcase<sup>®</sup></a><span className="tag">the shwcase museum</span><nav className="museumTopNav" aria-label="Museum navigation">{!exterior&&<button onClick={outside}>THE MUSEUM <Arrow/></button>}</nav></header>
  {exterior?<>
@@ -351,12 +490,12 @@ export default function Home(){
  <div className="museumLocation">{garage?'B1 / ANDYFLCKS':josh?'G.01 / JOSH PEPPER':'G.00 / THE SHWCASE MUSEUM'}<strong>{garage?'the garage.':'the recollection rooms.'}</strong></div>
  {!garage&&<nav className="roomWayfinding" aria-label="Exhibition route">{(garage?['the mustang','the rear','inside','the ledge']:josh?['arrival','last light','coast','rooftop']:['arrival','last light','andy','coast','rooftop']).map((name,i)=><button key={name} onClick={()=>go(i)} className={active===i?'selected':''} aria-label={`Walk to ${name}`}><span>{String(i).padStart(2,'0')}</span><small>{name}</small></button>)}</nav>}
 
- <div className="hgControls"><div className="hgPosition" aria-live="polite">{garage?'THE MUSTANG / 360 STUDY':active===0?'THE ENTRANCE':`${String(active).padStart(2,'0')} / ${works[Math.min(active-1,works.length-1)].title}`}<br/>{garage?'drag to orbit / scroll to zoom':active===0?'scroll or drag to walk round':'tap the frame to step closer'}</div><div className="hgArrows"><button disabled={!garage&&active===0} onClick={()=>go(garage?target.current-Math.PI/2:Math.round(target.current)-1)} aria-label={garage?'Orbit left':'Walk back'}><Arrow left/></button><button disabled={!garage&&active===works.length} onClick={()=>go(garage?target.current+Math.PI/2:Math.round(target.current)+1)} aria-label={garage?'Orbit right':'Walk on'}><Arrow/></button></div></div>
- {garage&&<p className="carNote">a sculptural form study / andyflcks</p>}
+ <div className="hgControls"><div className="hgPosition" aria-live="polite">{garage?'THE MUSTANG / 360 STUDY':active===0?'THE ENTRANCE':`${String(active).padStart(2,'0')} / ${works[Math.min(active-1,works.length-1)].title}`}<br/>{garage?'drag to orbit / scroll to zoom / tap a frame':active===0?'scroll or drag to walk round':'tap the frame to step closer'}</div><div className="hgArrows"><button disabled={!garage&&active===0} onClick={()=>go(garage?target.current-Math.PI/2:Math.round(target.current)-1)} aria-label={garage?'Orbit left':'Walk back'}><Arrow left/></button><button disabled={!garage&&active===works.length} onClick={()=>go(garage?target.current+Math.PI/2:Math.round(target.current)+1)} aria-label={garage?'Orbit right':'Walk on'}><Arrow/></button></div></div>
+ {garage&&<p className="carNote">the real car, rebuilt from his clips / andyflcks</p>}
  </>}
  <footer className="hgBottom"><span>shwcase / recollections from around the world</span><span className="about">a growing museum, kept quietly.</span></footer>
- {zoom!==null&&<section className="hgCloseup" role="dialog" aria-modal="true" aria-label={works[zoom].title}><button autoFocus className="close" onClick={()=>setZoom(null)}>close ×</button>{works[zoom].video?<video src={works[zoom].video} autoPlay muted loop playsInline poster={works[zoom].image}/>:<img src={works[zoom].image} alt={works[zoom].title}/>}<h2>{works[zoom].title}</h2><p>{works[zoom].meta}</p></section>}
+ {zoom!==null&&(()=>{const zw=(garage?GARAGE_WORKS:works)[zoom];return <section className="hgCloseup" role="dialog" aria-modal="true" aria-label={zw.title}><button autoFocus className="close" onClick={()=>setZoom(null)}>close ×</button>{zw.video?<video src={zw.video} autoPlay muted loop playsInline poster={zw.image}/>:<img src={zw.image} alt={zw.title}/>}<h2>{zw.title}</h2><p>{zw.meta}</p></section>})()}
  {screening!==null&&<section className="screenRoom" role="dialog" aria-modal="true" aria-label="The screening room"><video className="screenGlow" src={WORKS[screening].video} autoPlay muted loop playsInline aria-hidden="true"/><div className="roomShell"/><div className="screenFloor"/><header className="screenTop"><div className="roomLabel"><strong>shwcase / screening room</strong><br/>moving images, kept quietly.</div><button autoFocus className="back" onClick={()=>setScreening(null)}><Arrow left/> back to the museum</button></header><div className="projection"><video key={screening} src={WORKS[screening].video} poster={WORKS[screening].image} autoPlay muted loop playsInline aria-label={WORKS[screening].title}/></div><div className="seat"/><footer className="screenCaption"><div><span className="chapterNo">G.02 / SCREENING</span><h2>{WORKS[screening].title}</h2><p className="quietNote">no sound. no hurry.</p></div><div className="filmChoices">{[0,2].map(i=><button key={i} className={screening===i?'selected':''} onClick={()=>setScreening(i)}>{WORKS[i].title}</button>)}</div></footer></section>}
 
  </main>
-}
+     }
