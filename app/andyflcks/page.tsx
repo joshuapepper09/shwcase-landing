@@ -463,8 +463,8 @@ function MuseumExterior({onSelect}:{onSelect:(room:'lobby'|'josh'|'garage'|'scre
 
 
 export default function Home(){
- const [exterior,setExterior]=useState(true)
- const [garage,setGarage]=useState(false)
+ const [exterior,setExterior]=useState(false)
+ const [garage,setGarage]=useState(true)
  const [josh,setJosh]=useState(false)
  const [mapRoom,setMapRoom]=useState<'lobby'|'josh'|'garage'|'screen'>('josh')
  const [active,setActive]=useState(0)
@@ -498,4 +498,4 @@ export default function Home(){
  {screening!==null&&<section className="screenRoom" role="dialog" aria-modal="true" aria-label="The screening room"><video className="screenGlow" src={WORKS[screening].video} autoPlay muted loop playsInline aria-hidden="true"/><div className="roomShell"/><div className="screenFloor"/><header className="screenTop"><div className="roomLabel"><strong>shwcase / screening room</strong><br/>moving images, kept quietly.</div><button autoFocus className="back" onClick={()=>setScreening(null)}><Arrow left/> back to the museum</button></header><div className="projection"><video key={screening} src={WORKS[screening].video} poster={WORKS[screening].image} autoPlay muted loop playsInline aria-label={WORKS[screening].title}/></div><div className="seat"/><footer className="screenCaption"><div><span className="chapterNo">G.02 / SCREENING</span><h2>{WORKS[screening].title}</h2><p className="quietNote">no sound. no hurry.</p></div><div className="filmChoices">{[0,2].map(i=><button key={i} className={screening===i?'selected':''} onClick={()=>setScreening(i)}>{WORKS[i].title}</button>)}</div></footer></section>}
 
  </main>
-     }
+}
