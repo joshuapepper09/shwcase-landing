@@ -173,7 +173,7 @@ export default function SeasonOne() {
           <h2>this season is forming.</h2>
           <div className="cta">
             <span className="mono-label">applications · opening with season one</span>
-            <a href="https://tally.so/r/OQXD58" target="_blank" rel="noopener noreferrer">
+            <a href="https://tally.so/r/BE74J7" target="_blank" rel="noopener noreferrer">
               get notified ↗
             </a>
           </div>
